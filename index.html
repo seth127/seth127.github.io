@@ -102,7 +102,7 @@
             
             // plot stats for this year
             if (year < maxyear) {
-                document.querySelector('.epochStats .statsFile').innerHTML = "plotData/paramStats-" + epochNum.toString() +".csv";
+                //document.querySelector('.epochStats .statsFile').innerHTML = "plotData/paramStats-" + epochNum.toString() +".csv";
                 document.querySelector('.epochStats .wolfEn').innerHTML = yearStats[year]['wolfEn'];
                 document.querySelector('.epochStats .wolfRe').innerHTML = yearStats[year]['wolfRe'];
                 document.querySelector('.epochStats .rabbitEn').innerHTML = yearStats[year]['rabbitEn'];
@@ -332,39 +332,43 @@
 <!--    the button to run the world. -->
     <button onclick="startEpoch()">start the universe.</button><br>
 <!--    other buttons -->
-    <button onclick="skipEpochs(1)">skip ahead 1</button>
-    <button onclick="skipEpochs(10)">skip ahead 10</button><p></p><p></p>
+    <button onclick="skipEpochs(1)">skip 1 epoch</button>
+    <button onclick="skipEpochs(10)">skip 10 epochs</button><p></p><p></p>
 <!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
 <!--    <button onclick="clearInterval(running)">stop the world</button>-->
     
 <!--    the epochStats plots -->
-    <svg id="critterStatsPlot" width="300" height="200"></svg>
-    <svg id="countStatsPlot" width="300" height="200"></svg>
-    <svg id="firstExtStatsPlot" width="300" height="200"></svg>
+    <h3>Epoch Stats: </h3>
+    <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
     <p></p>
-    <div><span style="padding-left: 80px;">Critter Stats</span><span style="padding-left: 275px;">Critter Counts</span><span style="padding-left: 250px;">First Extinction</span></div>
+    <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
     <p></p><p></p>
     
 <!--  THE BIG PLOT   -->
-    <h3 class="title" style="padding-left: 385px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h3>
+    <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
 <!--  of <span class='epochFinish'></span>   -->
     <svg id="BVplot" width="1000" height="800"></svg>
     <br>
     
 <!--  plotting year stats  -->
-    <svg id="critterYearPlot" width="500" height="200"></svg>
-    <svg id="countYearPlot" width="500" height="200"></svg>
     <p></p>
-    <div><span style="padding-left: 200px;">Critter Stats</span><span style="padding-left: 425px;">Critter Counts</span></div>
+    <h3>Year Stats throughout this Epoch:</h3>
+    <svg id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <svg id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <p></p>
+    <div><span style="padding-left: 125px;">Critter Avg Energy and Repro</span><span style="padding-left: 375px;">Critter Counts</span></div>
     <p></p><p></p>
 
     <!--    <div class="epochStats">THIS EPIC: <span class='summary'></span></div>-->
     <div class="epochStats">
-        <span class='statsFile'></span><br>
-        Wolf Energy: <span class='wolfEn'></span> // Wolf Repro: <span class='wolfRe'></span> //// 
-        Rabbit Energy: <span class='rabbitEn'></span> // Rabbit Repro: <span class='rabbitRe'></span>
+<!--        <span class='statsFile'></span><br>-->
+
+        Avg Wolf Energy: <span class='wolfEn'></span> // Avg Wolf Repro: <span class='wolfRe'></span> //// 
+        Avg Rabbit Energy: <span class='rabbitEn'></span> // Avg Rabbit Repro: <span class='rabbitRe'></span>
         <br><br>
-        Starting Numbers:<br>
+        Critter Counts:<br>
         Wolves: <span class='wolfNum'></span> // Rabbits: <span class='rabbitNum'></span> // 
         Grass: <span class='grassNum'></span> 
     </div>
