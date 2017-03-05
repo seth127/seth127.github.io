@@ -51,14 +51,14 @@ The default starting parameters (listed in the appendix), were then adjusted in 
 This process was repeated with each epoch, so that a model was fit on all 500 training iterations, *and all the previous learning epochs*, and then the starting parameters were adjusted accordingly for the next epoch. Below is a chart showing the four testing runs that were performed. The x-axis shows the epoch count (note that the parameters do not begin to "learn" until epoch 26). The y-axis shows the starting value of the parameters for that epoch.
 
 ###Critter Stats: Linear Model
-![LM2-critters-w-legend](markdown-and-plotting/LM2-critters-w-legend.png)
+![LM2-critters-w-legend](plotsForMarkdown/LM2-critters-w-legend.png)
 
 Though the traces are far from identical, some patterns emerge. For instance, in all four tests, *Fatigue* for both rabbits and wolves immediately moved towards zero until it hit the minimum allowed value (set to 5 for these simulations). 
 
 Most interestingly, in three of the four tests (`GP5`, `BMQ` and `JQ3`), rabbits and wolves followed opposite patterns. In these tests, *rabbitEn* moved sharply up while *rabbitFa* attempted to move down and stayed at its minimum allowed value (*Fatigue* for both critters was constrained to be at least *Energy* multiplied by 1.1, to avoid critters that could spontaneously reproduce without having to eat). On the other hand, *wolfRe* sky-rocketed while *wolfEn* moved steadily downward, in some cases levelling off at it's minimum allowed value of 100. This indicates that the optimal world has large herbivores that reproduce very quickly, and relatively small predators that reproduce very infrequently.
 
 ###Critter Counts: Linear Model
-![LM2-counts-w-legend](markdown-and-plotting/LM2-counts-w-legend.png)
+![LM2-counts-w-legend](plotsForMarkdown/LM2-counts-w-legend.png)
 
 In all fours tests, the optimal world had drastically increased numbers of grass and rocks, indicating that starting the world a plethora of plants at the bottom of the food chain is necessary for stability. Likewise, having plenty of rocks to keep up the food supply is necessary. None of tests levelled out for either of these counts. It would be interesting to let it continue ad nauseum and see if more plant life is ever *not* better.
 
@@ -71,14 +71,14 @@ The Random Forest Model took an entirely different approach. Again, each test ru
 *Note:* These "center values" for generating the 100 options are initially set to the default values in the appendix, but once the algorithm begins learning, they are set to the values of the "best parameter set" predicted in the previous epoch. This provides for a slower movement of the parameters that explores more of the feaure space, as compared to the Linear Model approach.
 
 ###Critter Stats: Random Forest
-![RF2-critters-w-legend](markdown-and-plotting/RF2-critters-w-legend.png)
+![RF2-critters-w-legend](plotsForMarkdown/RF2-critters-w-legend.png)
 
 Right off the bat, we see a similar pattern with the wolves. Their *Repro* shoots up while the their *Energy* moves down. However, the movement is somewhat less dramatic than in the Linear Model, as it seems to level out at an optimal value relatively quickly. 
 
 The rabbits, on the other hand, show a different pattern than we saw in the Linear approach. Where before *rabbitEn* skyrocketed upwards, here we see it stabilize at a very low number. In two of the four (`MFU` and `L1X`), *rabbitRe* hugs that bottom, creating herbivores that reproduce quickly (as in the Linear Model), but are fairly small. However, in the other two test runs (`IU7` and `OL2`), *rabbitRe* moved up, while *rabbitEn* stayed low. This is actually mirrored in one of the Linear Model test runs (`3V7`), and appears to correspond to cases where *wolfEn* and *wolfRe* stay relatively close together.
 
 ###Critter Counts: Random Forest
-![RF2-counts-w-legend](markdown-and-plotting/RF2-counts-w-legend.png)
+![RF2-counts-w-legend](plotsForMarkdown/RF2-counts-w-legend.png)
 
 The counts show interesting differences too. While some patterns are consistent with the Linear Model--notably, lots of rocks are necessary--there are some interesting differences. For example, in the two runs noted above where *rabbitRe* is notably high (`IU7` and `OL2`), *rabbitNum* stays low, while *grassNum* moves higher. This simulates an herbivore that is slower to reproduce and thus needs a more plentiful food source. However, in the other two runs (`MFU` and `L1X`), where rabbits reproduce very quickly, *rabbitNum* is high while *grassNum* stays very low, at times bottoming out at 1. It makes sense that less grass would be necessary to control the population of quicker-reproducing rabbits (notice that *wolfNum* is also higher in these runs), while the slower-to-reproduce rabbits would need more food. However, it is a bit counterintuitive that the slower-reproducing rabbits start with a *low* population, while the especially fertile rabbits begin with a larger population.
 
@@ -88,13 +88,13 @@ The counts show interesting differences too. While some patterns are consistent 
 ###Which is best?
 Given our test runs, can we conclude that one method is objectively better than the other? To do so, some objective metric must be established. One such metric could be *the number of epochs that are necessary for the ecosystem to stabilize* (using our definition of "stable" from above). The plot below shows this metric for each of the test runs.
 
-![Epochs To Stabilize](markdown-and-plotting/iterations-to-stabilize.png)
+![Epochs To Stabilize](plotsForMarkdown/iterations-to-stabilize.png)
 
 It is clear that the Linear Model finds an optimal set of parameters faster. Some, in fact, take just over 100 learning iterations (after the initial 500 training epochs) to reach "stability."
 
 Alternatively, we could look at some measure of "how stable" these ecosystems were. To get some sense of this, once each run reached ten epochs in a row that survived to 500 years, a final epoch was run with the max number of years set to 5,000. This would test whether the ecosystem had indeed stabilized, or was still struggling to find a balance.
 
-![Final Epochs](markdown-and-plotting/final-runs.png)
+![Final Epochs](plotsForMarkdown/final-runs.png)
 
 Again, the Linear Model approach is the clear winner. While one (`BMQ`) sputtered out almost immediately, the other three runs reached 5,000 years still in good health. Of those using the Random Forest approach, only one (`L1X`) reached 5,000 years, while `OL2` also sputtered out almost immediately.
 
@@ -123,7 +123,7 @@ Another interesting approach would be to set up different "continents." This wou
 
 The limit of 500 years per epoch could also be increased. This is perhaps the easiest, and most informative, extension. The limit was imposed partially to control for outliers, but mainly to control computation time. The examples presented here took several weeks to simulate on a fairly small AWS EC2 instance. With more computing power, that limit could be significantly relaxed and more varied and interesting interactions might be observed.
 
-There is a logging system (which is currently *only* turned on for the "max 5,000" runs) which logs the average value of each parameter for *each year of an epoch* as opposed to just the starting value. This could be interesting to examine, in either of the previously mentioned contexts, to see how the creatures "evolve" througout an epoch to see if the parameters actually converge towards an ideal value once the ecosystem truly does become stable. An exploratory example of this is contained in `markdown-and-plotting/bvBigRunPlots.R`.
+There is a logging system (which is currently *only* turned on for the "max 5,000" runs) which logs the average value of each parameter for *each year of an epoch* as opposed to just the starting value. This could be interesting to examine, in either of the previously mentioned contexts, to see how the creatures "evolve" througout an epoch to see if the parameters actually converge towards an ideal value once the ecosystem truly does become stable. An exploratory example of this is contained in `plotsForMarkdown/bvBigRunPlots.R`.
 
 ### Customize
 For those adventurous souls, feel free to open up the bvLife.py and create some creatures of your own. A ruminant who gets double energy from each plant eaten? A predator that hunts in packs? A carniverous plant that eats low-energy foragers? The only limit is your own imagination...
