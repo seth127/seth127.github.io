@@ -321,6 +321,21 @@
             stroke: #ccc;
         }
         
+        .button {
+        background-color: #000000;
+        color: #FFFFFF;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+        }
+
+        .big-btn {
+            width: 90px;
+            height: 40px;
+        }
+        
     </style>
     
     
@@ -330,22 +345,15 @@
     <h1 style="padding-left: 375px;">Big Valley</h1>
 
 <!--    the button to run the world. -->
-    <button onclick="startEpoch()">start the universe.</button><br>
+<!--    <button onclick="startEpoch()">start the universe.</button><br>-->
+    <div onclick="startEpoch()" class="button big-btn">start the universe.</div>
 <!--    other buttons -->
     <button onclick="skipEpochs(1)">skip 1 epoch</button>
     <button onclick="skipEpochs(10)">skip 10 epochs</button><p></p>
-    <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/README.md" target="_blank">README</a></p>
+    <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/README.md" target="_blank">README</a>.
+    Scroll to down to see stats on each year and each epoch.</p>
 <!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
 <!--    <button onclick="clearInterval(running)">stop the world</button>-->
-    
-<!--    the epochStats plots -->
-    <h3>Epoch Stats: </h3>
-    <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    
-    <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
-    <p></p><p></p>
     
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
@@ -366,10 +374,19 @@
         Avg Wolf Energy: <span class='wolfEn'></span> // Avg Wolf Repro: <span class='wolfRe'></span> //// 
         Avg Rabbit Energy: <span class='rabbitEn'></span> // Avg Rabbit Repro: <span class='rabbitRe'></span>
         <br><br>
-        Critter Counts:<br>
-        Wolves: <span class='wolfNum'></span> // Rabbits: <span class='rabbitNum'></span> // 
-        Grass: <span class='grassNum'></span> 
+        Critter Counts:
+        <span class='wolfNum'></span> Wolves // <span class='rabbitNum'></span> Rabbits // 
+        <span class='grassNum'></span> Plants
     </div>
+    
+    <!--    the epochStats plots -->
+    <h3>Epoch Stats: </h3>
+    <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+    
+    <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
+    <p></p><p></p>
     
 </body>
 </html>
