@@ -17,7 +17,7 @@
         var epochFinish;
         
         function getData(epochNumberString) {
-            d3.csv("plotData/plotDF-" + epochNumberString + ".csv", function(d) {
+            d3.csv("plotDataLM/plotDF-" + epochNumberString + ".csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
 
@@ -31,7 +31,7 @@
                 
             });
             
-            d3.csv("plotData/paramStats-" + epochNumberString +".csv", function(d) {
+            d3.csv("plotDataLM/paramStats-" + epochNumberString +".csv", function(d) {
                 // assign the data to the epoch variable
                 yearStats = d;
                 //
@@ -211,7 +211,7 @@
         
         function loadStatPlots() {
             // load epoch stats for display
-            d3.csv("plotData/epochStats.csv", function(d) {
+            d3.csv("plotDataLM/epochStats.csv", function(d) {
                 // define the max year that this epoch achieves.
                 epochFinish = d[epochNum]['firstExt'];
                 
