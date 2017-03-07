@@ -12,11 +12,15 @@
         var year = 0;
         var maxyear;
         var epochNum = 0;
+        var modelChoice;
         
+        var maxEpochs = 3; // NEED TO CALL THIS FROM WITHIN checkRadio() before we actually try to run
+        /*
         var maxEpochs; // max number of epochs before the program quits (generated from # of lines in epochStats.csv)
-        d3.csv("plotDataRF/epochStats.csv", function(d) {
+        d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
                 maxEpochs = d.length;
             });
+        */
         
         var successYears = 500; // ceiling for how many years in an epoch
         var epochFinish; // the 'firstExt' value for this epoch
@@ -25,7 +29,7 @@
     
         
         function getData(epochNumberString) {
-            d3.csv("plotDataRF/plotDF-" + epochNumberString + ".csv", function(d) {
+            d3.csv("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
 
@@ -39,7 +43,7 @@
                 
             });
             
-            d3.csv("plotDataRF/paramStats-" + epochNumberString +".csv", function(d) {
+            d3.csv("plotData" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
                 // assign the data to the epoch variable
                 yearStats = d;
                 //
@@ -114,7 +118,7 @@
             
             // plot stats for this year
             if (year < maxyear) {
-                //document.querySelector('.epochStats .statsFile').innerHTML = "plotData/paramStats-" + epochNum.toString() +".csv";
+                //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
                 document.querySelector('.epochStats .wolfEn').innerHTML = yearStats[year]['wolfEn'];
                 document.querySelector('.epochStats .wolfRe').innerHTML = yearStats[year]['wolfRe'];
                 document.querySelector('.epochStats .rabbitEn').innerHTML = yearStats[year]['rabbitEn'];
@@ -221,7 +225,7 @@
         
         function loadStatPlots() {
             // load epoch stats for display
-            d3.csv("plotDataRF/epochStats.csv", function(d) {
+            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
                 // define the max year that this epoch achieves.
                 epochFinish = d[epochNum]['firstExt'];
                 
@@ -321,6 +325,26 @@
             startEpoch();
         }
         
+        function checkRadio() {
+            for (i = 0; i < 2; i++) {
+                if ( document.chooseModel.model[i].checked ) {
+                    modelChoice = document.chooseModel.model[i].value;
+                    break;
+                }
+            }
+            console.log(modelChoice);
+            
+            /*
+            // set initial value for maxEpochs I DON'T UNDERSTAND WHY THIS DOESN'T WORK
+            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
+                console.log(d.length);
+                maxEpochs = d.length;
+                console.log(maxEpochs);
+            });
+            console.log(maxEpochs);
+            */
+        }
+        
         
     </script>
     
@@ -358,7 +382,7 @@
 
 <!--    the button to run the world. -->
 <!--    <button onclick="startEpoch()">start the universe.</button><br>-->
-    <div onclick="startEpoch()" class="button big-btn">start the universe.</div>
+    <div onclick="checkRadio();startEpoch();" class="button big-btn">start the universe.</div>
 <!--    other buttons -->
     <button onclick="skipEpochs(1)">skip 1 epoch</button>
     <button onclick="skipEpochs(10)">skip 10 epochs</button>
@@ -367,7 +391,13 @@
     <p></p>
     <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/README.md" target="_blank">README</a>.
     Scroll to down to see stats on each year and each epoch.</p>
-
+    <p></p>
+<!--  PICK THE MODEL  -->
+    <span><strong>choose modeling approach:</strong></span>
+    <form name="chooseModel" action="">
+      <input type="radio" name="model" value="RF" checked="checked"> Random Forest
+      <input type="radio" name="model" value="LM"> Linear Response Surface<br>
+    </form>
     
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
