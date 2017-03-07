@@ -14,13 +14,7 @@
         var epochNum = 0;
         var modelChoice;
         
-        var maxEpochs = 3; // NEED TO CALL THIS FROM WITHIN checkRadio() before we actually try to run
-        /*
-        var maxEpochs; // max number of epochs before the program quits (generated from # of lines in epochStats.csv)
-        d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
-                maxEpochs = d.length;
-            });
-        */
+        var maxEpochs; // max number of epochs before the program quits (generated from checkRadio())
         
         var successYears = 500; // ceiling for how many years in an epoch
         var epochFinish; // the 'firstExt' value for this epoch
@@ -52,16 +46,8 @@
                 var yearSVG = d3.select("#critterYearPlot");
                 yearSVG.selectAll("circle").remove();
                 
-                // assign value to maxyear
-                //maxyear = d3.max(epoch.map(d => d.year).map(Number));
-                // print epoch number
-                //document.querySelector('.title .epochNum').innerHTML = epochNum;
-                
-                // load data for making statPlots
-                //loadStatPlots();
-                
             });
-
+            
         } 
         
         
@@ -70,6 +56,7 @@
             epochNum++
             
             if (epochNum <= maxEpochs) {
+                console.log(maxEpochs)
                 // load the data and run the world
                 getData(epochNum.toString())
                 // check for length of data returned from getData? (or do it _in_ getData?)
@@ -229,7 +216,7 @@
                 // define the max year that this epoch achieves.
                 epochFinish = d[epochNum]['firstExt'];
                 
-                maxEpochs = d.length;
+                //maxEpochs = d.length;
                 
                 // CAN PROBABLY DELETE THIS PART... (for showing the numbers in object as text)
                 //document.querySelector('.epochStats .summary').innerHTML = JSON.stringify(d[epochNum], null, 2);
@@ -334,15 +321,10 @@
             }
             console.log(modelChoice);
             
-            /*
             // set initial value for maxEpochs I DON'T UNDERSTAND WHY THIS DOESN'T WORK
             d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
-                console.log(d.length);
                 maxEpochs = d.length;
-                console.log(maxEpochs);
             });
-            console.log(maxEpochs);
-            */
         }
         
         
@@ -381,8 +363,8 @@
     <h1 style="padding-left: 375px;">Big Valley</h1>
 
 <!--    the button to run the world. -->
-<!--    <button onclick="startEpoch()">start the universe.</button><br>-->
-    <div onclick="checkRadio();startEpoch();" class="button big-btn">start the universe.</div>
+<!--    <button onclick="startEpoch()">start the universe.</button><br> -->
+    <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn">start the universe.</div>
 <!--    other buttons -->
     <button onclick="skipEpochs(1)">skip 1 epoch</button>
     <button onclick="skipEpochs(10)">skip 10 epochs</button>
