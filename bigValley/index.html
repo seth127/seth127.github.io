@@ -12,9 +12,17 @@
         var year = 0;
         var maxyear;
         var epochNum = 0;
-        var maxEpochs = 550; // number of epochs to run before quitting (should generate this from file, but how?)
+        
+        var maxEpochs; // max number of epochs before the program quits (generated from # of lines in epochStats.csv)
+        d3.csv("plotDataRF/epochStats.csv", function(d) {
+                maxEpochs = d.length;
+            });
+        
         var successYears = 500; // ceiling for how many years in an epoch
-        var epochFinish;
+        var epochFinish; // the 'firstExt' value for this epoch
+
+        
+    
         
         function getData(epochNumberString) {
             d3.csv("plotDataRF/plotDF-" + epochNumberString + ".csv", function(d) {
@@ -57,10 +65,14 @@
             // increment epoch
             epochNum++
             
-            // load the data and run the world
-            getData(epochNum.toString())
-            running = setInterval(draw,50) // this is how many ms you wait between years
-
+            if (epochNum <= maxEpochs) {
+                // load the data and run the world
+                getData(epochNum.toString())
+                // check for length of data returned from getData? (or do it _in_ getData?)
+                running = setInterval(draw,50) // this is how many ms you wait between years
+            } else {
+                document.querySelector('.title .titleYear').innerHTML = 'All done.';
+            }
             
         }
         
@@ -87,7 +99,7 @@
                 .enter().append("circle")
                     .attr ("cx",function(d) { return (d.lat*10) + centerX; })
                     .attr ("cy",function(d) { return (d.long*10) + centerY;})
-                    .attr ("r",function(d) { return d.energy*0.03; })
+                    .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                     .attr("fill",function(d) { 
                             if (d.name == "grass") {
                                 return "green";
@@ -178,30 +190,28 @@
                 // print 'EXTINCTION' or 'SUCCESS'
                 if (epochFinish == successYears) {
                     document.querySelector('.title .titleYear').innerHTML = '*SUCCESS!*';
-                    // if there are more epoch, start the next one
-                    if (epochNum < maxEpochs) {
-                        setTimeout(startEpoch, 1750); //pause for a second
-                        targetSVG.append("circle")   //draw a black circle
-                            .attr("cx",centerX)
-                            .attr("cy",centerY)
-                            .attr("r",200)
-                            .attr("fill", 'green');
-                        
-                        loadStatPlots();
-                    }
-                } else{
+                    //
+                    targetSVG.append("circle")   //draw a green circle
+                        .attr("cx",centerX)
+                        .attr("cy",centerY)
+                        .attr("r",200)
+                        .attr("fill", 'green');
+                    //
+                    loadStatPlots(); // plot the results of this epoch
+                    setTimeout(startEpoch, 1750); //pause for a second
+
+                } else {
                     document.querySelector('.title .titleYear').innerHTML = 'EXTINCTION!';
-                    // if there are more epoch, start the next one
-                    if (epochNum < maxEpochs) {
-                        setTimeout(startEpoch, 500); //pause for a second
-                        targetSVG.append("circle")   //draw a black circle
-                            .attr("cx",centerX)
-                            .attr("cy",centerY)
-                            .attr("r",200)
-                            .attr("fill", 'black');
-                        
-                        loadStatPlots();
-                    }
+                    //
+                    targetSVG.append("circle")   //draw a black circle
+                        .attr("cx",centerX)
+                        .attr("cy",centerY)
+                        .attr("r",200)
+                        .attr("fill", 'black');
+                    //
+                    loadStatPlots(); // plot the results of this epoch
+                    setTimeout(startEpoch, 500); //pause for a half a second, then start over
+
                 }
     
 
@@ -214,6 +224,8 @@
             d3.csv("plotDataRF/epochStats.csv", function(d) {
                 // define the max year that this epoch achieves.
                 epochFinish = d[epochNum]['firstExt'];
+                
+                maxEpochs = d.length;
                 
                 // CAN PROBABLY DELETE THIS PART... (for showing the numbers in object as text)
                 //document.querySelector('.epochStats .summary').innerHTML = JSON.stringify(d[epochNum], null, 2);
@@ -349,11 +361,13 @@
     <div onclick="startEpoch()" class="button big-btn">start the universe.</div>
 <!--    other buttons -->
     <button onclick="skipEpochs(1)">skip 1 epoch</button>
-    <button onclick="skipEpochs(10)">skip 10 epochs</button><p></p>
+    <button onclick="skipEpochs(10)">skip 10 epochs</button>
+<!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
+    <button onclick="clearInterval(running)">pause the world</button>
+    <p></p>
     <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/README.md" target="_blank">README</a>.
     Scroll to down to see stats on each year and each epoch.</p>
-<!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
-<!--    <button onclick="clearInterval(running)">stop the world</button>-->
+
     
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
