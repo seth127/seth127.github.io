@@ -347,12 +347,15 @@
         -moz-border-radius: 10px;
         -webkit-border-radius: 10px;
         margin:10px
+        white-space: wrap;
         }
 
         .big-btn {
             width: 90px;
             height: 40px;
         }
+        
+        *{font-family:"Trebuchet MS";}
         
     </style>
     
@@ -384,14 +387,19 @@
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
 <!--  of <span class='epochFinish'></span>   -->
-    <svg id="BVplot" width="1000" height="800"></svg>
+    <div style="white-space: nowrap;">
+        <svg id="BVplot" width="1000" height="800"></svg>
+        <img src="bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">
+    </div>
     <br>
     
 <!--  plotting year stats  -->
     <h3>Year Stats throughout this Epoch:</h3>
-    <svg id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <svg id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <div><span style="padding-left: 125px;">Critter Avg Energy and Repro</span><span style="padding-left: 375px;">Critter Counts</span></div>
+    <div style="white-space: nowrap;">
+        <svg id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <div><span style="padding-left: 125px;">Critter Avg Energy and Repro</span><span style="padding-left: 375px;">Critter Counts</span></div>
+    </div>
     <p></p><p></p>
 
     <!--    <div class="epochStats">THIS EPIC: <span class='summary'></span></div>-->
@@ -407,11 +415,13 @@
     
     <!--    the epochStats plots -->
     <h3>Epoch Stats: </h3>
-    <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-    
-    <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
+    <div style="white-space: nowrap;">
+        <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+
+        <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
+    </div>
     <p></p><p></p>
     
 </body>
