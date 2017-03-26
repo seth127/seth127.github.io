@@ -102,6 +102,7 @@
                 .enter().append("circle")
                     .attr ("cx",function(d) { return (d.lat*10) + centerX; })
                     .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                    .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.02, 0); })
                     .attr("fill",function(d) { 
                             if (d.name.includes("grass")) {
@@ -142,17 +143,17 @@
                 document.querySelector('.epochStats .grassNum').innerHTML = yearStats[year]['grassNum'];
                 */
                 //document.querySelector('.epochStats .debrisNum').innerHTML = yearStats[year]['debrisNum'];
+                
                 //
                 var yearSVG = d3.select("#countYearPlot");
-                //yearSVG.selectAll("circle").remove();
                 
                 var circle = yearSVG.selectAll("circle")
-                        .data(yearStats.filter(function(d) { return d.year == year ;}), function(d){return d;})
+                        .data(yearStats.filter(function(d) { return d.year == year & d.name.includes('Num');}), function(d){return d;})
                     .enter().append("circle")
                         .attr ("cx", year)
                         //.attr ("cy",function(d) { return (d.long*10) + centerY;})
                         .attr ("cy",function(d) { return Math.max((199 - d.value), 2);})
-                        .attr ("r",3)
+                        .attr ("r",4)
                         .attr ("stroke-width",0.5)
                         .attr("fill",function(d) { 
                                 if (d.name.includes("grass")) {
@@ -179,6 +180,46 @@
                                 }
                             });
                 
+                //
+                var yearSVG = d3.select("#critterYearPlot");
+                
+                var circle = yearSVG.selectAll("circle")
+                        .data(yearStats.filter(function(d) { return d.year == year & !d.name.includes('Num') & !d.name.includes('Re') & !d.name.includes('Fa');}), function(d){return d;})
+                    .enter().append("circle")
+                        .attr ("cx", year)
+                        //.attr ("cy",function(d) { return (d.long*10) + centerY;})
+                        .attr ("cy",function(d) { return Math.max((199 - d.value), 2);})
+                        .attr ("r",4)
+                        .attr ("stroke-width",0.5)
+                        .attr('fill-opacity', function(d) { 
+                                if (d.name.includes("Re")) {
+                                    return 0.2;
+                                }
+                            })
+                        .attr("fill",function(d) { 
+                                if (d.name.includes("grass")) {
+                                    return "green";
+                                } else if (d.name.includes("wolf")) {
+                                    return "purple";
+                                } else if (d.name.includes("rabbit")) {
+                                    return "blue";
+                                } else if (d.name.includes("debris")) {
+                                    return "gray";
+                                } else {
+                                    return "black";
+                                }
+                            })
+                        .attr("stroke",function(d) { 
+                                if (d.name.includes(idList[0])) {
+                                    return "black";
+                                } else if (d.name.includes(idList[1])) {
+                                    return "red";
+                                } else if (d.name.includes(idList[2])) {
+                                    return "yellow";
+                                } else {
+                                    return "#ccc";
+                                }
+                            });
                 
                 /*
                 yearSVG.append("circle")
@@ -400,12 +441,12 @@
         line {
             stroke-width: 2;
         }
-        
+/*
         circle {
             stroke-width: 1.5;
-/*            stroke: #ccc;*/
+            stroke: #ccc;
         }
-
+*/
         
         .button {
         background-color: #000000;
