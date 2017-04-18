@@ -30,7 +30,8 @@
                 $( "#amount" ).val(250 - ui.value );
               }
             });
-            $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+            //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+            $( "#amount" ).val(250 - ui.value );
           } );
         
         
@@ -472,27 +473,35 @@
 <!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
     <button onclick="clearInterval(running)">pause the world</button>
     <p></p>
+    <span>hover to select species:</span>
+    <span style="padding-top: 5px;">
     <img src="icons/wolvesIcon.png" height=20 onmouseover="showWolves=true;" onmouseout="showWolves=false;">
     <img src="icons/rabbitsIcon.png" height=20 onmouseover="showRabbits=true;" onmouseout="showRabbits=false;">
     <img src="icons/grassIcon.jpg" height=20 onmouseover="showGrass=true;" onmouseout="showGrass=false;">
     <img src="icons/rocksIcon.png" height=20 onmouseover="showRocks=true;" onmouseout="showRocks=false;">
+    </span>
     <p></p>
     
     
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
+<!--    <p align="right">-->
+    <p style = "padding-left: 962px; white-space: nowrap;">
+        <label for="amount">Speed:</label>
+        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">
+        <br>
+        <span style="border:0; color:#f6931f; font-size:12px; padding-right: 125px;">(ms between years)</span>
+    </p>
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
         <svg id="BVplot" width="1000" height="800"></svg>
 <!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">  -->
-    <div id="slider-vertical" style="height:200px; padding-bottom: 400px; display: inline-block;"></div>
+    
+        <div id="slider-vertical" style="height:200px; padding-bottom: 600px; display: inline-block;"></div>
         
     </div>
-    <p align="right">
-        <label for="amount">Speed:</label>
-        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-        
-    </p>
+
+
     <br>
     
 <!--  plotting year stats  -->
