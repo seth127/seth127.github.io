@@ -19,7 +19,10 @@
         var successYears = 500; // ceiling for how many years in an epoch
         var epochFinish; // the 'firstExt' value for this epoch
 
-        
+        var showWolves = false;
+        var showRabbits= false;
+        var showGrass = false;
+        var showRocks = false;
     
         
         function getData(epochNumberString) {
@@ -81,28 +84,79 @@
             var centerX = 500;
             var centerY = 350;
             
+            var spacing = 20;
+            
             // clear previous year output
             targetSVG.selectAll("circle").remove();
             
             // draw this year
-            var circle = targetSVG.selectAll("circle")
-                    .data(epoch.filter(function(d) { return d.year == year }))
+           
+            if (showWolves==false & showRabbits==false & showGrass==false & showRocks==false) {
+                var circle = targetSVG.selectAll("circle")
+                        .data(epoch.filter(function(d) { return d.year == year }))
+                    .enter().append("circle")
+                        .attr ("cx",function(d) { return (d.lat*10) + centerX; })
+                        .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                        .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
+                        .attr("fill",function(d) { 
+                                if (d.name == "grass") {
+                                    return "green";
+                                } else if (d.name == "wolf") {
+                                    return "purple";
+                                } else if (d.name == "rabbit") {
+                                    return "blue";
+                                } else {
+                                    return "gray";
+                                }
+                            });
+            } else {
+                var contLength = 0;
+            
+                var circle = targetSVG.selectAll("circle")
+                        .data(epoch.filter(function(d) { 
+                            if (showWolves == true) {
+                                return d.year == year & d.name == "wolf"
+                            } else if (showRabbits == true) {
+                                return d.year == year & d.name == "rabbit"
+                            } else if (showGrass == true) {
+                                return d.year == year & d.name == "grass"
+                            } else if (showRocks == true) {
+                                return d.year == year & d.name == "debris"
+                            } else {
+                                return d.year == year
+                            }
+                        }))
                 .enter().append("circle")
-                    .attr ("cx",function(d) { return (d.lat*10) + centerX; })
-                    .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                    .attr ("cx",function(d,i) { 
+                        contLength += spacing + Math.max(d.energy*0.03, 0);
+                        var rawLength = contLength;
+                        //var rawLength = (i+1) * spacing;
+                        var lineCount = Math.ceil(rawLength / 1000);
+                        return rawLength - (lineCount-1) * 1000; 
+                    })
+                    .attr ("cy",function(d,i) { 
+                        //contLength += spacing + Math.max(d.energy*0.03, 0);
+                        //var rawLength = contLength;
+                        var rawLength = (i+1) * spacing;
+                        var lineCount = Math.ceil(rawLength / 1000);
+                        //console.log(lineCount);
+                        return lineCount * 100; 
+                    })
                     .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                     .attr("fill",function(d) { 
-                            if (d.name == "grass") {
-                                return "green";
-                            } else if (d.name == "wolf") {
-                                return "purple";
-                            } else if (d.name == "rabbit") {
-                                return "blue";
-                            } else {
-                                return "gray";
-                            }
-                        });
-            
+                                if (d.name == "grass") {
+                                    return "green";
+                                } else if (d.name == "wolf") {
+                                    return "purple";
+                                } else if (d.name == "rabbit") {
+                                    return "blue";
+                                } else {
+                                    return "gray";
+                                }
+                            });
+            } 
+
+
             // plot stats for this year
             if (year < maxyear) {
                 //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
@@ -374,6 +428,11 @@
 <!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
     <button onclick="clearInterval(running)">pause the world</button>
     <p></p>
+    <img src="icons/wolvesIcon.png" height=20 onmouseover="showWolves=true;" onmouseout="showWolves=false;">
+    <img src="icons/rabbitsIcon.png" height=20 onmouseover="showRabbits=true;" onmouseout="showRabbits=false;">
+    <img src="icons/grassIcon.jpg" height=20 onmouseover="showGrass=true;" onmouseout="showGrass=false;">
+    <img src="icons/rocksIcon.png" height=20 onmouseover="showRocks=true;" onmouseout="showRocks=false;">
+    <p></p>
     <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/bigValley/README.md" target="_blank">README</a>.
     Scroll to down to see stats on each year and each epoch.</p>
     <p></p>
@@ -389,7 +448,9 @@
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
         <svg id="BVplot" width="1000" height="800"></svg>
-        <img src="bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">
+<!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;" onmouseover="showWolves=true;" onmouseout="showWolves=false;">-->
+
+        
     </div>
     <br>
     

@@ -28,8 +28,8 @@
     
         
         function getData(epochNumberString) {
-            //d3.csv("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
             d3.csv("plotDataCont/plotDF-0.csv", function(d) {
+            //d3.csv("/Users/Seth/Documents/bigValley-Python/plotData/plotDF-7BVCD2-0.csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
 
@@ -45,6 +45,8 @@
             });
             
             d3.csv("plotDataCont/paramStats-0.csv", function(d) {
+            //d3.csv("/Users/Seth/Documents/bigValley-Python/plotData/paramStats-7BVCD2-0.csv", function(d) {
+            
                 // assign the data to the epoch variable
                 yearStats = d;
                 //
@@ -100,8 +102,8 @@
             var circle = targetSVG.selectAll("circle")
                     .data(epoch.filter(function(d) { return d.year == year ;}))
                 .enter().append("circle")
-                    .attr ("cx",function(d) { return (d.lat*10) + centerX; })
-                    .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                    .attr ("cx",function(d) { return (d.lat*7) + centerX; })
+                    .attr ("cy",function(d) { return (d.long*7) + centerY;})
                     .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.02, 0); })
                     .attr("fill",function(d) { 
@@ -216,34 +218,8 @@
                 clearInterval(running);
                 // reset year counter
                 year = 0;
-                
-                // print 'EXTINCTION' or 'SUCCESS'
-                if (epochFinish == successYears) {
-                    document.querySelector('.title .titleYear').innerHTML = '*SUCCESS!*';
-                    //
-                    targetSVG.append("circle")   //draw a green circle
-                        .attr("cx",centerX)
-                        .attr("cy",centerY)
-                        .attr("r",200)
-                        .attr("fill", 'green');
-                    //
-                    loadStatPlots(); // plot the results of this epoch
-                    setTimeout(startEpoch, 1750); //pause for a second
-
-                } else {
-                    document.querySelector('.title .titleYear').innerHTML = 'EXTINCTION!';
-                    //
-                    targetSVG.append("circle")   //draw a black circle
-                        .attr("cx",centerX)
-                        .attr("cy",centerY)
-                        .attr("r",200)
-                        .attr("fill", 'black');
-                    //
-                    loadStatPlots(); // plot the results of this epoch
-                    setTimeout(startEpoch, 500); //pause for a half a second, then start over
-
-                }
-    
+                // start next epoch                
+                setTimeout(startEpoch, 1500);
 
             }
             
