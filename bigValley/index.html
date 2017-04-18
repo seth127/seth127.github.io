@@ -3,10 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>bigValley</title>
-
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
     <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
-    <script type="application/javascript">  
-
+    <script type="application/javascript">
+        
+        var sliderSpeed = 75;
+        //SLIDER
+          $( function() {
+            $( "#slider-vertical" ).slider({
+              orientation: "vertical",
+              range: "min",
+              min: 50,
+              max: 200,
+              value: 175,
+              slide: function( event, ui ) {
+                sliderSpeed = 250 - ui.value;
+                $( "#amount" ).val(250 - ui.value );
+              }
+            });
+            $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+          } );
+        
+        
         var epoch;   // define a container variable to hold the data
         var yearStats;
         var year = 0;
@@ -63,7 +86,7 @@
                 // load the data and run the world
                 getData(epochNum.toString())
                 // check for length of data returned from getData? (or do it _in_ getData?)
-                running = setInterval(draw,75) // this is how many ms you wait between years
+                running = setInterval(draw,sliderSpeed) // this is how many ms you wait between years
             } else {
                 document.querySelector('.title .titleYear').innerHTML = 'All done.';
             }
@@ -435,6 +458,7 @@
     </form>
     <p></p>
 
+
 <!--    the button to run the world. -->
 <!--    <button onclick="startEpoch()">start the universe.</button><br> -->
     <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn">start the universe.</div>
@@ -456,10 +480,15 @@
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
         <svg id="BVplot" width="1000" height="800"></svg>
-<!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;" onmouseover="showWolves=true;" onmouseout="showWolves=false;">-->
-
+<!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">  -->
+    <div id="slider-vertical" style="height:200px; padding-bottom: 400px; display: inline-block;"></div>
         
     </div>
+    <p align="right">
+        <label for="amount">Speed:</label>
+        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        
+    </p>
     <br>
     
 <!--  plotting year stats  -->
