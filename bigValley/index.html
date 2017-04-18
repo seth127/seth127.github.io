@@ -23,6 +23,10 @@
               value: 175,
               slide: function( event, ui ) {
                 sliderSpeed = 250 - ui.value;
+                //
+                clearInterval(running)
+                running = setInterval(draw,sliderSpeed) // this is how many ms you wait between years
+                //
                 $( "#amount" ).val(250 - ui.value );
               }
             });
