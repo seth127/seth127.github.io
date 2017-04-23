@@ -28,6 +28,7 @@
                 running = setInterval(draw,sliderSpeed) // this is how many ms you wait between years
                 //
                 $( "#amount" ).val(250 - ui.value );
+                document.querySelector('.speedLabel .speedNumber').innerHTML = sliderSpeed;
               }
             });
             //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
@@ -128,7 +129,7 @@
             var targetSVG = d3.select("#BVplot");
 
             var centerX = 500;
-            var centerY = 350;
+            var centerY = 650;
             
             var Xspacing = 30;
             var Yspacing = 50;
@@ -195,7 +196,7 @@
                         //var rawLength = contLength;
                         var rawLength = (i+1) * Xspacing;
                         var lineCount = Math.ceil(rawLength / 1000);
-                        return rawLength - (lineCount-1) * 1000; 
+                        return rawLength - ((lineCount-1) * 1000) + 75; 
                     })
                     .attr ("cy",function(d,i) { 
                         //contLength += Xspacing + Math.max(d.energy*0.03, 0);
@@ -203,7 +204,7 @@
                         var rawLength = (i+1) * Xspacing;
                         var lineCount = Math.ceil(rawLength / 1000);
                         //console.log(lineCount);
-                        return lineCount * Yspacing; 
+                        return (lineCount * Yspacing) + 350; 
                     })
                     .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
@@ -527,15 +528,18 @@
 <!--  THE BIG PLOT   -->
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
 <!--    <p align="right">-->
-    <p style = "padding-left: 962px; white-space: nowrap;">
+    <p class="speedLabel" style = "padding-left: 5px; white-space: nowrap;">
         <label for="amount">Speed:</label>
-        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">
+<!--        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">-->
+        <span class="speedNumber" style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">75</span>
         <br>
-        <span style="border:0; color:#f6931f; font-size:12px; padding-right: 125px;">(ms between years)</span>
+        <span style="border:0; color:#f6931f; font-size:12px;">(ms between years)</span>
     </p>
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
-        <svg id="BVplot" width="1000" height="800"></svg>
+            <svg id="BVplot" width="1100" height="1600" style = "    position: absolute;left: 0px;top: 0px;z-index: -1;"></svg>
+
+<!--        <svg id="BVplot" width="1000" height="800"></svg>-->
 <!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">  -->
     
         <div id="slider-vertical" style="height:200px; padding-bottom: 600px; display: inline-block;"></div>
