@@ -5,7 +5,6 @@
     <title>bigValley</title>
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
@@ -27,12 +26,9 @@
                 clearInterval(running)
                 running = setInterval(draw,sliderSpeed) // this is how many ms you wait between years
                 //
-                $( "#amount" ).val(250 - ui.value );
                 document.querySelector('.speedLabel .speedNumber').innerHTML = sliderSpeed;
               }
             });
-            //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
-            $( "#amount" ).val(250 - ui.value );
           } );
         
         
@@ -94,10 +90,9 @@
                 rabs = allNames.filter(function(name) {return name.includes('rabbit');});
                 ids = rabs.map(function(rab) {return rab.split('rabbit')[0];});
                 idList = ids.filter(onlyUnique);
-                //console.log(idList);
-                
+                //console.log(idList); // why does this work and below doesn't?
             });
-            console.log(idList);
+            //console.log(idList);
         } 
         
         
@@ -196,7 +191,7 @@
                         //var rawLength = contLength;
                         var rawLength = (i+1) * Xspacing;
                         var lineCount = Math.ceil(rawLength / 1000);
-                        return rawLength - ((lineCount-1) * 1000) + 75; 
+                        return rawLength - ((lineCount-1) * 1000) + 120; 
                     })
                     .attr ("cy",function(d,i) { 
                         //contLength += Xspacing + Math.max(d.energy*0.03, 0);
@@ -204,7 +199,7 @@
                         var rawLength = (i+1) * Xspacing;
                         var lineCount = Math.ceil(rawLength / 1000);
                         //console.log(lineCount);
-                        return (lineCount * Yspacing) + 350; 
+                        return (lineCount * Yspacing) + 345; 
                     })
                     .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
@@ -231,7 +226,7 @@
                         });
             } 
 
-            /*
+            
             // plot stats for this year
             if (year < maxyear) {
                 //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
@@ -300,7 +295,7 @@
                         .attr ("fill","#4569ED");
             }
             
-            */
+            
 
             //
             //stop running if reached max years
@@ -467,6 +462,14 @@
             stroke-width: 2;
         }
         
+        .statPlots {
+            background-color: #eee;
+        }
+        
+        #BVplot {
+            background-color: #ffe;
+        }
+        
         .button {
         background-color: #000000;
         color: #FFFFFF;
@@ -500,7 +503,7 @@
     <span><strong>choose modeling approach:</strong></span>
     <form name="chooseModel" action="">
       <input type="radio" name="model" value="RF" checked="checked"> Random Forest
-      <input type="radio" name="model" value="LM"> Linear Response Surface<br>
+      <input type="radio" name="model" value="LM"> Linear Response Surface
       <input type="radio" name="model" value="Cont"> Continents <br>
     </form>
     <p></p>
@@ -529,20 +532,18 @@
     <h2 class="title" style="padding-left: 375px;">Year <span class='titleYear'></span> in epoch <span class='epochNum'></span></h2>
 <!--    <p align="right">-->
     <p class="speedLabel" style = "padding-left: 5px; white-space: nowrap;">
-        <label for="amount">Speed:</label>
-<!--        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">-->
-        <span class="speedNumber" style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">75</span>
+        Speed: <span class="speedNumber" style="border:0; color:#f6931f; font-weight:bold; font-size:16px;">75</span>
         <br>
         <span style="border:0; color:#f6931f; font-size:12px;">(ms between years)</span>
     </p>
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
-            <svg id="BVplot" width="1100" height="1600" style = "    position: absolute;left: 0px;top: 0px;z-index: -1;"></svg>
+            <svg id="BVplot" width="1500" height="2500" style = "position: absolute;left: 0px;top: 0px;z-index: -1;"></svg>
 
 <!--        <svg id="BVplot" width="1000" height="800"></svg>-->
 <!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">  -->
     
-        <div id="slider-vertical" style="height:200px; padding-bottom: 600px; display: inline-block;"></div>
+        <div id="slider-vertical" style="height:200px; display: inline-block;"></div>
         
     </div>
 
@@ -550,10 +551,10 @@
     <br>
     
 <!--  plotting year stats  -->
-    <h3>Year Stats throughout this Epoch:</h3>
+    <h3 style="padding-top:350px;">Year Stats throughout this Epoch:</h3>
     <div style="white-space: nowrap;">
-        <svg id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg class = "statPlots" id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg class = "statPlots"  id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
         <div><span style="padding-left: 125px;">Critter Avg Energy and Repro</span><span style="padding-left: 375px;">Critter Counts</span></div>
     </div>
     <p></p><p></p>
@@ -572,9 +573,9 @@
     <!--    the epochStats plots -->
     <h3>Epoch Stats: </h3>
     <div style="white-space: nowrap;">
-        <svg id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg class = "statPlots"  id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg class = "statPlots"  id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
+        <svg class = "statPlots"  id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
 
         <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
     </div>
