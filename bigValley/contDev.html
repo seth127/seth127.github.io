@@ -28,7 +28,7 @@
     
         
         function getData(epochNumberString) {
-            d3.csv("plotDataCont/plotDF-0.csv", function(d) {
+            d3.csv("plotDataCont/plotDF-1.csv", function(d) {
             //d3.csv("/Users/Seth/Documents/bigValley-Python/plotData/plotDF-7BVCD2-0.csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
@@ -44,7 +44,7 @@
                 
             });
             
-            d3.csv("plotDataCont/paramStats-0.csv", function(d) {
+            d3.csv("plotDataCont/paramStats-1.csv", function(d) {
             //d3.csv("/Users/Seth/Documents/bigValley-Python/plotData/paramStats-7BVCD2-0.csv", function(d) {
             
                 // assign the data to the epoch variable
@@ -61,7 +61,7 @@
                 ids = rabs.map(function(rab) {return rab.split('rabbit')[0];});
                 idList = ids.filter(onlyUnique);
             });
-            
+            console.log(idList);
         } 
         
         

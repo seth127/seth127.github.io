@@ -47,14 +47,24 @@
         var successYears = 500; // ceiling for how many years in an epoch
         var epochFinish; // the 'firstExt' value for this epoch
 
+        // for the hover by species
         var showWolves = false;
         var showRabbits= false;
         var showGrass = false;
         var showRocks = false;
+        
+        // for the continents
+        var idList;
+        
+        function onlyUnique(value, index, self) { 
+            return self.indexOf(value) === index;
+        }
     
         
         function getData(epochNumberString) {
+            console.log("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
             d3.csv("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
+            //d3.csv("plotDataCont/plotDF-0.csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
 
@@ -64,11 +74,12 @@
                 document.querySelector('.title .epochNum').innerHTML = epochNum;
                 
                 // load data for making statPlots
-                //loadStatPlots();
+                loadStatPlots();
                 
             });
             
             d3.csv("plotData" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
+            //d3.csv("plotDataCont/paramStats-0.csv", function(d) {
                 // assign the data to the epoch variable
                 yearStats = d;
                 //
@@ -77,8 +88,15 @@
                 var yearSVG = d3.select("#critterYearPlot");
                 yearSVG.selectAll("circle").remove();
                 
+                // get idList 
+                allNames = yearStats.map(d => d.name).map(String);
+                rabs = allNames.filter(function(name) {return name.includes('rabbit');});
+                ids = rabs.map(function(rab) {return rab.split('rabbit')[0];});
+                idList = ids.filter(onlyUnique);
+                //console.log(idList);
+                
             });
-            
+            console.log(idList);
         } 
         
         
@@ -126,31 +144,43 @@
                     .enter().append("circle")
                         .attr ("cx",function(d) { return (d.lat*10) + centerX; })
                         .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                        .attr ("stroke-width", 1.5)
                         .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                         .attr("fill",function(d) { 
-                                if (d.name == "grass") {
+                                if (d.name.includes("grass")) {
                                     return "green";
-                                } else if (d.name == "wolf") {
+                                } else if (d.name.includes("wolf")) {
                                     return "purple";
-                                } else if (d.name == "rabbit") {
+                                } else if (d.name.includes("rabbit")) {
                                     return "blue";
                                 } else {
                                     return "gray";
                                 }
-                            });
+                            })
+                        .attr("stroke",function(d) { 
+                            if (d.name.includes(idList[0])) {
+                                return "black";
+                            } else if (d.name.includes(idList[1])) {
+                                return "red";
+                            } else if (d.name.includes(idList[2])) {
+                                return "yellow";
+                            } else {
+                                return "#ccc";
+                            }
+                        });
             } else {
                 var contLength = 0;
             
                 var circle = targetSVG.selectAll("circle")
                         .data(epoch.filter(function(d) { 
                             if (showWolves == true) {
-                                return d.year == year & d.name == "wolf"
+                                return d.year == year & d.name.includes("wolf")
                             } else if (showRabbits == true) {
-                                return d.year == year & d.name == "rabbit"
+                                return d.year == year & d.name.includes("rabbit")
                             } else if (showGrass == true) {
-                                return d.year == year & d.name == "grass"
+                                return d.year == year & d.name.includes("grass")
                             } else if (showRocks == true) {
-                                return d.year == year & d.name == "debris"
+                                return d.year == year & d.name.includes("debris")
                             } else {
                                 return d.year == year
                             }
@@ -175,21 +205,32 @@
                         //console.log(lineCount);
                         return lineCount * Yspacing; 
                     })
+                    .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                     .attr("fill",function(d) { 
-                                if (d.name == "grass") {
+                                if (d.name.includes("grass")) {
                                     return "green";
-                                } else if (d.name == "wolf") {
+                                } else if (d.name.includes("wolf")) {
                                     return "purple";
-                                } else if (d.name == "rabbit") {
+                                } else if (d.name.includes("rabbit")) {
                                     return "blue";
                                 } else {
                                     return "gray";
                                 }
-                            });
+                            }).attr("stroke",function(d) { 
+                            if (d.name.includes(idList[0])) {
+                                return "black";
+                            } else if (d.name.includes(idList[1])) {
+                                return "red";
+                            } else if (d.name.includes(idList[2])) {
+                                return "yellow";
+                            } else {
+                                return "#ccc";
+                            }
+                        });
             } 
 
-
+            /*
             // plot stats for this year
             if (year < maxyear) {
                 //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
@@ -202,6 +243,7 @@
                 document.querySelector('.epochStats .grassNum').innerHTML = yearStats[year]['grassNum'];
                 //document.querySelector('.epochStats .debrisNum').innerHTML = yearStats[year]['debrisNum'];
                 //
+                
                 var yearSVG = d3.select("#countYearPlot");
             
                 yearSVG.append("circle")
@@ -256,6 +298,8 @@
                         .attr ("r",3)
                         .attr ("fill","#4569ED");
             }
+            
+            */
 
             //
             //stop running if reached max years
@@ -287,7 +331,7 @@
                         .attr("r",200)
                         .attr("fill", 'black');
                     //
-                    loadStatPlots(); // plot the results of this epoch
+                    //loadStatPlots(); // plot the results of this epoch
                     setTimeout(startEpoch, 500); //pause for a half a second, then start over
 
                 }
@@ -400,7 +444,7 @@
         }
         
         function checkRadio() {
-            for (i = 0; i < 2; i++) {
+            for (i = 0; i < 3; i++) {
                 if ( document.chooseModel.model[i].checked ) {
                     modelChoice = document.chooseModel.model[i].value;
                     break;
@@ -420,10 +464,6 @@
     <style>
         line {
             stroke-width: 2;
-        }
-        
-        circle {
-            stroke: #ccc;
         }
         
         .button {
@@ -460,6 +500,7 @@
     <form name="chooseModel" action="">
       <input type="radio" name="model" value="RF" checked="checked"> Random Forest
       <input type="radio" name="model" value="LM"> Linear Response Surface<br>
+      <input type="radio" name="model" value="Cont"> Continents <br>
     </form>
     <p></p>
 
