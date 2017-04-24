@@ -36,7 +36,7 @@
         var yearStats;
         var year = 0;
         var maxyear;
-        var epochNum = 0;
+        var epochNum = -1;
         var modelChoice;
         
         var maxEpochs; // max number of epochs before the program quits (generated from checkRadio())
@@ -86,7 +86,7 @@
                 yearSVG.selectAll("circle").remove();
                 
                 // get idList 
-                allNames = yearStats.map(d => d.name).map(String);
+                allNames = yearStats.map(d => d.stat).map(String);
                 rabs = allNames.filter(function(name) {return name.includes('rabbit');});
                 ids = rabs.map(function(rab) {return rab.split('rabbit')[0];});
                 idList = ids.filter(onlyUnique);
@@ -101,7 +101,7 @@
             epochNum++
             
             if (epochNum <= maxEpochs) {
-                console.log(maxEpochs)
+                console.log('maxEpochs: ' + maxEpochs)
                 // load the data and run the world
                 getData(epochNum.toString())
                 // check for length of data returned from getData? (or do it _in_ getData?)
@@ -124,7 +124,7 @@
             var targetSVG = d3.select("#BVplot");
 
             var centerX = 500;
-            var centerY = 650;
+            var centerY = 575;
             
             var Xspacing = 30;
             var Yspacing = 50;
@@ -198,7 +198,6 @@
                         //var rawLength = contLength;
                         var rawLength = (i+1) * Xspacing;
                         var lineCount = Math.ceil(rawLength / 1000);
-                        //console.log(lineCount);
                         return (lineCount * Yspacing) + 345; 
                     })
                     .attr ("stroke-width", 1.5)
@@ -225,8 +224,44 @@
                             }
                         });
             } 
-
             
+            if (year < maxyear) {
+                var yearSVG = d3.select("#countYearPlot");
+
+                var circle = yearSVG.selectAll("circle")
+                    .data(yearStats.filter(function(d) { return d.year == year & d.stat.includes("Num"); }))
+                .enter().append("circle")
+                    .attr ("cx", year)
+                    .attr ("cy",function(d) { return Math.max((200-d.value), 3); })
+                    //.attr ("stroke-width", 1.5)
+                    .attr ("r",3)
+                    .attr("fill",function(d) { 
+                            if (d.stat.includes("grassNum")) {
+                                console.log('year (in countYearPlot): ' + year); ///////////////////why stuck at 1?
+                                return "green";
+                            } else if (d.stat.includes("wolfNum")) {
+                                return "purple";
+                            } else if (d.stat.includes("rabbitNum")) {
+                                return "blue";
+                            } else {
+                                return "gray";
+                            }
+                        })
+                    .attr("stroke",function(d) { 
+                        if (d.stat.includes(idList[0])) {
+                            return "black";
+                        } else if (d.stat.includes(idList[1])) {
+                            return "red";
+                        } else if (d.stat.includes(idList[2])) {
+                            return "yellow";
+                        } else {
+                            return "#ccc";
+                        }
+                    }); 
+                
+            }
+
+            /*
             // plot stats for this year
             if (year < maxyear) {
                 //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
@@ -295,7 +330,7 @@
                         .attr ("fill","#4569ED");
             }
             
-            
+            */
 
             //
             //stop running if reached max years
@@ -446,7 +481,7 @@
                     break;
                 }
             }
-            console.log(modelChoice);
+            console.log('modelChoice: ' + modelChoice);
             
             // set initial value for maxEpochs I DON'T UNDERSTAND WHY THIS DOESN'T WORK
             d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
@@ -482,8 +517,8 @@
         }
 
         .big-btn {
-            width: 90px;
-            height: 40px;
+            width: 150px;
+            height: 70px;
         }
         
         *{font-family:"Trebuchet MS";}
@@ -511,7 +546,7 @@
 
 <!--    the button to run the world. -->
 <!--    <button onclick="startEpoch()">start the universe.</button><br> -->
-    <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn">start the universe.</div>
+    <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn" style = "font-size: 28px; position: absolute;left: 550px;top: 130px;" >start the universe.</div>
 <!--    other buttons -->
     <button onclick="skipEpochs(1)">skip 1 epoch</button>
     <button onclick="skipEpochs(10)">skip 10 epochs</button>
@@ -561,7 +596,7 @@
 
     <!--    <div class="epochStats">THIS EPIC: <span class='summary'></span></div>-->
     <div class="epochStats">
-<!--        <span class='statsFile'></span><br>-->
+        <span class='statsFile'></span><br>
         Avg Wolf Energy: <span class='wolfEn'></span> // Avg Wolf Repro: <span class='wolfRe'></span> //// 
         Avg Rabbit Energy: <span class='rabbitEn'></span> // Avg Rabbit Repro: <span class='rabbitRe'></span>
         <br><br>
