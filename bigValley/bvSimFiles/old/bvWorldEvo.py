@@ -30,7 +30,7 @@ class World:
         print(self.id)
 
         self.yearStats = []
-        #self.paramStats = []
+        self.paramStats = []
         self.crakeStats = [1,1, self.id]
 
     #####################
@@ -38,15 +38,10 @@ class World:
     #####################
     
     # creates an instance of a critter
-    def create(self, name, location = 'random', offset = [0,0]):
+    def create(self, name, location = 'random'):
         # pick location for new life
         if location == 'random':
-            if name == 'debris':
-                w1 = np.random.randn(1, 2)[0] * self.size * 2
-            else:
-                w1 = np.random.randn(1, 2)[0] * self.size
-
-            w1 += offset ## offset from center by this much
+            w1 = np.random.randn(1, 2)[0] * self.size
             w1 = w1.tolist()
             #w1 = [round(num, 0) for num in w1]
             w1 = [int(num) for num in w1]
@@ -86,7 +81,6 @@ class World:
 
         self.dict[location] = critter[0:2] + [inheritance] + lifeStats
           
-
 
     # gets parameter stats for each type of critter
     def getParamStats(self):
@@ -128,7 +122,6 @@ class World:
         return paramCols
 
 
-
     #######################################
     # FUNCTION TO ACTUALLY RUN THE WORLD ##
     #######################################
@@ -139,7 +132,6 @@ class World:
         yearlyPrinting = True, 
         saveYearStats = False,
         savePlotDF = False,
-        continents = False,
         epochNum = 1):
 
         # set the number of species in the world
@@ -149,10 +141,7 @@ class World:
         firstExt = False
         # set the initial values of paramStats
         self.paramCols = self.getParamCols()
-        #self.paramStats.append(self.getParamStats())
-        ps = self.getParamStats()
-        self.paramStats = pd.DataFrame({'year':np.repeat(self.year, len(ps)), 'value':ps, 'stat':self.paramCols})
-        #
+        self.paramStats.append(self.getParamStats())
         # initialize plotting Data Frame
         if savePlotDF == True:
             plotCols = ['year', 'lat', 'long', 'name', 'energy']
@@ -220,29 +209,19 @@ class World:
                         self.dict[key][3] = self.dict[key][3] + action['energy']
                     #
                     #elif action['act'] == 'move':
-                    elif action['act'] == 'move':
+                    else:
                         #update with new stats
                         # copy critter to new location
                         self.dict[action['location']] = critter
                         # delete critter from old location
                         del self.dict[key]
-                        # subtract energy for moving (used to say 'add the energy for the eaten animal' but I think that was a typo)
+                        # add the energy for the eaten animal
                         self.dict[action['location']][3] = self.dict[action['location']][3] + action['energy']
                         # if no more energy, kill
                         if self.dict[action['location']][3] < 1:
                             #dead.append(index)
                             del self.dict[action['location']]
                             #print(row['name'] + " starves.")
-                    elif action['act'] == 'stuck':
-                        self.dict[key][3] = self.dict[key][3] + action['energy']
-                        # if no more energy, kill
-                        if self.dict[key][3] < 1:
-                            #dead.append(index)
-                            del self.dict[key]
-                            #print(row['name'] + " starves.")
-                    else:
-                        print('ACTION PROBLEM WITH ' + str(critter))    
-
 
             ############
             # CHECKING END OF YEAR STATS
@@ -252,7 +231,6 @@ class World:
             if savePlotDF == True:
                 thisYear = pd.DataFrame([[self.year] + [int(coord) for coord in x.split(',')] + [self.dict[x][0]] + [round(self.dict[x][3],1)] for x in self.dict.keys()], columns = plotCols)
                 plotDF = plotDF.append(thisYear)
-                #
 
             critterCount = Counter([critter[1] for critter in self.dict.values() if (critter[1] != 'Rock')]) # used to have this too:  & (critter[1] != 'Plant')
             
@@ -270,11 +248,9 @@ class World:
                     self.yearStats.append([self.year, count, animal])
                 '''
 
-            # log paramStats
-            #self.paramStats.append(self.getParamStats())
-            ps = self.getParamStats()
-            thisYearParams = pd.DataFrame({'year':np.repeat(self.year, len(ps)), 'value':ps, 'stat':self.paramCols})
-            self.paramStats = self.paramStats.append(thisYearParams)
+            # log paramStats (make this every 10 years?)
+            self.paramStats.append(self.getParamStats())
+
 
             #alert us if there's an extinction and log it in crakeStats
             if firstExt == False:
@@ -286,20 +262,6 @@ class World:
                     # if set to end the world at first extinction, then end it
                     if endOnExtinction == True:
                         break
-
-            # IF CONTINENTS, SAVE EVERY 50 YEARs (so it doesn't have to finish before you can look at it)
-            if (continents == True) & (self.year % 50 == 2):
-                if saveYearStats == True:
-                    # save the stats to csv       
-                    #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
-                    paramDF = self.paramStats
-                    if savePlotDF == True:
-                        paramDF.to_csv('plotData/paramStats-' + self.id + '-' + str(epochNum) + '.csv', index=False)
-                    #else: ### I can't remember what this is for, so I commented it out (mistake?)
-                    #    paramDF.to_csv('testData/YearStats/paramStats-' + self.id + '.csv', index=False)
-
-                if savePlotDF == True:
-                    plotDF.to_csv('plotData/plotDF-' + self.id + '-' + str(epochNum) + '.csv', index=False)
 
             # IF AN ENDING CRITERIA IS SATISFIED, END THE WORLD 
                 
@@ -325,8 +287,7 @@ class World:
 
                 if saveYearStats == True:
                     # save the stats to csv       
-                    #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
-                    paramDF = self.paramStats
+                    paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
                     if savePlotDF == True:
                         paramDF.to_csv('plotData/paramStats-' + str(epochNum) + '.csv', index=False)
                     else:
@@ -347,8 +308,7 @@ class World:
         #########
         if saveYearStats == True:
             # save the stats to csv       
-            #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
-            paramDF = self.paramStats
+            paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
             if savePlotDF == True:
                 paramDF.to_csv('plotData/paramStats-' + str(epochNum) + '.csv', index=False)
             else:

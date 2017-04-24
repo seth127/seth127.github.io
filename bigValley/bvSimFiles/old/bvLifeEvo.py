@@ -48,9 +48,6 @@ class Animal:
                     dirMove = random.choice(view.spaces)
                     move = {'location':dirMove, 'energy':-1 * critter[5], 'act':'move'}
                     return move
-                else:
-                    stuck = {'energy':-1 * critter[5], 'act':'stuck'} # could make this -.5 to make them fatigue less
-                    return stuck
             else:
                 return None
         
@@ -98,14 +95,11 @@ class Plant:
                     
                     return baby
 
-                #otherwise grow a little (this used to be an else, but I changed it so they won't grow crazy big)
-                elif critter[3] < critter[4] * 2:
-                    growing = {'energy':10, 'act':'grow'}
-                    return growing
-                # if too big, just sit
+                #otherwise just grow a little
                 else:
-                    stuck = {'energy':0, 'act':'stuck'}
-                    return stuck
+                    growing = {'energy':10, 'act':'grow'}
+
+                    return growing
             else:
                 return None
 
@@ -138,15 +132,11 @@ class Rock:
                     
                     #print(self.name + ' gives birth at ' + str(baby))
                     return baby
-                #otherwise grow a little (this used to be an else, but I changed it so they won't grow crazy big)
-                elif critter[3] < critter[4] * 2:
-                    growing = {'energy':10, 'act':'grow'}
-                    return growing
-                # if too big, just sit
+                #otherwise grow a little
                 else:
-                    stuck = {'energy':0, 'act':'stuck'}
-                    return stuck
-
+                    growing = {'energy':10, 'act':'grow'}
+            
+                    return growing
             else:
                 return None
 
@@ -166,6 +156,6 @@ def newLife(Critter, world, name):
     # newLife(Predator('wolf', energy = 300, repro = 400, fatigue = 20), bigValley, 'wolf')
 
 #function to add life to the world
-def populate(world, species, number, offset = [0,0]):
-    for i in range(0, int(number)):
-        world.create(species, offset = offset)
+def populate(world, species, number):
+    for i in range(0, number):
+        world.create(species)
