@@ -53,6 +53,10 @@
         // for the continents
         var idList;
         
+        // for panning with click
+        var centerX = 500;
+        var centerY = 575;
+        
         function onlyUnique(value, index, self) { 
             return self.indexOf(value) === index;
         }
@@ -91,6 +95,10 @@
                 ids = rabs.map(function(rab) {return rab.split('rabbit')[0];});
                 idList = ids.filter(onlyUnique);
                 //console.log(idList); // why does this work and below doesn't?
+                if (idList.length == 1) {
+                    idList[0] = null;
+                }
+                console.log(idList);
             });
             //console.log(idList);
         } 
@@ -99,6 +107,9 @@
         function startEpoch() {
             // increment epoch
             epochNum++
+            // re-center
+            centerX = 500;
+            centerY = 575;
             
             if (epochNum <= maxEpochs) {
                 console.log('maxEpochs: ' + maxEpochs)
@@ -121,10 +132,11 @@
             //document.querySelector('.title .epochFinish').innerHTML = epochFinish;
             
             // set up SVG
-            var targetSVG = d3.select("#BVplot");
+            var targetSVG = d3.select("#BVplot"); countYearPlot
+            //var targetSVG = d3.select("#countYearPlot");
 
-            var centerX = 500;
-            var centerY = 575;
+            //var centerX = 500;
+            //var centerY = 575;
             
             var Xspacing = 30;
             var Yspacing = 50;
@@ -155,6 +167,7 @@
                             })
                         .attr("stroke",function(d) { 
                             if (d.name.includes(idList[0])) {
+                                //console.log(idList);
                                 return "black";
                             } else if (d.name.includes(idList[1])) {
                                 return "red";
@@ -226,6 +239,7 @@
             } 
             
             if (year < maxyear) {
+                // plots critter stats
                 var yearSVG = d3.select("#countYearPlot");
 
                 var circle = yearSVG.selectAll("circle")
@@ -489,6 +503,31 @@
             });
         }
         
+        
+
+    // manual panning 
+    function panMouseDown(event) {
+      //log location
+        downX = event.pageX;
+        downY = event.pageY;
+    }  
+    document.addEventListener("mousedown", panMouseDown);
+        
+    function panMouseUp(event) {
+        // log location
+        upX = event.pageX;
+        upY = event.pageY;
+        
+        //calculate difference
+        diffX = downX - upX
+        diffY = downY - upY
+        console.log("PANNED :: diffX: " + diffX + " - diffY: " + diffY);
+        
+        // move the center of the plot by the difference
+        centerX -= diffX
+        centerY -= diffY
+    }  
+    document.addEventListener("mouseup", panMouseUp);
         
     </script>
     
