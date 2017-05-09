@@ -1,0 +1,4 @@
+*.pyc
+*.Rhistory
+
+plotData/*

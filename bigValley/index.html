@@ -9,6 +9,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
     <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    
+    <script src="newStats.js"></script>
+    
     <script type="application/javascript">
         
         var sliderSpeed = 75;
@@ -34,6 +37,8 @@
         
         var epoch;   // define a container variable to hold the data
         var yearStats;
+        var epochStatsNewData;
+        
         var year = 0;
         var maxyear;
         var epochNum = -1;
@@ -57,12 +62,18 @@
         var centerX = 500;
         var centerY = 575;
         
+        // for dimming
+        circleOpacity = 1;
+        
+        showStatsCounter = 0;
+        
         function onlyUnique(value, index, self) { 
             return self.indexOf(value) === index;
         }
     
         
         function getData(epochNumberString) {
+            checkRadio();
             console.log("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
             d3.csv("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
             //d3.csv("plotDataCont/plotDF-0.csv", function(d) {
@@ -73,9 +84,7 @@
                 maxyear = d3.max(epoch.map(d => d.year).map(Number));
                 // print epoch number
                 document.querySelector('.title .epochNum').innerHTML = epochNum;
-                
-                // load data for making statPlots
-                loadStatPlots();
+
                 
             });
             
@@ -98,9 +107,16 @@
                 if (idList.length == 1) {
                     idList[0] = null;
                 }
-                console.log(idList);
             });
             //console.log(idList);
+            
+            // get data for newStats plot
+            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
+                // assign the data to the epoch variable
+                epochStatsNewData = d;
+                
+            });
+            
         } 
         
         
@@ -112,7 +128,7 @@
             centerY = 575;
             
             if (epochNum <= maxEpochs) {
-                console.log('maxEpochs: ' + maxEpochs)
+                //console.log('maxEpochs: ' + maxEpochs)
                 // load the data and run the world
                 getData(epochNum.toString())
                 // check for length of data returned from getData? (or do it _in_ getData?)
@@ -132,7 +148,7 @@
             //document.querySelector('.title .epochFinish').innerHTML = epochFinish;
             
             // set up SVG
-            var targetSVG = d3.select("#BVplot"); countYearPlot
+            var targetSVG = d3.select("#BVplot"); //countYearPlot
             //var targetSVG = d3.select("#countYearPlot");
 
             //var centerX = 500;
@@ -152,6 +168,7 @@
                     .enter().append("circle")
                         .attr ("cx",function(d) { return (d.lat*10) + centerX; })
                         .attr ("cy",function(d) { return (d.long*10) + centerY;})
+                        .attr ("opacity", circleOpacity)
                         .attr ("stroke-width", 1.5)
                         .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                         .attr("fill",function(d) { 
@@ -213,6 +230,7 @@
                         var lineCount = Math.ceil(rawLength / 1000);
                         return (lineCount * Yspacing) + 345; 
                     })
+                    .attr ("opacity", circleOpacity)
                     .attr ("stroke-width", 1.5)
                     .attr ("r",function(d) { return Math.max(d.energy*0.03, 0); })
                     .attr("fill",function(d) { 
@@ -238,113 +256,6 @@
                         });
             } 
             
-            if (year < maxyear) {
-                // plots critter stats
-                var yearSVG = d3.select("#countYearPlot");
-
-                var circle = yearSVG.selectAll("circle")
-                    .data(yearStats.filter(function(d) { return d.year == year & d.stat.includes("Num"); }))
-                .enter().append("circle")
-                    .attr ("cx", year)
-                    .attr ("cy",function(d) { return Math.max((200-d.value), 3); })
-                    //.attr ("stroke-width", 1.5)
-                    .attr ("r",3)
-                    .attr("fill",function(d) { 
-                            if (d.stat.includes("grassNum")) {
-                                console.log('year (in countYearPlot): ' + year); ///////////////////why stuck at 1?
-                                return "green";
-                            } else if (d.stat.includes("wolfNum")) {
-                                return "purple";
-                            } else if (d.stat.includes("rabbitNum")) {
-                                return "blue";
-                            } else {
-                                return "gray";
-                            }
-                        })
-                    .attr("stroke",function(d) { 
-                        if (d.stat.includes(idList[0])) {
-                            return "black";
-                        } else if (d.stat.includes(idList[1])) {
-                            return "red";
-                        } else if (d.stat.includes(idList[2])) {
-                            return "yellow";
-                        } else {
-                            return "#ccc";
-                        }
-                    }); 
-                
-            }
-
-            /*
-            // plot stats for this year
-            if (year < maxyear) {
-                //document.querySelector('.epochStats .statsFile').innerHTML = "plotData" + modelChoice + "/paramStats-" + epochNum.toString() +".csv";
-                document.querySelector('.epochStats .wolfEn').innerHTML = yearStats[year]['wolfEn'];
-                document.querySelector('.epochStats .wolfRe').innerHTML = yearStats[year]['wolfRe'];
-                document.querySelector('.epochStats .rabbitEn').innerHTML = yearStats[year]['rabbitEn'];
-                document.querySelector('.epochStats .rabbitRe').innerHTML = yearStats[year]['rabbitRe'];
-                document.querySelector('.epochStats .wolfNum').innerHTML = yearStats[year]['wolfNum'];
-                document.querySelector('.epochStats .rabbitNum').innerHTML = yearStats[year]['rabbitNum'];
-                document.querySelector('.epochStats .grassNum').innerHTML = yearStats[year]['grassNum'];
-                //document.querySelector('.epochStats .debrisNum').innerHTML = yearStats[year]['debrisNum'];
-                //
-                
-                var yearSVG = d3.select("#countYearPlot");
-            
-                yearSVG.append("circle")
-                    .attr ("cx",year)
-                    .attr ("cy",Math.max((200-yearStats[year]['wolfNum']), 3))
-                    .attr ("r",3)
-                    .attr ("stroke-width",0)
-                    .attr ("fill","purple");
-                
-                yearSVG.append("circle")
-                    .attr ("cx",year)
-                    .attr ("stroke-width",0)
-                    .attr ("cy",Math.max((200-yearStats[year]['rabbitNum']), 2))
-                    .attr ("r",3)
-                    .attr ("fill","blue");
-
-                yearSVG.append("circle")
-                        .attr ("cx",year)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",Math.max((200-yearStats[year]['grassNum']), 1))
-                        .attr ("r",3)
-                        .attr ("fill","green");
-
-                //
-                var yearSVG = d3.select("#critterYearPlot");
-
-                yearSVG.append("circle")
-                        .attr ("cx",year)
-                        .attr ("r",3)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",Math.max(200-yearStats[year]['wolfEn']/3), 4)
-                        .attr ("fill","purple");
-
-                yearSVG.append("circle")
-                        .attr ("cx",year)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",Math.max(200-yearStats[year]['wolfRe']/3),3)
-                        .attr ("r",3)
-                        .attr ("fill","#9159B5");
-
-                yearSVG.append("circle")
-                        .attr ("cx",year)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",Math.max(200-yearStats[year]['rabbitEn']/3),2)
-                        .attr ("r",3)
-                        .attr ("fill","blue");
-
-                yearSVG.append("circle")
-                        .attr ("cx",year)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",Math.max(200-yearStats[year]['rabbitRe']/3),1)
-                        .attr ("r",3)
-                        .attr ("fill","#4569ED");
-            }
-            
-            */
 
             //
             //stop running if reached max years
@@ -364,7 +275,6 @@
                         .attr("r",200)
                         .attr("fill", 'green');
                     //
-                    loadStatPlots(); // plot the results of this epoch
                     setTimeout(startEpoch, 1750); //pause for a second
 
                 } else {
@@ -376,7 +286,6 @@
                         .attr("r",200)
                         .attr("fill", 'black');
                     //
-                    //loadStatPlots(); // plot the results of this epoch
                     setTimeout(startEpoch, 500); //pause for a half a second, then start over
 
                 }
@@ -385,106 +294,13 @@
             }
             
         }
-        
-        function loadStatPlots() {
-            // load epoch stats for display
-            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
-                // define the max year that this epoch achieves.
-                epochFinish = d[epochNum]['firstExt'];
-                
-                //maxEpochs = d.length;
-                
-                // CAN PROBABLY DELETE THIS PART... (for showing the numbers in object as text)
-                //document.querySelector('.epochStats .summary').innerHTML = JSON.stringify(d[epochNum], null, 2);
-                
-                // plot epoch Stats
-                
-                var epochSVG = d3.select("#countStatsPlot");
-
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("r",3)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['wolfNum']*2)
-                        .attr ("fill","purple");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['rabbitNum']*2)
-                        .attr ("r",3)
-                        .attr ("fill","blue");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['grassNum']*2)
-                        .attr ("r",3)
-                        .attr ("fill","green");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['debrisNum']*2)
-                        .attr ("r",3)
-                        .attr ("fill","gray");
-                
-                //
-                var epochSVG = d3.select("#critterStatsPlot");
-
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("r",3)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['wolfEn']/4)
-                        .attr ("fill","purple");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['wolfRe']/4)
-                        .attr ("r",3)
-                        .attr ("fill","#9159B5");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['rabbitEn']/4)
-                        .attr ("r",3)
-                        .attr ("fill","blue");
-                
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['rabbitRe']/4)
-                        .attr ("r",3)
-                        .attr ("fill","#4569ED");
-                
-                //
-                var epochSVG = d3.select("#firstExtStatsPlot");
-
-                epochSVG.append("circle")
-                        .attr ("cx",epochNum)
-                        .attr ("r",3)
-                        .attr ("stroke-width",0)
-                        .attr ("cy",200-d[epochNum]['firstExt']/2.525)
-                        .attr ("fill", "black");
-                        /*.attr ("fill",function(d) {
-                                if (d[epochNum]['firstExt'] == successYears) {
-                                    return 'red';
-                                } else {
-                                   return 'black'; 
-                                }
-                            } ); */ //for some reason this breaks the pause at epoch finish 
-            
-            });
-        }
+      
         
         function skipEpochs(num) {
             clearInterval(running);
                 // reset year counter
             year = 0;
-            epochNum += num;
+            epochNum += num - 1;
             startEpoch();
         }
         
@@ -501,11 +317,35 @@
             d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
                 maxEpochs = d.length;
             });
+            
+            getNewStatsData('plotData' + modelChoice + '/epochStats-long.csv', maxEpochs);
+
         }
         
+    function dimAll() {
+        //var circles = d3.selectAll("circle")
+        //    .style("opacity",0.01);
+        circleOpacity = 0.1;
+        console.log('dimming')
+    }    
         
+    function showNewStats() {
+        showStatsCounter += 1;
+        
+        if (showStatsCounter % 2 == 1) {
+            d3.select("#newStats")
+                .style("visibility","visible");
+            circleOpacity = 0.1;
+            //plotNewStats();
+        } else {
+            d3.select("#newStats")
+                .style("visibility","hidden");
+            circleOpacity = 1;
+        }
+        
+    }
 
-    // manual panning 
+    // manual panning (from http://stackoverflow.com/questions/23744605/javascript-get-x-and-y-coordinates-on-mouse-click)
     function panMouseDown(event) {
       //log location
         downX = event.pageX;
@@ -532,9 +372,6 @@
     </script>
     
     <style>
-        line {
-            stroke-width: 2;
-        }
         
         .statPlots {
             background-color: #eee;
@@ -544,9 +381,15 @@
             background-color: #ffe;
         }
         
+        #newStats {
+            position: absolute;
+            top: 350px;
+            left: 70px;
+            visibility: hidden;
+            background-color: rgba(5, 5, 5, 0.2);
+        }
+        
         .button {
-        background-color: #000000;
-        color: #FFFFFF;
         padding: 10px;
         border-radius: 10px;
         -moz-border-radius: 10px;
@@ -554,10 +397,22 @@
         margin:10px
         white-space: wrap;
         }
+        
+        .little-btn {
+            background-color: #CC5667;
+            color: #000000;
+            width: 50px;
+            height: 30px;
+            font-size: 12px;
+            text-align: center;
+        }
 
         .big-btn {
+/*            background-color: #000000;*/
+            color: #FFFFFF;
             width: 150px;
             height: 70px;
+            font-size: 28px;
         }
         
         *{font-family:"Trebuchet MS";}
@@ -573,7 +428,8 @@
     <p>Read the background and methodology in the <a href="https://github.com/seth127/seth127.github.io/blob/master/bigValley/README.md" target="_blank">README</a>.
     Scroll to down to see stats on each year and each epoch.</p>
     <p></p>
-<!--  PICK THE MODEL  -->
+
+        <!--  PICK THE MODEL  -->
     <span><strong>choose modeling approach:</strong></span>
     <form name="chooseModel" action="">
       <input type="radio" name="model" value="RF" checked="checked"> Random Forest
@@ -582,16 +438,16 @@
     </form>
     <p></p>
 
-
 <!--    the button to run the world. -->
-<!--    <button onclick="startEpoch()">start the universe.</button><br> -->
-    <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn" style = "font-size: 28px; position: absolute;left: 550px;top: 130px;" >start the universe.</div>
+    <div onclick="checkRadio();setTimeout(startEpoch,200);" class="button big-btn" style = "position: absolute;left: 500px;top: 130px;background-color: #000000;" >start the universe.</div>
+<!--    the button to show newStats  -->
+    <div onclick="checkRadio();showNewStats()" class="button big-btn" style = "position: absolute;left: 680px;top: 130px;background-color: #900000;" >show the stats.</div>
 <!--    other buttons -->
-    <button onclick="skipEpochs(1)">skip 1 epoch</button>
-    <button onclick="skipEpochs(10)">skip 10 epochs</button>
-<!--    <button onclick="running = setInterval(draw,200)">run the world</button>-->
-    <button onclick="clearInterval(running)">pause the world</button>
+    <span onclick="skipEpochs(1)" class="button little-btn">skip 1 epoch</span>
+    <span onclick="skipEpochs(10)" class="button little-btn">skip 10 epochs</span>
+    <span onclick="clearInterval(running)" class="button little-btn">pause the world</span>
     <p></p>
+        
     <span>hover to select species:</span>
     <span style="padding-top: 5px;">
     <img src="icons/wolvesIcon.png" height=20 onmouseover="showWolves=true;" onmouseout="showWolves=false;">
@@ -612,7 +468,8 @@
     </p>
 <!--  of <span class='epochFinish'></span>   -->
     <div style="white-space: nowrap;">
-            <svg id="BVplot" width="1500" height="2500" style = "position: absolute;left: 0px;top: 0px;z-index: -1;"></svg>
+        <svg id="BVplot" width="1500" height="2500" style = "position: absolute;left: 0px;top: 0px;z-index: -1;"></svg>
+        <svg id="newStats" width="950" height="390"></svg>
 
 <!--        <svg id="BVplot" width="1000" height="800"></svg>-->
 <!--        <img src="icons/bv-legend.jpg" height=100 style="padding-bottom: 700px; display: inline-block;">  -->
@@ -623,37 +480,7 @@
 
 
     <br>
-    
-<!--  plotting year stats  -->
-    <h3 style="padding-top:350px;">Year Stats throughout this Epoch:</h3>
-    <div style="white-space: nowrap;">
-        <svg class = "statPlots" id="critterYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg class = "statPlots"  id="countYearPlot" width="500" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <div><span style="padding-left: 125px;">Critter Avg Energy and Repro</span><span style="padding-left: 375px;">Critter Counts</span></div>
-    </div>
-    <p></p><p></p>
 
-    <!--    <div class="epochStats">THIS EPIC: <span class='summary'></span></div>-->
-    <div class="epochStats">
-        <span class='statsFile'></span><br>
-        Avg Wolf Energy: <span class='wolfEn'></span> // Avg Wolf Repro: <span class='wolfRe'></span> //// 
-        Avg Rabbit Energy: <span class='rabbitEn'></span> // Avg Rabbit Repro: <span class='rabbitRe'></span>
-        <br><br>
-        Critter Counts:
-        <span class='wolfNum'></span> Wolves // <span class='rabbitNum'></span> Rabbits // 
-        <span class='grassNum'></span> Plants
-    </div>
-    
-    <!--    the epochStats plots -->
-    <h3>Epoch Stats: </h3>
-    <div style="white-space: nowrap;">
-        <svg class = "statPlots"  id="critterStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg class = "statPlots"  id="countStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-        <svg class = "statPlots"  id="firstExtStatsPlot" width="300" height="200" style="border: 1px solid; border-color: #ccc;"></svg>
-
-        <div><span style="padding-left: 65px;">Critter Energy and Repro</span><span style="padding-left: 165px;">Critter Starting Counts</span><span style="padding-left: 175px;">First Extinction</span></div>
-    </div>
-    <p></p><p></p>
     
 </body>
 </html>
