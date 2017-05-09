@@ -1,4 +1,4 @@
 *.pyc
 *.Rhistory
 
-plotData/*
+bigValley/plotData/*
