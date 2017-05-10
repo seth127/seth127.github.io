@@ -46,7 +46,7 @@ xList = ['wolfEn',
           'debrisNum']
 
 def learnParamsRF(optsNum, years,
-          file_name,
+          saveDir,
           wolfEn,
           wolfRe,
           wolfFa,
@@ -60,7 +60,7 @@ def learnParamsRF(optsNum, years,
           xList,
           yList):
     # get the latest sim data
-    simDF = pd.read_csv(file_name)
+    simDF = pd.read_csv(saveDir + '/epochStats.csv')
     # check if we've reached successful stasis (10 in a row that hit the max years)
     if min(simDF.iloc[-10:]['deadWorld']) == years:
         return ['END', simDF.shape[0]]
@@ -107,7 +107,8 @@ def learnParamsRF(optsNum, years,
     return winner
 
 
-def learnParamsLM(file_name, years,
+def learnParamsLM(saveDir, 
+          years,
           wolfEn,
           wolfRe,
           wolfFa,
@@ -121,7 +122,7 @@ def learnParamsLM(file_name, years,
           xList,
           yList, incremental = True):
     # get the latest sim data
-    simDF = pd.read_csv(file_name)
+    simDF = pd.read_csv(saveDir + '/epochStats.csv')
     # check if we've reached successful stasis (10 in a row that hit max years)
     if min(simDF.iloc[-10:]['deadWorld']) == years:
         return ['END', simDF.shape[0]]
@@ -157,7 +158,8 @@ def learnParamsLM(file_name, years,
     # add this list to previous parameters to adjust each iteration
     return adjustments
 
-def testLife(tests, 
+def testLife(saveDir,
+        tests, 
         years, 
         wolfEn,
         wolfRe,
@@ -171,13 +173,13 @@ def testLife(tests,
         debrisNum,
         endOnExtinction = True,
         endOnOverflow = True,
-        saveYearStats = False,
+        saveParamStats = False,
         savePlotDF = False,
         epochNum = 1):
     testStats = []
     for i in range(0, tests):
         #create an instance of World 
-        bigValley = World(5)
+        bigValley = World(5,saveDir)
         print(datetime.datetime.now())
 
         #define your life forms
@@ -199,7 +201,7 @@ def testLife(tests,
             yearlyPrinting = True, 
             endOnExtinction = endOnExtinction, 
             endOnOverflow = endOnOverflow,
-            saveYearStats = saveYearStats,
+            saveParamStats = saveParamStats,
             savePlotDF = savePlotDF,
             epochNum = epochNum)
         testStats.append(test)
@@ -224,7 +226,7 @@ def file_len(fname):
     	print(str(fname) + ' is now ' + str(i + 1) + ' lines long.')
 '''
 
-def runSim(file_name,
+def runSim(saveDir,
           tests,
           years,
           wolfEn,
@@ -239,12 +241,13 @@ def runSim(file_name,
           debrisNum,
           endOnExtinction=True,
           endOnOverflow=True,
-          saveYearStats=False,
+          saveParamStats=False,
           savePlotDF = False,
           epochNum = 1):
     start=datetime.datetime.now()
     #file_name = 'data/' + str(tests) + 'x' + str(years) + '-' + id_generator() + '.csv' 
-    testDF = testLife(tests, 
+    testDF = testLife(saveDir,
+        tests, 
         years, 
         wolfEn,
         wolfRe,
@@ -258,7 +261,7 @@ def runSim(file_name,
         debrisNum,
         endOnExtinction = endOnExtinction,
         endOnOverflow = endOnOverflow,
-        saveYearStats = saveYearStats,
+        saveParamStats = saveParamStats,
         savePlotDF = savePlotDF,
         epochNum = epochNum)
     thisSim = [
@@ -281,12 +284,12 @@ def runSim(file_name,
         debrisNum]
     print(thisSim)
     #open the file
-    file = open(file_name, "a")
+    file = open(saveDir + '/epochStats.csv', "a")
     #write the new line
     file.write(str(thisSim).strip('[]') + '\n')
     #print the number of lines logged to the file
-    #file_len(file_name)
-    print("%d lines in your choosen file" % len(open(file_name).readlines()))
+    #file_len(saveDir + '/epochStats.csv')
+    print("%d lines in your choosen file" % len(open(saveDir + '/epochStats.csv').readlines()))
     ##print "%d lines in your choosen file" % len(file.readlines())
 
     #close the file
@@ -295,17 +298,18 @@ def runSim(file_name,
     print('%%%%%%%%')
 
 ##############
-def continentLife(years, 
+def continentLife(saveDir,
+        years, 
         idList,
         endOnExtinction = True,
         endOnOverflow = True,
-        saveYearStats = False,
+        saveParamStats = False,
         savePlotDF = False,
         epochNum = 1):
     testStats = []
 
     #create an instance of World 
-    bigValley = World(5)
+    bigValley = World(5, saveDir)
     print(datetime.datetime.now())
 
     #### load continent stats
@@ -352,7 +356,7 @@ def continentLife(years,
         yearlyPrinting = True, 
         endOnExtinction = endOnExtinction, 
         endOnOverflow = endOnOverflow,
-        saveYearStats = saveYearStats,
+        saveParamStats = saveParamStats,
         savePlotDF = savePlotDF,
         continents = True,
         epochNum = epochNum)
@@ -370,7 +374,7 @@ def continentLife(years,
 
 ##############
 
-def runSimLearningRF1(file_name, 
+def runSimLearningRF1(saveDir, 
           tests,
           years,
           wolfEn,
@@ -386,7 +390,7 @@ def runSimLearningRF1(file_name,
           optsNum=25,
           endOnExtinction=True,
           endOnOverflow=True,
-          saveYearStats=False,
+          saveParamStats=False,
           savePlotDF = False,
           epochNum = 1):
     start=datetime.datetime.now()
@@ -395,7 +399,7 @@ def runSimLearningRF1(file_name,
     ####### DO THE LEARNING
 
     winner = learnParamsRF(optsNum,
-          file_name,
+          saveDir,
           wolfEn,
           wolfRe,
           wolfFa,
@@ -415,7 +419,8 @@ def runSimLearningRF1(file_name,
 
     ####### RUN THE SIM
 
-    testDF = testLife(tests, 
+    testDF = testLife(saveDir,
+        tests, 
         years, 
         int(winner['wolfEn']),
         int(winner['wolfRe']),
@@ -429,7 +434,7 @@ def runSimLearningRF1(file_name,
         int(winner['debrisNum']),
         endOnExtinction = endOnExtinction,
         endOnOverflow = endOnOverflow,
-        saveYearStats = saveYearStats,
+        saveParamStats = saveParamStats,
         savePlotDF = savePlotDF,
         epochNum = epochNum)
     thisSim = [
@@ -453,12 +458,12 @@ def runSimLearningRF1(file_name,
     print(thisSim)
     print('$$$$$\n PREDICTED FirstExt: ' + str(int(winner['preds'])) + '\n$$$$$')
     #open the file
-    file = open(file_name, "a")
+    file = open(saveDir + '/epochStats.csv', "a")
     #write the new line
     file.write(str(thisSim).strip('[]') + '\n')
     #print the number of lines logged to the file
     #file_len(file_name)
-    print("%d lines in your choosen file" % len(open(file_name).readlines()))
+    print("%d lines in your choosen file" % len(open(saveDir + '/epochStats.csv').readlines()))
     ##print "%d lines in your choosen file" % len(file.readlines())
 
     #close the file

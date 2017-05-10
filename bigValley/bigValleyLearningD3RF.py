@@ -1,4 +1,4 @@
-# python bigValleyLearningRF1.py 1 500 550 new
+# python bigValleyLearningRF1.py 1 500 50 new
 
 import sys
 import os
@@ -33,7 +33,7 @@ reps = int(sys.argv[3]) # default is 5
 #### and THEN start the prescribed number of learning reps
 
 seedReps = 25
-
+bigRun = False # whether to run one for 10,000 years at the end
 
 # either give it 'new' to start over or the ID code of a past trial to continue
 if sys.argv[4] == 'new':
@@ -43,17 +43,15 @@ else:
   simID = sys.argv[4]
 
 #
-# set up file for epochStats
-file_name = 'plotData/epochStats.csv'
-# delete old file
-try:
-  os.remove(file_name)
-except:
-  print('first one')
+# make directory for storing
+saveDir = 'plotData/LM-' + simID
+if not os.path.exists(saveDir):
+    os.makedirs(saveDir)
+
 # write file headers for the new file
-text_file = open(file_name, "w")
-text_file.write('tests,years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
-text_file.close()
+epochStats = open(saveDir + '/epochStats.csv', "w")
+epochStats.write('tests,years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
+epochStats.close()
 
 #wolf stats
 we = 300
@@ -113,7 +111,7 @@ if sys.argv[4] == 'new':
         debrisNum = max(int(dn + (np.random.randn(1)[0] * 10)), 1)
 
         # RUN THE SIM
-        runSim(file_name,
+        runSim(saveDir,
               tests,
               years,
               wolfEn,
@@ -128,11 +126,11 @@ if sys.argv[4] == 'new':
               debrisNum,
               endOnExtinction = True,
               savePlotDF = True,
-              saveYearStats = True,
+              saveParamStats = False,
               epochNum = i)
 # if not new, assign starting params as where we left off
 else:
-    previousDF = pd.read_csv(file_name)
+    previousDF = pd.read_csv(saveDir + '/epochStats.csv')
     startingParams = previousDF.iloc[-1][xList].tolist()
     we = newStartingParams[0]
     wr = newStartingParams[1]
@@ -151,8 +149,9 @@ else:
 #########
 for i in range(0, reps):
     # re-learn the starting parameters
-    newStartingParams = learnParamsRF(100, years, # get 100 options each time
-        file_name,
+    newStartingParams = learnParamsRF(100, 
+        years, # get 100 options each time
+        saveDir,
         we,
         wr,
         wf,
@@ -213,7 +212,7 @@ for i in range(0, reps):
     '''
 
     # RUN THIS ITERATION
-    runSim(file_name,
+    runSim(saveDir,
           tests,
           years,
           we,
@@ -228,25 +227,25 @@ for i in range(0, reps):
           dn,
           endOnOverflow = True,
           savePlotDF = True,
-          saveYearStats = True,
+          saveParamStats = False,
           epochNum = (i + seedReps))
 
-
-# ONCE WE REACHED SUCCESS, RUN A BIG ONE
-runSim(file_name,
-      tests,
-      10000,
-      we,
-      wr,
-      wf,
-      re,
-      rr,
-      rf,
-      wn,
-      rn,
-      gn,
-      dn,
-      endOnOverflow = False,
-      savePlotDF = True,
-      saveYearStats = True,
-      epochNum = (i + seedReps + 1))
+if bigRun == True:
+    # ONCE WE REACHED SUCCESS, RUN A BIG ONE
+    runSim(saveDir,
+          tests,
+          10000,
+          we,
+          wr,
+          wf,
+          re,
+          rr,
+          rf,
+          wn,
+          rn,
+          gn,
+          dn,
+          endOnOverflow = False,
+          savePlotDF = True,
+          saveParamStats = False,
+          epochNum = (i + seedReps + 1))

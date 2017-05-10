@@ -13,7 +13,6 @@
     <script src="newStats.js"></script>
     
     <script type="application/javascript">
-        // HEY NAW!
         
         var sliderSpeed = 75;
         //SLIDER
@@ -57,7 +56,7 @@
         var showRocks = false;
         
         // for the continents
-        var idList;
+        var idList = [null];
         
         // for panning with click
         var centerX = 500;
@@ -75,8 +74,8 @@
         
         function getData(epochNumberString) {
             checkRadio();
-            console.log("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
-            d3.csv("plotData" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
+            console.log("plotData/" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
+            d3.csv("plotData/" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
             //d3.csv("plotDataCont/plotDF-0.csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
@@ -89,8 +88,9 @@
                 
             });
             
-            d3.csv("plotData" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
-            //d3.csv("plotDataCont/paramStats-0.csv", function(d) {
+            if (modelChoice == 'Cont') {
+                d3.csv("plotData/" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
+                //d3.csv("plotDataCont/paramStats-0.csv", function(d) {
                 // assign the data to the epoch variable
                 yearStats = d;
                 //
@@ -110,9 +110,10 @@
                 }
             });
             //console.log(idList);
+            }
             
             // get data for newStats plot
-            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
+            d3.csv("plotData/" + modelChoice + "/epochStats.csv", function(d) {
                 // assign the data to the epoch variable
                 epochStatsNewData = d;
                 
@@ -124,6 +125,10 @@
         function startEpoch() {
             // increment epoch
             epochNum++
+            
+            // check which model
+            checkRadio();
+            
             // re-center
             centerX = 500;
             centerY = 575;
@@ -306,7 +311,7 @@
         }
         
         function checkRadio() {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 4; i++) {
                 if ( document.chooseModel.model[i].checked ) {
                     modelChoice = document.chooseModel.model[i].value;
                     break;
@@ -314,12 +319,17 @@
             }
             console.log('modelChoice: ' + modelChoice);
             
+            //reset epochNum if in Continent mode
+            if (modelChoice == 'Cont') {
+                epochNum = 0;
+            }
+            
             // set initial value for maxEpochs I DON'T UNDERSTAND WHY THIS DOESN'T WORK
-            d3.csv("plotData" + modelChoice + "/epochStats.csv", function(d) {
+            d3.csv("plotData/" + modelChoice + "/epochStats.csv", function(d) {
                 maxEpochs = d.length;
             });
             
-            getNewStatsData('plotData' + modelChoice + '/epochStats-long.csv', maxEpochs);
+            getNewStatsData('plotData/' + modelChoice + '/epochStats-long.csv', maxEpochs);
 
         }
         
@@ -433,8 +443,9 @@
         <!--  PICK THE MODEL  -->
     <span><strong>choose modeling approach:</strong></span>
     <form name="chooseModel" action="">
-      <input type="radio" name="model" value="RF" checked="checked"> Random Forest
-      <input type="radio" name="model" value="LM"> Linear Response Surface
+      <input type="radio" name="model" value="RF-orig" checked="checked"> RF-orig
+      <input type="radio" name="model" value="LM-orig"> LM-orig
+      <input type="radio" name="model" value="LM-O55"> LM-O55
       <input type="radio" name="model" value="Cont"> Continents <br>
     </form>
     <p></p>

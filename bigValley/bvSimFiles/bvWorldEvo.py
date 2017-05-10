@@ -18,10 +18,11 @@ import time
 
 #define World class
 class World:
-    def __init__(self, size):
+    def __init__(self, size, saveDir):
         print('You have created the world.')
         self.year = 0
         self.size = size
+        self.saveDir = saveDir
         #self.df = pd.DataFrame([], columns = ['lat', 'long', 'name', 'kingdom', 'energy'])
         self.dict = {}
         self.bookOfLife = {}
@@ -137,7 +138,7 @@ class World:
         endOnExtinction = True, 
         endOnOverflow = True, 
         yearlyPrinting = True, 
-        saveYearStats = False,
+        saveParamStats = False,
         savePlotDF = False,
         continents = False,
         epochNum = 1):
@@ -289,17 +290,17 @@ class World:
 
             # IF CONTINENTS, SAVE EVERY 50 YEARs (so it doesn't have to finish before you can look at it)
             if (continents == True) & (self.year % 50 == 2):
-                if saveYearStats == True:
+                if saveParamStats == True:
                     # save the stats to csv       
                     #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
                     paramDF = self.paramStats
                     if savePlotDF == True:
-                        paramDF.to_csv('plotData/paramStats-' + self.id + '-' + str(epochNum) + '.csv', index=False)
+                        paramDF.to_csv(self.saveDir + '/paramStats-' + self.id + '-' + str(epochNum) + '.csv', index=False)
                     #else: ### I can't remember what this is for, so I commented it out (mistake?)
-                    #    paramDF.to_csv('testData/YearStats/paramStats-' + self.id + '.csv', index=False)
+                    #    paramDF.to_csv(self.saveDir + '/paramStats-' + self.id + '.csv', index=False)
 
                 if savePlotDF == True:
-                    plotDF.to_csv('plotData/plotDF-' + self.id + '-' + str(epochNum) + '.csv', index=False)
+                    plotDF.to_csv(self.saveDir + '/plotDF-' + self.id + '-' + str(epochNum) + '.csv', index=False)
 
             # IF AN ENDING CRITERIA IS SATISFIED, END THE WORLD 
                 
@@ -323,18 +324,18 @@ class World:
                     if self.crakeStats[0] == 1:
                         self.crakeStats[0] = number #'MAXLIFE50K'
 
-                if saveYearStats == True:
+                if saveParamStats == True:
                     # save the stats to csv       
                     #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
                     paramDF = self.paramStats
                     if savePlotDF == True:
-                        paramDF.to_csv('plotData/paramStats-' + str(epochNum) + '.csv', index=False)
+                        paramDF.to_csv(self.saveDir + '/paramStats-' + str(epochNum) + '.csv', index=False)
                     else:
-                        paramDF.to_csv('testData/YearStats/paramStats-' + self.id + '.csv', index=False)
+                        paramDF.to_csv(self.saveDir + '/paramStats-' + self.id + '.csv', index=False)
 
                 if savePlotDF == True:
                     print('%%%%%%%%\n%%%%%%%%\nSAVING plotDF\nplotDF-' + str(epochNum) + '\n%%%%%%%%\n%%%%%%%%')
-                    plotDF.to_csv('plotData/plotDF-' + str(epochNum) + '.csv', index=False)
+                    plotDF.to_csv(self.saveDir + '/plotDF-' + str(epochNum) + '.csv', index=False)
 
 
                 # return year the world ended (and the first extinction)
@@ -345,19 +346,19 @@ class World:
         #########
         # IF IT RAN ALL THE WAY THROUGH...
         #########
-        if saveYearStats == True:
+        if saveParamStats == True:
             # save the stats to csv       
             #paramDF = pd.DataFrame(self.paramStats, columns = self.paramCols)
             paramDF = self.paramStats
             if savePlotDF == True:
-                paramDF.to_csv('plotData/paramStats-' + str(epochNum) + '.csv', index=False)
+                paramDF.to_csv(self.saveDir + '/paramStats-' + str(epochNum) + '.csv', index=False)
             else:
-                paramDF.to_csv('testData/YearStats/paramStats-' + self.id + '.csv', index=False)
+                paramDF.to_csv(self.saveDir + '/paramStats-' + self.id + '.csv', index=False)
 
 
         if savePlotDF == True:
             print('%%%%%%%%\n%%%%%%%%\nSAVING plotDF\nplotDF-' + str(epochNum) + '\n%%%%%%%%\n%%%%%%%%')
-            plotDF.to_csv('plotData/plotDF-' + str(epochNum) + '.csv', index=False)
+            plotDF.to_csv(self.saveDir + '/plotDF-' + str(epochNum) + '.csv', index=False)
 
         # if there were no extinctions, set firstExt to this year
         if self.crakeStats[0] == 1:

@@ -163,15 +163,7 @@ function drawEpochLine(maxEpochs) {
         .attr("font-size", 20)
         .attr('x', (newStatsWidth/2) - 100 )
         .attr('y', 30)
-        .text(function() {
-            if(modelChoice=='RF') {
-                return "Random Forest"
-            } else if(modelChoice=='LM') {
-                return "Linear Model"
-            } else {
-                return ""
-            }
-        });
+        .text(modelChoice);
     
 
 }

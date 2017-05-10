@@ -1,4 +1,4 @@
-# python bigValleyLearningD3LM.py 1 500 550 new
+# python bigValleyLearningD3LM.py 1 500 50 new
 
 import sys
 import os
@@ -32,6 +32,7 @@ reps = int(sys.argv[3]) # default is 5
 #### and THEN start the prescribed number of learning reps
 
 seedReps = 25
+bigRun = False # whether to run one for 10,000 years at the end
 
 # either give it 'new' to start over or the ID code of a past trial to continue
 if sys.argv[4] == 'new':
@@ -40,17 +41,15 @@ if sys.argv[4] == 'new':
 else:
   simID = sys.argv[4]
 
-# set up file for epochStats
-file_name = 'plotData/epochStats.csv'
-# delete old file
-try:
-  os.remove(file_name)
-except:
-  print('first one')
+# make directory for storing
+saveDir = 'plotData/LM-' + simID
+if not os.path.exists(saveDir):
+    os.makedirs(saveDir)
+
 # write file headers for the new file
-text_file = open(file_name, "w")
-text_file.write('tests,years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
-text_file.close()
+epochStats = open(saveDir + '/epochStats.csv', "w")
+epochStats.write('tests,years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
+epochStats.close()
 
 
 #wolf stats
@@ -112,7 +111,7 @@ if sys.argv[4] == 'new':
         debrisNum = max(int(dn + (np.random.randn(1)[0] * 10)), 1)
 
         # RUN THE SIM
-        runSim(file_name,
+        runSim(saveDir,
               tests,
               years,
               wolfEn,
@@ -127,12 +126,12 @@ if sys.argv[4] == 'new':
               debrisNum,
               endOnExtinction = True,
               savePlotDF = True,
-              saveYearStats = True,
+              saveParamStats = False,
               epochNum = i)
     # set starting params for learning
     newStartingParams = [we,wr,wf,re,rr,rf,wn,rn,gn,dn,]
 else:
-    previousDF = pd.read_csv(file_name)
+    previousDF = pd.read_csv(saveDir + '/epochStats.csv')
     newStartingParams = previousDF.iloc[-1][xList].tolist()
 
 #########
@@ -144,7 +143,8 @@ for i in range(0, reps):
     # set previous starting params from the newStartingParams from the last run
     previousParams = newStartingParams
     # re-learn the starting parameters
-    adjustments = learnParamsLM(file_name, years,
+    adjustments = learnParamsLM(saveDir, 
+        years,
         previousParams[0],
         previousParams[1],
         previousParams[2],
@@ -193,7 +193,7 @@ for i in range(0, reps):
 
 
     # RUN THIS ITERATION
-    runSim(file_name,
+    runSim(saveDir,
           tests,
           years,
           wolfEn,
@@ -208,40 +208,42 @@ for i in range(0, reps):
           debrisNum,
           endOnOverflow = True,
           savePlotDF = True,
-          saveYearStats = True,
+          saveParamStats = False,
           epochNum = (i + seedReps))
     print(adjustments)
 
-# ONCE WE REACHED SUCCESS, RUN A BIG ONE
-# set parameters for this run
-wolfEn = max(newStartingParams[0], 100) # minimum of 100
-wolfRe = max(newStartingParams[1], round((wolfEn * 1.1), 0)) # minimum of wolfEn * 1.1
-wolfFa = max(newStartingParams[2], 5) # minimum of 5
 
-rabbitEn = max(newStartingParams[3], 25) # minimum of 25
-rabbitRe = max(newStartingParams[4], round((rabbitEn * 1.1), 0)) # minimum of rabbitEn * 1.1
-rabbitFa = max(newStartingParams[5], 5) # minimum of 5
+if bigRun == True:
+    # ONCE WE REACHED SUCCESS, RUN A BIG ONE
+    # set parameters for this run
+    wolfEn = max(newStartingParams[0], 100) # minimum of 100
+    wolfRe = max(newStartingParams[1], round((wolfEn * 1.1), 0)) # minimum of wolfEn * 1.1
+    wolfFa = max(newStartingParams[2], 5) # minimum of 5
 
-# minumum of 1 for each of these
-wolfNum = max(int(max(newStartingParams[6], 1)), 1)
-rabbitNum = max(int(max(newStartingParams[7], 1)), 1)
-grassNum = int(max(newStartingParams[8], 1))
-debrisNum = int(max(newStartingParams[9], 1))
+    rabbitEn = max(newStartingParams[3], 25) # minimum of 25
+    rabbitRe = max(newStartingParams[4], round((rabbitEn * 1.1), 0)) # minimum of rabbitEn * 1.1
+    rabbitFa = max(newStartingParams[5], 5) # minimum of 5
 
-runSim(file_name,
-      tests,
-      10000,
-      wolfEn,
-      wolfRe,
-      wolfFa,
-      rabbitEn,
-      rabbitRe,
-      rabbitFa,
-      wolfNum,
-      rabbitNum,
-      grassNum,
-      debrisNum,
-      endOnOverflow = False,
-      saveYearStats = True,
-      savePlotDF = True,
-      epochNum = (i + seedReps + 1))
+    # minumum of 1 for each of these
+    wolfNum = max(int(max(newStartingParams[6], 1)), 1)
+    rabbitNum = max(int(max(newStartingParams[7], 1)), 1)
+    grassNum = int(max(newStartingParams[8], 1))
+    debrisNum = int(max(newStartingParams[9], 1))
+
+    runSim(saveDir,
+          tests,
+          10000,
+          wolfEn,
+          wolfRe,
+          wolfFa,
+          rabbitEn,
+          rabbitRe,
+          rabbitFa,
+          wolfNum,
+          rabbitNum,
+          grassNum,
+          debrisNum,
+          endOnOverflow = False,
+          saveParamStats = True,
+          savePlotDF = True,
+          epochNum = (i + seedReps + 1))
