@@ -74,8 +74,8 @@
         
         function getData(epochNumberString) {
             checkRadio();
-            console.log("plotData/" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
-            d3.csv("plotData/" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
+            console.log("plotDataLIVE/" + modelChoice + "/plotDF-" + epochNumberString + ".csv")
+            d3.csv("plotDataLIVE/" + modelChoice + "/plotDF-" + epochNumberString + ".csv", function(d) {
             //d3.csv("plotDataCont/plotDF-0.csv", function(d) {
                 // assign the data to the epoch variable
                 epoch = d;
@@ -89,7 +89,7 @@
             });
             
             if (modelChoice == 'Cont') {
-                d3.csv("plotData/" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
+                d3.csv("plotDataLIVE/" + modelChoice + "/paramStats-" + epochNumberString +".csv", function(d) {
                 //d3.csv("plotDataCont/paramStats-0.csv", function(d) {
                 // assign the data to the epoch variable
                 yearStats = d;
@@ -113,7 +113,7 @@
             }
             
             // get data for newStats plot
-            d3.csv("plotData/" + modelChoice + "/epochStats.csv", function(d) {
+            d3.csv("plotDataLIVE/" + modelChoice + "/epochStats.csv", function(d) {
                 // assign the data to the epoch variable
                 epochStatsNewData = d;
                 
@@ -325,11 +325,11 @@
             }
             
             // set initial value for maxEpochs I DON'T UNDERSTAND WHY THIS DOESN'T WORK
-            d3.csv("plotData/" + modelChoice + "/epochStats.csv", function(d) {
+            d3.csv("plotDataLIVE/" + modelChoice + "/epochStats.csv", function(d) {
                 maxEpochs = d.length;
             });
             
-            getNewStatsData('plotData/' + modelChoice + '/epochStats-long.csv', maxEpochs);
+            getNewStatsData('plotDataLIVE/' + modelChoice + '/epochStats-long.csv', maxEpochs);
 
         }
         
