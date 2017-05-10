@@ -1,7 +1,7 @@
-# Big Valley 
+# bigValley 
 ## Play God, in Python
 
-created by Seth Green, based on an exercise in Eloquent Javascript by Marijn Haverbeke
+created by Seth Green, based on an exercise in *Eloquent Javascript* by Marijn Haverbeke
 
 Big Valley is a little simulated ecosystem with three kinds of critters: grass, rabbits, and wolves. Grass grows on rocks, and then is eaten by rabbits. Rabbits, in turn, are eaten by wolves. As each year passes, each critter does one of three things:
     1) reproduces, if she has enough energy
