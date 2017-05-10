@@ -405,8 +405,9 @@
         border-radius: 10px;
         -moz-border-radius: 10px;
         -webkit-border-radius: 10px;
-        margin:10px
-        white-space: wrap;
+        margin:10px;
+        white-space: wrap; 
+        cursor: pointer; cursor: hand;
         }
         
         .little-btn {
@@ -419,11 +420,15 @@
         }
 
         .big-btn {
-/*            background-color: #000000;*/
             color: #FFFFFF;
             width: 150px;
             height: 70px;
             font-size: 28px;
+        }
+        
+        .speciesHover {
+            height: 20px;
+            cursor: pointer; cursor: hand;
         }
         
         *{font-family:"Trebuchet MS";}
@@ -464,10 +469,10 @@
         
     <span>hover to select species:</span>
     <span style="padding-top: 5px;">
-    <img src="icons/wolvesIcon.png" height=20 onmouseover="showWolves=true;" onmouseout="showWolves=false;">
-    <img src="icons/rabbitsIcon.png" height=20 onmouseover="showRabbits=true;" onmouseout="showRabbits=false;">
-    <img src="icons/grassIcon.jpg" height=20 onmouseover="showGrass=true;" onmouseout="showGrass=false;">
-    <img src="icons/rocksIcon.png" height=20 onmouseover="showRocks=true;" onmouseout="showRocks=false;">
+    <img src="icons/wolvesIcon.png" class="speciesHover" onmouseover="showWolves=true;" onmouseout="showWolves=false;">
+    <img src="icons/rabbitsIcon.png" class="speciesHover" onmouseover="showRabbits=true;" onmouseout="showRabbits=false;">
+    <img src="icons/grassIcon.jpg" class="speciesHover" onmouseover="showGrass=true;" onmouseout="showGrass=false;">
+    <img src="icons/rocksIcon.png" class="speciesHover" onmouseover="showRocks=true;" onmouseout="showRocks=false;">
     </span>
     <p></p>
     
