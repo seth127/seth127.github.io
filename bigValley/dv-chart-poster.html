@@ -21,9 +21,7 @@
 
     var newStatsDF;
     function getNewStatsData(directory,SVGname) {
-        //d3.csv('plotDataRF/epochStats-long.csv', function(d) {
-        //d3.csv('plotData-epochs/epochStats-KDF.csv', function(d) {
-        var filename = 'plotData/'+directory+'/epochStats-long.csv'
+        var filename = 'plotDataLIVE/'+directory+'/epochStats-long.csv'
         d3.csv(filename, function(d) {
             newStatsDF = d;
             drawNewStats(SVGname);
