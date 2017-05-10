@@ -1,4 +1,4 @@
-# python bigValleyLearningRF1.py 1 500 50 new
+# python bigValleyLearningD3RF.py 1 500 50 new
 
 import sys
 import os
@@ -44,7 +44,7 @@ else:
 
 #
 # make directory for storing
-saveDir = 'plotData/LM-' + simID
+saveDir = 'plotData/RF-' + simID
 if not os.path.exists(saveDir):
     os.makedirs(saveDir)
 

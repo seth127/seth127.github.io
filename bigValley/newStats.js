@@ -45,7 +45,7 @@ function drawNewStats(maxEpochs) {
                 })
             .attr ("stroke-width", 1.5)
             .attr ("stroke", '#ccc')
-            .attr ("r",function(d) { return d.value / 8; })
+            .attr ("r",function(d) { return d.value / 6.5; })
             .attr("fill",function(d) { 
                     if (d.stat.includes("grass")) {
                         return "green";
@@ -112,7 +112,7 @@ function drawEpochLine(maxEpochs) {
     // line to show which epoch we're on
     newStatsSVG.append("line")
         .attr("id", "epochLine")
-        .attr("stroke", '#caa')
+        .attr("stroke", '#a44')
         .attr("opacity", 0.4)
         .attr("stroke-width", 2)
         .attr("x1", spreadX/2 + (epochNum*epochLineScale))

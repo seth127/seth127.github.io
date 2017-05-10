@@ -3,7 +3,7 @@ library(tidyr)
 library(ggplot2)
 library(dplyr)
 
-theDir <- 'LM-O55'
+theDir <- 'LM-V6P'
 
 df <- read.csv(paste('plotData', theDir, 'epochStats.csv',sep='/'))
 
@@ -32,7 +32,7 @@ newDF <- scaleEpochs(df,10)
 ggplot(newDF[grep('dead|Num',newDF$stat),], aes(x=labels, y=value, colour=stat)) + geom_point()
 
 # write back to csv
-write.csv(newDF, paste('plotData', theDir, 'epochStats-long.csv',sep='/'))
+write.csv(newDF, paste('plotData', theDir, 'epochStats-long.csv',sep='/'), row.names=F)
 
 ##### change all files in this directory
 f <- list.files('plotData-epochs')
