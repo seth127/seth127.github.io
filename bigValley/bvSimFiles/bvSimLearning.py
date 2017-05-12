@@ -18,6 +18,25 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 #'file' + id_generator()
 
+def makeLongEpochStats(df, saveDir, scaleFactor=10, learningCutoff=0):
+    # define the stats to summarize
+    stats = ['deadWorld','wolfEn', 'wolfRe', 'wolfFa', 'rabbitEn', 'rabbitRe', 'rabbitFa', 
+           'wolfNum', 'rabbitNum', 'grassNum', 'debrisNum']
+    # trim the data to the observations we want to use
+    dfLen = df.shape[0]
+    df = df.iloc[learningCutoff:dfLen]
+    # create label vector
+    labels = []
+    for num in range(scaleFactor):
+        labels += [num for x in range(int(np.ceil(dfLen/scaleFactor)))]
+    # assign label vector to column
+    df['labels'] = labels[:dfLen]
+    # convert to long format
+    df_long = pd.melt(df, id_vars=['labels'], value_vars=stats)
+    # summarize each stat by label
+    df_mean = df_long.groupby(['labels','variable'])['value'].mean()
+    # write to csv
+    pd.DataFrame(df_mean).to_csv(saveDir + '/epochStats-long.csv')
 
 ######## PARAMETERS FOR LOADING DATA AND MODELING
 '''
@@ -287,13 +306,19 @@ def runSim(saveDir,
     file = open(saveDir + '/epochStats.csv', "a")
     #write the new line
     file.write(str(thisSim).strip('[]') + '\n')
-    #print the number of lines logged to the file
-    #file_len(saveDir + '/epochStats.csv')
-    print("%d lines in your choosen file" % len(open(saveDir + '/epochStats.csv').readlines()))
-    ##print "%d lines in your choosen file" % len(file.readlines())
-
     #close the file
     file.close()
+
+    #print the number of lines logged to the file
+    #epochsRun = len(open(saveDir + '/epochStats.csv').readlines())
+    epochStats = pd.read_csv(saveDir + '/epochStats.csv')
+    epochsRun = epochStats.shape[0]
+    print("%d EPOCHS HAVE BEEN RUN SO FAR" % epochsRun)
+    
+    # if more than 20, calculate long stats
+    if epochsRun > 20:
+        makeLongEpochStats(epochStats, saveDir)
+    
     print(datetime.datetime.now()-start)
     print('%%%%%%%%')
 
