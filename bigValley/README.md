@@ -33,22 +33,22 @@ There were **a total of ten parameters** which were set at the beginning of each
 
 *Note:* Several learning rates and modeling hyperparameter settings were tried until an optimal setting was found for both the Linear Model and Random Forest. For brevity's sake, only the results of the optimal models are discussed below.
 
-###Initial Training Runs
+### Initial Training Runs
 Before each test run, 25 epochs of the world were run with parameters centered around the starting statistics noted in the appendix. These parameters had random normal noise added to them each epoch, so that some semblance of a "normal distribution" of training simulations could be generated. Additionally, the starting placement of each critter was random each time, so this added another stochastic element to each iteration. 
 
 Once 25 epochs were run, the first *modeling iteration* began by training its model on those 25 and setting its parameters accordingly.
 
-###Stabilization Threshold
+### Stabilization Threshold
 Each epoch was set to run until either rabbits or wolves went extinct **or** until it had reached a pre-set "success" threshold (running for 500 years without an extinction, or growing to 10,000 total critters). In the examples below, 50-75 learning runs were conducted and before the summary statistics were calculated. In the plots below, each test run is identified with a 3-character alpha-numeric ID, for purposes of easier comparison between plots. The prefix **LM-** indicates that run used a Linear Model for learning, while **RF-** indicates Random Forest. 
 
-##Response Surface Linear Model
+## Response Surface Linear Model
 After the initial 25 training epochs, an OLS linear model was fit with the ten parameters discussed above as the explanatory variables, and the year of the first extinction for that iteration as the response. Thus, the response was bounded, with 1 (an extinction in the first year, very unlikely) on the lower end and 500 (the max years allowed before restart) on the upper.
 
 The default starting parameters (listed in the appendix), were then adjusted in the direction of the coefficient for that parameter. 
 
 This process was repeated with each epoch, so that a model was fit on all 25 training iterations, *and all the previous learning epochs*, and then the starting parameters were adjusted accordingly for the next epoch. Below are visualizations of two of the linear model simulations.
 
-###Critter Stats: Linear Model
+### Critter Stats: Linear Model
 ![.](plotsForMarkdown/LM-6E2.jpg)
 
 ![.](plotsForMarkdown/LM-O55.jpg)
@@ -60,12 +60,12 @@ Though the traces are far from identical, some patterns emerge. For instance, in
 However, it is more interesting to note the the parameters of the wolves and rabbits move in somewhat opposite directions. `6E2` converges on a tiny number of very large wolves that reproduce easily, and a large population of tiny rabbits that need more energy before they can reproduce. On the other hand, `O55` finds a balance with a larger population of medium-sized, slower reproducing wolves, and moderate number of large rabbits that reproduce quickly.
 
 
-##Random Forest Model
+## Random Forest Model
 The Random Forest Model took an entirely different approach. Again, each test run began with 25 training iterations. Then, on *each learning iteration* a Random Forest Regressor was fit to the training data (which again included the initial 25, and *all* previous learning epochs).  At this point 100 sets of parameters were generated with random normal variation around a "center value"" for each parameter. The newly trained Regressor then predicts the year of first extinction for each of those 100 parameter sets, and chooses the one with the best predicted outcome (i.e. most years until an extinction). This "best parameter set" is then used to run the current epoch.
 
 *Note:* These "center values" for generating the 100 options are initially set to the default values in the appendix, but once the algorithm begins learning, they are set to the values of the "best parameter set" predicted in the previous epoch. This provides for a slower movement of the parameters that explores more of the feaure space, as compared to the Linear Model approach.
 
-###Critter Stats: Random Forest
+### Critter Stats: Random Forest
 ![.](plotsForMarkdown/RF-R7J.jpg)
 
 ![. ](plotsForMarkdown/RF-OUP.jpg)
@@ -73,14 +73,14 @@ The Random Forest Model took an entirely different approach. Again, each test ru
 These two are a little less distinct than the two linear modeled runs, though they do show yet another set of plausible solutions. While both opt for a small number of medium-sized wolves that reproduce fairly slowly, `OUP` actually appears to be moving towards *even smaller* wolves as it learns. Both runs converge towards rabbits that don't reproduce overly quickly, though `R7J` has a moderate number of medium-sized rabbits, while `OUP` shows a small number of tiny rabbits.
 
 
-##Conclusions and Next Steps
+## Conclusions and Next Steps
 
-###Looking beyond "best"
+### Looking beyond "best"
 These kinds of simulations have applications in a broad array of fields, from wildlife biology to ambulance routing to modeling online communities. As opposed to finding the a single "best" set of parameters, the primary gain from an Agent-based Model such as this is the ability to explore the interactions between the parameters, and to explore what is likely a very large space of possible solutions to a given problem.
 
 The linear modeling approach seems to converge to its optimal settings more quickly than the Random Forest. However, consider a real-world situation where certain parameters cannot simply be "turned up or down" without some great cost. Sure, it might be "better" if *grassNum* was higher, but imagine that this represents something like "the number of Red Cross food drops in a disaster area". It may not be practical to simply quadruple the number of food drop sites. In this light, Random Forests and other non-parametric models bring much to the table.
 
-###Next steps
+### Next steps
 There are many directions that this research could go. One obvious example would be to introduce entirely new agents (for instance "super predators" to eat wolves; or perhaps a large, slower-to-reproduce herbivore to coexist with the smaller, faster rabbits). However, if there is to be any real-world gain from this kind of modeling, we must be sure not to introduce too many variables that are beyond our control.
 
 Another interesting approach would be to set up different "continents." This would entail simulating four ecosystems simultaneously, but *far away* from each other on the grid. Eventually, the populations would expand enough to interact with each other. Observing the interactions on these borders of differently-evolved populations would be fascinating. A beta test of this can be seen by visiting the [visualization above](https://seth127.github.io/bigValley/) and clicking on the "Continents" radio button.
@@ -90,8 +90,8 @@ The limit of 500 years per epoch could also be increased. This is perhaps the ea
 ### Customize
 For those adventurous souls, feel free to open up the bvLife.py and create some creatures of your own. A ruminant who gets double energy from each plant eaten? A predator that hunts in packs? A carniverous plant that eats low-energy foragers? The only limit is your own imagination...
 
-#Brief Documentation:
-###Simulation Functions
+# Brief Documentation:
+### Simulation Functions
 
 `bigValleyLearningD3LM.py`: runs simulations of the world and learns the optimal parameters with the Linear Model approach, discussed above. It takes three arguments:
     1) the max number of years to run before restarting (if there has not been an extinction)
@@ -102,7 +102,7 @@ For those adventurous souls, feel free to open up the bvLife.py and create some 
 
 For both programs, a log of each year and epoch is saved in the `plotData/` folder. This then referenced by `index.html` for the visualization. Note that the visualization actually references the `plotDataLIVE/` folder. To visualize your new simulations, you must drag their data folder into `plotDataLIVE/` and then modify `index.html` to read it. In `index.html`, you must only add another radio button to reference it and increment up the count in the `checkRadio()` function to reflect the correct total of simulations in `plotDataLIVE/`.
 
-###Helper Functions
+### Helper Functions
 `bvSim.py` and `bvSimLearning.py` set up each simulation and save it's output appropriately.
 
 `bvLife.py` contains definitions of all the critters and the methods they use to act and live.
@@ -110,9 +110,9 @@ For both programs, a log of each year and epoch is saved in the `plotData/` fold
 `bvWorldEvo.py` contains all the code to run each year (mostly contained in `silentTime()`). It also contains many helper functions for reproduction and eating, etc.
 
 
-###Appendix
+### Appendix
 
-####Default Starting Parameters
+#### Default Starting Parameters
 *wolf stats*
 Energy = 300
 Repro = 400
