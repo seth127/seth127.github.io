@@ -1,4 +1,6 @@
 *.pyc
 *.Rhistory
+*.DS_Store
 
 bigValley/plotData/*
+bigValley/.ipynb_checkpoints/*

@@ -11,7 +11,11 @@
     <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <script type="application/javascript">
         
-    var directories = ['RF-orig','LM-orig','LM-O55','RF-OUP','LM-V6P']
+    // get list of directories (right now you have to manually run updataSimsList.py whenever you add new sims)
+    var directories
+    d3.csv('plotDataLIVE/simsList.csv', function(d) {
+        directories = d.map(d => d.sims)
+    });
         
     var newStatsWidth = 1000
     var newStatsHeight = 390
@@ -180,7 +184,7 @@
     }
     
        
-    function drawSVGS(directories) {
+    function drawSVGS() {
         
         for (i=0; i < directories.length; i++) {
             //select the directory to plot
@@ -237,7 +241,7 @@
     
     
 </head>
-<body onload="drawSVGS(directories)">
+<body onload="setTimeout(drawSVGS,500)">
 <!--<body onload="getNewStatsData(directories[1],'newStats')">-->
     
 <!--        <svg id="newStats" width="900" height="390"></svg>-->

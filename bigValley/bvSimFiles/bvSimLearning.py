@@ -27,7 +27,7 @@ def makeLongEpochStats(df, saveDir, scaleFactor=10, learningCutoff=0):
     df = df.iloc[learningCutoff:dfLen]
     # create label vector
     labels = []
-    for num in range(scaleFactor):
+    for num in range(1, scaleFactor+1):
         labels += [num for x in range(int(np.ceil(dfLen/scaleFactor)))]
     # assign label vector to column
     df['labels'] = labels[:dfLen]
@@ -40,7 +40,7 @@ def makeLongEpochStats(df, saveDir, scaleFactor=10, learningCutoff=0):
 
 ######## PARAMETERS FOR LOADING DATA AND MODELING
 '''
-simCols = ['tests','years','firstExt', 'firstExtSTD', 'deadWorld', 'deadWorldSTD', 'id',
+simCols = ['years','firstExt', 'firstExtSTD', 'deadWorld', 'deadWorldSTD', 'id',
       'wolfEn',
       'wolfRe',
       'wolfFa',
@@ -178,7 +178,6 @@ def learnParamsLM(saveDir,
     return adjustments
 
 def testLife(saveDir,
-        tests, 
         years, 
         wolfEn,
         wolfRe,
@@ -196,38 +195,38 @@ def testLife(saveDir,
         savePlotDF = False,
         epochNum = 1):
     testStats = []
-    for i in range(0, tests):
-        #create an instance of World 
-        bigValley = World(5,saveDir)
-        print(datetime.datetime.now())
 
-        #define your life forms
-        newLife(Predator('wolf', energy = wolfEn, repro = wolfRe, fatigue = wolfFa), 
-                bigValley, 'wolf') # adding in the parameters from above
-        newLife(Prey('rabbit', energy = rabbitEn, repro = rabbitRe, fatigue = rabbitFa), 
-                bigValley, 'rabbit') # adding in the parameters from above
-        newLife(Plant('grass'), bigValley, 'grass')
-        newLife(Rock('debris'), bigValley, 'debris')
+    #create an instance of World 
+    bigValley = World(5,saveDir)
+    print(datetime.datetime.now())
 
-        #now populate the world
-        populate(bigValley, 'wolf', wolfNum)
-        populate(bigValley, 'rabbit', rabbitNum)
-        populate(bigValley, 'grass', grassNum)
-        populate(bigValley, 'debris', debrisNum)
-        
-        #now run the test
-        test = bigValley.silentTime(years, 
-            yearlyPrinting = True, 
-            endOnExtinction = endOnExtinction, 
-            endOnOverflow = endOnOverflow,
-            saveParamStats = saveParamStats,
-            savePlotDF = savePlotDF,
-            epochNum = epochNum)
-        testStats.append(test)
-        print('testStats ' + str(i) + ' ::: ' + str(testStats))
-        
-        # return stats for each test
-        testDF = pd.DataFrame(testStats, columns=['firstExt', 'deadWorld', 'id'])
+    #define your life forms
+    newLife(Predator('wolf', energy = wolfEn, repro = wolfRe, fatigue = wolfFa), 
+            bigValley, 'wolf') # adding in the parameters from above
+    newLife(Prey('rabbit', energy = rabbitEn, repro = rabbitRe, fatigue = rabbitFa), 
+            bigValley, 'rabbit') # adding in the parameters from above
+    newLife(Plant('grass'), bigValley, 'grass')
+    newLife(Rock('debris'), bigValley, 'debris')
+
+    #now populate the world
+    populate(bigValley, 'wolf', wolfNum)
+    populate(bigValley, 'rabbit', rabbitNum)
+    populate(bigValley, 'grass', grassNum)
+    populate(bigValley, 'debris', debrisNum)
+    
+    #now run the test
+    test = bigValley.silentTime(years, 
+        yearlyPrinting = True, 
+        endOnExtinction = endOnExtinction, 
+        endOnOverflow = endOnOverflow,
+        saveParamStats = saveParamStats,
+        savePlotDF = savePlotDF,
+        epochNum = epochNum)
+    testStats.append(test)
+    print('testStats ::: ' + str(testStats))
+    
+    # return stats for each test
+    testDF = pd.DataFrame(testStats, columns=['firstExt', 'deadWorld', 'id'])
 
     #return testStats
     print(testDF)
@@ -246,7 +245,6 @@ def file_len(fname):
 '''
 
 def runSim(saveDir,
-          tests,
           years,
           wolfEn,
           wolfRe,
@@ -265,8 +263,7 @@ def runSim(saveDir,
           epochNum = 1):
     start=datetime.datetime.now()
     #file_name = 'data/' + str(tests) + 'x' + str(years) + '-' + id_generator() + '.csv' 
-    testDF = testLife(saveDir,
-        tests, 
+    testDF = testLife(saveDir, 
         years, 
         wolfEn,
         wolfRe,
@@ -284,7 +281,6 @@ def runSim(saveDir,
         savePlotDF = savePlotDF,
         epochNum = epochNum)
     thisSim = [
-        tests,
         years,
         round(np.mean(testDF['firstExt']), 2), # first extinction
         round(np.std(testDF['firstExt']), 2),
@@ -386,7 +382,7 @@ def continentLife(saveDir,
         continents = True,
         epochNum = epochNum)
     testStats.append(test)
-    print('testStats ' + str(i) + ' ::: ' + str(testStats))
+    print('testStats ::: ' + str(testStats))
     
     # return stats for each test
     testDF = pd.DataFrame(testStats, columns=['firstExt', 'deadWorld', 'id'])
@@ -400,7 +396,6 @@ def continentLife(saveDir,
 ##############
 
 def runSimLearningRF1(saveDir, 
-          tests,
           years,
           wolfEn,
           wolfRe,
@@ -419,8 +414,7 @@ def runSimLearningRF1(saveDir,
           savePlotDF = False,
           epochNum = 1):
     start=datetime.datetime.now()
-    #file_name = 'data/' + str(tests) + 'x' + str(years) + '-' + id_generator() + '.csv' 
-    
+
     ####### DO THE LEARNING
 
     winner = learnParamsRF(optsNum,
@@ -445,7 +439,6 @@ def runSimLearningRF1(saveDir,
     ####### RUN THE SIM
 
     testDF = testLife(saveDir,
-        tests, 
         years, 
         int(winner['wolfEn']),
         int(winner['wolfRe']),
@@ -463,7 +456,6 @@ def runSimLearningRF1(saveDir,
         savePlotDF = savePlotDF,
         epochNum = epochNum)
     thisSim = [
-        tests,
         years,
         round(np.mean(testDF['firstExt']), 2), # first extinction
         round(np.std(testDF['firstExt']), 2),

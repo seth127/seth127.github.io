@@ -1,4 +1,4 @@
-# python bigValleyLearningD3RF.py 1 500 50 new
+# python bigValleyLearningD3RF.py 500 50 new plot
 
 import sys
 import os
@@ -21,14 +21,11 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 ## SET PARAMETERS
 
-# number of tests for each epoch (these are averaged together before saving as a single line)
-##you can turn on saving at the end of testLife() to save a separate .csv with each run in it
-tests = int(sys.argv[1]) # default is 3
 #max number of years for each epoch
-years = int(sys.argv[2]) # default is 500
+years = int(sys.argv[1]) # default is 500
 
 # number of simulations to run in total before the the program quits
-reps = int(sys.argv[3]) # default is 5
+reps = int(sys.argv[2]) # default is 5
 ### NOTE: IF STARTING ANEW, it will run 500 dumb reps 
 #### and THEN start the prescribed number of learning reps
 
@@ -36,11 +33,20 @@ seedReps = 25
 bigRun = False # whether to run one for 10,000 years at the end
 
 # either give it 'new' to start over or the ID code of a past trial to continue
-if sys.argv[4] == 'new':
+if sys.argv[3] == 'new':
   simID = id_generator(3)
   print('STARTING ANEW ')
 else:
-  simID = sys.argv[4]
+  simID = sys.argv[3]
+
+# either give it 'plot' to save plotData or anything else to only save epochStats
+if sys.argv[4] == 'plot':
+  plotting = True
+  print('PLOTTING!!!')
+else:
+  plotting = False
+  print('NOT plotting!!!')
+
 
 #
 # make directory for storing
@@ -50,7 +56,7 @@ if not os.path.exists(saveDir):
 
 # write file headers for the new file
 epochStats = open(saveDir + '/epochStats.csv', "w")
-epochStats.write('tests,years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
+epochStats.write('years,firstExt,firstExtSTD,deadWorld,deadWorldSTD,id,wolfEn,wolfRe,wolfFa,rabbitEn,rabbitRe,rabbitFa,wolfNum,rabbitNum,grassNum,debrisNum\n')
 epochStats.close()
 
 #wolf stats
@@ -89,7 +95,7 @@ xList = ['wolfEn',
 ########
 # IF STARTING ANEW, run 500 dumb reps before fitting the initial model
 ########
-if sys.argv[4] == 'new':
+if sys.argv[3] == 'new':
     for i in range(0, seedReps):
         # set parameters for this run
         wolfEn = int(we + (np.random.randn(1)[0] * 10))
@@ -112,7 +118,6 @@ if sys.argv[4] == 'new':
 
         # RUN THE SIM
         runSim(saveDir,
-              tests,
               years,
               wolfEn,
               wolfRe,
@@ -125,7 +130,7 @@ if sys.argv[4] == 'new':
               grassNum,
               debrisNum,
               endOnExtinction = True,
-              savePlotDF = True,
+              savePlotDF = plotting,
               saveParamStats = False,
               epochNum = i)
 # if not new, assign starting params as where we left off
@@ -213,7 +218,6 @@ for i in range(0, reps):
 
     # RUN THIS ITERATION
     runSim(saveDir,
-          tests,
           years,
           we,
           wr,
@@ -226,14 +230,13 @@ for i in range(0, reps):
           gn,
           dn,
           endOnOverflow = True,
-          savePlotDF = True,
+          savePlotDF = plotting,
           saveParamStats = False,
           epochNum = (i + seedReps))
 
 if bigRun == True:
     # ONCE WE REACHED SUCCESS, RUN A BIG ONE
     runSim(saveDir,
-          tests,
           10000,
           we,
           wr,
@@ -246,6 +249,6 @@ if bigRun == True:
           gn,
           dn,
           endOnOverflow = False,
-          savePlotDF = True,
+          savePlotDF = plotting,
           saveParamStats = False,
           epochNum = (i + seedReps + 1))
