@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>drinkBase</title>
+    
+    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	
+    
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="application/javascript">
+        
+    // get list of directories (right now you have to manually run updataSimsList.py whenever you add new sims)
+        /*
+    var directories = ['data/whiskey_drinks.csv'];
+    d3.csv('plotDataLIVE/simsList.csv', function(d) {
+        directories = d.map(d => d.sims)
+    });*/
+        
+    var newStatsWidth = 1000
+    var newStatsHeight = 390
+
+    var spreadX = newStatsWidth/12;
+    var spreadY = newStatsHeight/3;
+
+    var newStatsDF;
+    function getNewStatsData(SVGname) {
+        var filename = 'data/selected_gin.csv'
+        d3.csv(filename, function(d) {
+            newStatsDF = d;
+            drawPlot(SVGname);
+        });
+    }
+
+    function drawPlot(SVGname) {
+        newStatsSVG = d3.select('#' + SVGname);
+        
+        newStatsSVG.append("line")
+                    .attr("x1",200)
+                    .attr("x2",725)
+                    .attr("y1",300)
+                    .attr("y2",300)
+                    .attr("stroke","#888");
+        
+        newStatsSVG.append("line")
+                    .attr("x1",462)
+                    .attr("x2",462)
+                    .attr("y1",45)
+                    .attr("y2",560)
+                    .attr("stroke","#888");
+
+        newStatsSVG.append("text")
+                .text("<- (less)        Sugar        (more) ->")
+                .attr ("x",462)
+                .attr ("y",595)
+                .attr ("text-anchor", "middle")
+                .attr ("alignment-baseline", "ideographic")
+                .style ("fill","#444")
+                .style ("font-size","13pt")
+                .attr ("opacity", 0.4);
+        
+        newStatsSVG.append("text")
+                .text("<- (less)        Alcohol        (more) ->")
+                .attr ("x",875)
+                .attr ("y",310)
+                .attr ("text-anchor", "middle")
+                .attr ("alignment-baseline", "ideographic")
+                .style ("fill","#444")
+                .style ("font-size","13pt")
+                .attr ("opacity", 0.4)
+                .attr('transform', 'rotate(270 875 295)');
+        
+        newStatsSVG.selectAll("circle").remove()
+        //newStatsSVG.selectAll("line").remove()
+        var theOffset = 0;
+
+        /*var hoverText = d3.select("body").append("div")	
+                .attr("class", "tooltip")				
+                .style("opacity", 0);*/
+        
+        var abvCirc = newStatsSVG.selectAll("#abvCircle")
+                .data(newStatsDF)
+                .enter().append("circle")
+                .attr("id", "abvCircle")
+                .attr ("stroke-width", function(d) {
+                        if (d.selected == 1) {
+                            return 0.75
+                        } else {
+                            return 0
+                        }
+                    })
+                .attr ("stroke", '#999')
+                .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
+                .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
+                .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
+                .attr ("fill-opacity", function(d) {
+                        if (d.selected == 1) {
+                            return 0.75
+                        } else {
+                            return 0.1
+                        }
+                    })
+                .attr("fill",function(d) { 
+                        if (d.style.includes("stirred")) {
+                            return "#a5693d";
+                        } else if (d.style.includes("bubbly")) {
+                            return "#f7e571";
+                        } else if (d.style.includes("shaken")) {
+                            return "#100656";
+                            //return "#240ccc";
+                        } else {
+                            return "#aaa";
+                        }
+                    })
+                .on("mouseover", highlight)
+                .on("mouseout", unhighlight);
+        
+        /*var acidCirc = newStatsSVG.selectAll("#acidCircle")
+                .data(newStatsDF)
+                .enter().append("circle")
+                .attr("id", "acidCircle")
+                .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
+                .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
+                .attr ("fill-opacity",0.001)
+                .attr ("opacity", function(d) {
+                        if (d.selected == 1) {
+                            return 0.9
+                        } else {
+                            return 0.1
+                        }
+                    })
+                .attr ("stroke-width", 1)
+                .attr ("stroke", '#444')
+                .attr ("r",function(d) { return (d.acid * 2000) + 3; });
+                .on("mouseover", function(d){
+                    hoverText.transition().duration(200).style("opacity", .9);
+                    hoverText.text(d.name)	
+                        .style("left", (d3.event.pageX) + "px")		
+                        .style("top", (d3.event.pageY - 28) + "px")
+                })
+                .on("mouseout", function(){
+                    hoverText.transition().duration(200).style("opacity", 0);
+                });*/
+        
+        /*var texts = newStatsSVG.selectAll("text")
+                .data(newStatsDF)
+                .enter().append("text")
+                .attr ("x",function(d) { return Math.max(30, (d.sugar * 6000));})
+                .attr ("y",function(d) { return Math.max(30, (610 - (d.alcohol * 1800)));})
+                .style ("fill","#444")
+                .attr ("opacity", 0.25)
+                .attr('transform', function(d, i) {
+                    var xName = Math.max(30, (d.sugar * 6000))
+                    var yName = Math.max(30, (610 - (d.alcohol * 1800)))
+                    return 'rotate(315 ' + xName + ' ' + yName + ')';
+                })
+                .text(function(d){ return d.name; });*/
+            
+
+        /*var meltCirc = newStatsSVG.selectAll("#meltCircle")
+        .data(newStatsDF)
+            .enter().append("circle")
+            .attr("id", "meltCircle")
+                .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
+                .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
+                .attr ("r",function(d) { return (d.oz * d.oz) + 3; })
+                .attr ("fill-opacity",0.0)
+                .attr ("opacity",0.25)
+                .attr ("stroke-width", function(d) { return d.melt * 10;})
+                .attr ("stroke", '#7BF');*/
+        
+        
+    }        
+        
+        
+        
+       
+    function drawSVGS() {
+        /*
+        for (i=0; i < directories.length; i++) {
+            //select the directory to plot
+            var thisOne = directories[i];
+            console.log(thisOne);*/
+        //create an svg for it
+        d3.select("body").append("svg")
+            .attr("class", "epochPlot")
+            .attr("width", 925)
+            .attr("height", 630)
+            .attr("id",'theDrinks')
+            .attr("background-color",'#ccc');
+        //plot it
+        getNewStatsData('theDrinks');
+            /*
+            //make a line to separate it from the next
+            d3.select("body").append("svg")
+                .attr("class","divider")
+                .attr("width", 925)
+                .attr("height", 20)
+                .append("line")
+                    .attr("x1",20)
+                    .attr("x2",880)
+                    .attr("y1",10)
+                    .attr("y2",10)
+                    .attr("stroke","#888");
+        }*/
+
+    }
+        
+    // the tooltip functions
+    
+    function highlight(d,i) {
+
+        
+        var circle = d3.select(this)
+            .attr("fill-opacity",1)
+            .style("stroke-width",1.5);/*
+            .style("stroke","yellow")
+            .style("stroke-width","3");*/
+        
+        d3.select("#tooltip")
+            .style("left", d3.event.pageX + 5 + "px")
+            .style("top", d3.event.pageY - 30 + "px")
+            //.text(d.name)
+            .style("visibility","visible");
+        
+        d3.select("#drinkName").text(d.name);
+        d3.select("#drinkStyle").text(d.style);
+        d3.select("#drinkIngredients").text(d.ingredients);
+        
+    }
+
+    function unhighlight(d,i) {
+        var circle = d3.select(this)
+            .attr("fill-opacity", function(d) {
+                        if (d.selected == 1) {
+                            return 0.75
+                        } else {
+                            return 0.1
+                        }
+                    })
+            .style("stroke-width",0.75);/*
+            .style("stroke","")
+            .style("stroke-width","");*/
+        
+        d3.select("#tooltip")
+            .style("visibility","hidden");
+    }
+        
+    </script>
+    
+    <style>
+        
+        #newStats {
+            position: absolute;
+            top: 100px;
+            left: 25px;
+            visibility: visible;
+            background-color: rgba(5, 5, 5, 0.2);
+        }
+        
+        .epochPlot {
+            visibility: visible;
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+        
+        .divider {
+            visibility: visible;
+            background-color: rgba(150, 150, 150, 0.2);
+        }
+        
+        *{font-family:"Trebuchet MS";}
+        
+        div.tooltip {	
+            position: absolute;			
+            /*text-align: center;			
+            width: 60px;					
+            height: 28px;					
+            padding: 2px;				
+            font: 12px sans-serif;		
+            background: lightsteelblue;	
+            border: 0px;		
+            border-radius: 8px;		*/	
+            pointer-events: none;			
+        }
+    </style>
+    
+    
+</head>
+<body onload="setTimeout(drawSVGS,500)">
+    <div class='graphLabels'>
+<!--<body onload="getNewStatsData(directories[1],'newStats')">-->
+    
+<!--        <svg id="newStats" width="900" height="390"></svg>-->
+    </div>
+    <div id="tooltip" class="tooltip">
+        <span id="drinkName" style="font-weight: bold"></span><br />  
+        <span id="drinkStyle" style="font-size: 10pt"></span> :
+        <span id="drinkIngredients" style="font-size: 8pt"></span>
+        <!--Fuel: <span id="plantFuelType"></span><br />
+        Generation: <span id="plantGeneration"></span> MWh<br />
+        CO2e: <span id="plantCO2e"></span> tons<br />-->
+    </div>
+</body>
+</html>

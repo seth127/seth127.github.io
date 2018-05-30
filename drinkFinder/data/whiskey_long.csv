@@ -1,0 +1,163 @@
+name,key,value
+Scotch Toddy,alcohol,0.133333333333333
+Southland Sipper,alcohol,0.14047619047619
+Bourbon Toddy,alcohol,0.154838699687826
+Hot Toddy,alcohol,0.164516118418315
+Blood and Sand,alcohol,0.174583333333333
+Whiskey Sour,alcohol,0.194285714285714
+Scofflaw Cocktail,alcohol,0.203125
+Brown Derby,alcohol,0.228571428571429
+Gold Rush,alcohol,0.228571428571429
+The Bitter Handshake,alcohol,0.23
+Penicillin,alcohol,0.242
+Seelbach Cocktail,alcohol,0.257142857142857
+Boulevardier,alcohol,0.297857142857143
+Bourbon Manhattan,alcohol,0.321666666666667
+Old Pal,alcohol,0.331785714285714
+Brooklyn,alcohol,0.336153846153846
+Bobby Burns,alcohol,0.34125
+Rob Roy,alcohol,0.345769230769231
+Vieux Carre,alcohol,0.349583333333333
+Manhattan,alcohol,0.354090909090909
+Scotch Old Fashioned,alcohol,0.369230712426044
+Improved Whiskey Cocktail,alcohol,0.372
+De La Louisiane,alcohol,0.3775
+Sazerac,alcohol,0.377777777777778
+Toronto,alcohol,0.379
+Old Fashioned,alcohol,0.392307631952672
+Rusty Nail,alcohol,0.4
+Scotch Toddy,sugar,0.0763333333333333
+Southland Sipper,sugar,0.101809523809524
+Bourbon Toddy,sugar,0.0198387480749195
+Hot Toddy,sugar,0.0198387480749195
+Blood and Sand,sugar,0.0606666666666667
+Whiskey Sour,sugar,0.107714285714286
+Scofflaw Cocktail,sugar,0.09675
+Brown Derby,sugar,0.117571428571429
+Gold Rush,sugar,0.135214285714286
+The Bitter Handshake,sugar,0.266666666666667
+Penicillin,sugar,0.1262
+Seelbach Cocktail,sugar,0.0357142857142857
+Boulevardier,sugar,0.114285714285714
+Bourbon Manhattan,sugar,0.0533333333333333
+Old Pal,sugar,0.0578571428571429
+Brooklyn,sugar,0.0623076923076923
+Bobby Burns,sugar,0.0604166666666667
+Rob Roy,sugar,0.0369230769230769
+Vieux Carre,sugar,0.0604166666666667
+Manhattan,sugar,0.0436363636363636
+Scotch Old Fashioned,sugar,0.0692308970414005
+Improved Whiskey Cocktail,sugar,0.0965
+De La Louisiane,sugar,0.0675
+Sazerac,sugar,0.0683333333333333
+Toronto,sugar,0.0695
+Old Fashioned,sugar,0.047307779644957
+Rusty Nail,sugar,0.06
+Scotch Toddy,acid,0.005
+Southland Sipper,acid,0.00857142857142857
+Bourbon Toddy,acid,0
+Hot Toddy,acid,0
+Blood and Sand,acid,0.00283333333333333
+Whiskey Sour,acid,0.00857142857142857
+Scofflaw Cocktail,acid,0.0133125
+Brown Derby,acid,0.00685714285714286
+Gold Rush,acid,0.0128571428571429
+The Bitter Handshake,acid,0.004
+Penicillin,acid,0.012
+Seelbach Cocktail,acid,0
+Boulevardier,acid,0.00171428571428571
+Bourbon Manhattan,acid,0.002
+Old Pal,acid,0.00128571428571429
+Brooklyn,acid,0.000923076923076923
+Bobby Burns,acid,0.0015
+Rob Roy,acid,0.00138461538461538
+Vieux Carre,acid,0.0015
+Manhattan,acid,0.00163636363636364
+Scotch Old Fashioned,acid,0
+Improved Whiskey Cocktail,acid,0
+De La Louisiane,acid,0.001
+Sazerac,acid,0
+Toronto,acid,0
+Old Fashioned,acid,0
+Rusty Nail,acid,0
+Scotch Toddy,oz,6
+Southland Sipper,oz,5.25
+Bourbon Toddy,oz,5.166667
+Hot Toddy,oz,5.166667
+Blood and Sand,oz,3
+Whiskey Sour,oz,4.375
+Scofflaw Cocktail,oz,4
+Brown Derby,oz,3.5
+Gold Rush,oz,3.5
+The Bitter Handshake,oz,3
+Penicillin,oz,3.75
+Seelbach Cocktail,oz,3.5
+Boulevardier,oz,3.5
+Bourbon Manhattan,oz,3
+Old Pal,oz,3.5
+Brooklyn,oz,3.25
+Bobby Burns,oz,3
+Rob Roy,oz,3.25
+Vieux Carre,oz,3
+Manhattan,oz,2.75
+Scotch Old Fashioned,oz,2.166667
+Improved Whiskey Cocktail,oz,2.5
+De La Louisiane,oz,3
+Sazerac,oz,2.25
+Toronto,oz,2.5
+Old Fashioned,oz,2.166667
+Rusty Nail,oz,2.5
+Scotch Toddy,style,
+Southland Sipper,style,
+Bourbon Toddy,style,
+Hot Toddy,style,
+Blood and Sand,style,shaken
+Whiskey Sour,style,fizz
+Scofflaw Cocktail,style,shaken
+Brown Derby,style,shaken
+Gold Rush,style,shaken
+The Bitter Handshake,style,stirred
+Penicillin,style,stirred
+Seelbach Cocktail,style,bubbly
+Boulevardier,style,stirred
+Bourbon Manhattan,style,stirred
+Old Pal,style,stirred
+Brooklyn,style,stirred
+Bobby Burns,style,stirred
+Rob Roy,style,stirred
+Vieux Carre,style,stirred
+Manhattan,style,stirred
+Scotch Old Fashioned,style,built
+Improved Whiskey Cocktail,style,stirred
+De La Louisiane,style,stirred
+Sazerac,style,stirred
+Toronto,style,stirred
+Old Fashioned,style,built
+Rusty Nail,style,stirred
+Scotch Toddy,glass,
+Southland Sipper,glass,
+Bourbon Toddy,glass,
+Hot Toddy,glass,
+Blood and Sand,glass,coupe
+Whiskey Sour,glass,coupe
+Scofflaw Cocktail,glass,coupe
+Brown Derby,glass,coupe
+Gold Rush,glass,old-fashioned
+The Bitter Handshake,glass,old-fashioned
+Penicillin,glass,coupe
+Seelbach Cocktail,glass,coupe
+Boulevardier,glass,coupe
+Bourbon Manhattan,glass,coupe
+Old Pal,glass,coupe
+Brooklyn,glass,coupe
+Bobby Burns,glass,coupe
+Rob Roy,glass,coupe
+Vieux Carre,glass,old-fashioned
+Manhattan,glass,coupe
+Scotch Old Fashioned,glass,old-fashioned
+Improved Whiskey Cocktail,glass,old-fashioned
+De La Louisiane,glass,coupe
+Sazerac,glass,old-fashioned
+Toronto,glass,coupe
+Old Fashioned,glass,old-fashioned
+Rusty Nail,glass,old-fashioned

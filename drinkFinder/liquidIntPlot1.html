@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>drinkBase</title>
+    
+    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	
+    
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="application/javascript">
+        
+    // get list of directories (right now you have to manually run updataSimsList.py whenever you add new sims)
+        /*
+    var directories = ['data/whiskey_drinks.csv'];
+    d3.csv('plotDataLIVE/simsList.csv', function(d) {
+        directories = d.map(d => d.sims)
+    });*/
+        
+    var newStatsWidth = 1000
+    var newStatsHeight = 390
+
+    var spreadX = newStatsWidth/12;
+    var spreadY = newStatsHeight/3;
+
+    var newStatsDF;
+    function getNewStatsData(SVGname) {
+        var filename = 'data/whiskey_drinks.csv'
+        d3.csv(filename, function(d) {
+            newStatsDF = d;
+            drawAbvCircle(SVGname);
+        });
+    }
+
+    function drawAbvCircle(SVGname) {
+        newStatsSVG = d3.select('#' + SVGname);
+
+        newStatsSVG.selectAll("circle").remove()
+        //newStatsSVG.selectAll("line").remove()
+        var theOffset = 0;
+
+        var abvCirc = newStatsSVG.selectAll("#abvCircle")
+            //.data(newStatsDF.filter(function(d) { return /En|Re|Fa/.test(d.variable) }))
+        .data(newStatsDF)
+            .enter().append("circle")
+            .attr("id", "abvCircle")
+                .attr ("cx",function(d, i) { return (i * 30) + 50;})
+                /*.attr ("cx",function(d, i) { 
+                    console.log(i + " " + theOffset)
+                    var theX = (i * 30) + theOffset //+ (d.oz * d.oz) 
+                    theOffset += (d.oz * d.oz) + 10
+                    console.log(i + " " + theOffset)
+                    return theX; 
+                })*/
+                .attr ("cy",function(d) { return 350 - (d.alcohol * 500);})
+                //.attr ("stroke-width", 1.5)
+                //.attr ("stroke", '#ccc')
+                .attr ("r",function(d) { return (d.oz * d.oz) + 3; })
+                //.attr ("r",function(d) { return d.sugar * 100; })
+                .attr("fill",function(d) { 
+                        if (d.style.includes("stirred")) {
+                            return "#a5693d";
+                        } else if (d.style.includes("bubbly")) {
+                            return "#f7e571";
+                        } else if (d.style.includes("shaken")) {
+                            return "#100656";
+                            //return "#240ccc";
+                        } else {
+                            return "#aaa";
+                        }
+                    });
+        // https://www.dashingd3js.com/svg-text-element
+            var texts = newStatsSVG.selectAll("text")
+                .data(newStatsDF)
+                .enter()
+                .append("text")
+                .attr ("x",function(d, i) { return (i * 30) + 50;})
+                .attr ("y",function(d) { return 300 - (d.alcohol * 500);})
+                //.attr("rotate", 315)
+                //.attr('transform', 'rotate(45)')
+                .attr('transform', function(d, i) {
+                    var xName = (i * 30) + 50
+                    var yName = 300 - (d.alcohol * 500)
+                    return 'rotate(315 ' + xName + ' ' + yName + ')';
+                })
+                .text(function(d){ return d.name; });
+        
+        var sugarCirc = newStatsSVG.selectAll("#sugarCircle")
+            //.data(newStatsDF.filter(function(d) { return /En|Re|Fa/.test(d.variable) }))
+        .data(newStatsDF)
+            .enter().append("circle")
+                .attr("id", "sugarCircle")
+                //.attr ("cx",function(d) { return d.oz * 100; })
+                .attr ("cx",function(d, i) { return (i * 30) + 50; })
+                .attr ("cy",function(d) { return 350 - (d.alcohol * 500);})
+                .attr ("fill-opacity",0.05)
+                .attr ("stroke-width", 1)
+                .attr ("stroke", '#444')
+                //.attr ("r",function(d) { return (d.oz * d.oz) + 3; })
+                .attr ("r",function(d) { return d.sugar * 125; });;
+        
+    }        
+        
+        
+        /*
+    function drawEpochLine(directory, SVGname) {
+        //var epochLineScale = (newStatsWidth - spreadX) / maxEpochs
+
+        newStatsSVG = d3.select('#' + SVGname);
+        //newStatsSVG.select("#epochLine").remove();
+        newStatsSVG.select("#deadWorldArea").remove();
+        newStatsSVG.selectAll("text").remove();
+
+
+        // make deadWorld area chart
+        var area = d3.area()
+            .x(function(d) { return d.labels * spreadX * 1.1 - (spreadX/2); })
+            .y0(newStatsHeight - 17)
+            .y1(function(d) { return newStatsHeight - 30 - d.value/(newStatsHeight/40); });
+
+        newStatsSVG.append("path")
+            .attr("id", "deadWorldArea")
+            .datum(newStatsDF.filter(function(d) { return d.variable.includes("deadWorld");} ))
+            .attr("fill", "steelblue")
+            .attr("opacity", 0.4)
+            .attr("d", area);
+
+        // deadWorld ticks marks
+        var text = newStatsSVG.selectAll("text")
+            .data(newStatsDF.filter(function(d) { return d.variable.includes("deadWorld") }))
+            .enter().append("text")
+                .attr("font-size", 10)
+                .attr('x', function(d) { return d.labels * spreadX; })
+                .attr('y', newStatsHeight - 5)
+                .text(function(d) { return parseInt(d.value); });
+
+        // deadWorld label
+        newStatsSVG.append("text")
+            .attr("font-size", 10)
+            .attr('x', 10)
+            .attr('y', newStatsHeight - 36)
+            .text("Avg.");
+        newStatsSVG.append("text")
+            .attr("font-size", 10)
+            .attr('x', 10)
+            .attr('y', newStatsHeight - 24)
+            .text("Years of");
+        newStatsSVG.append("text")
+            .attr("font-size", 10)
+            .attr('x', 10)
+            .attr('y', newStatsHeight - 12)
+            .text("Survival");
+
+        newStatsSVG.append("text")
+            .attr("font-size", 20)
+            .attr('x', (newStatsWidth/2) - 100 )
+            .attr('y', 30)
+            .text(directory);
+
+
+    }
+    */
+       
+    function drawSVGS() {
+        /*
+        for (i=0; i < directories.length; i++) {
+            //select the directory to plot
+            var thisOne = directories[i];
+            console.log(thisOne);*/
+        //create an svg for it
+        d3.select("body").append("svg")
+            .attr("class", "epochPlot")
+            .attr("width", 925)
+            .attr("height", 390)
+            .attr("id",'theDrinks')
+            .attr("background-color",'#ccc');
+        //plot it
+        getNewStatsData('theDrinks');
+            /*
+            //make a line to separate it from the next
+            d3.select("body").append("svg")
+                .attr("class","divider")
+                .attr("width", 925)
+                .attr("height", 20)
+                .append("line")
+                    .attr("x1",20)
+                    .attr("x2",880)
+                    .attr("y1",10)
+                    .attr("y2",10)
+                    .attr("stroke","#888");
+        }*/
+
+    }
+        
+    </script>
+    
+    <style>
+        
+        #newStats {
+            position: absolute;
+            top: 100px;
+            left: 25px;
+            visibility: visible;
+            background-color: rgba(5, 5, 5, 0.2);
+        }
+        
+        div.graphLabels {
+            transform: rotate(20deg);
+        }
+        
+        .epochPlot {
+            visibility: visible;
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+        
+        .divider {
+            visibility: visible;
+            background-color: rgba(150, 150, 150, 0.2);
+        }
+        
+        *{font-family:"Trebuchet MS";}
+        
+    </style>
+    
+    
+</head>
+<body onload="setTimeout(drawSVGS,500)">
+    <div class='graphLabels'>
+<!--<body onload="getNewStatsData(directories[1],'newStats')">-->
+    
+<!--        <svg id="newStats" width="900" height="390"></svg>-->
+    </div>
+</body>
+</html>

@@ -1,0 +1,415 @@
+book,name,ingredient,unit,amount
+Noah’s example book,La Rosa,strawberry,each,1
+Noah’s example book,La Rosa,simple syrup,oz,0.5
+Noah’s example book,La Rosa,tequila blanco,oz,2
+Noah’s example book,La Rosa,amaro,oz,1
+Noah’s example book,La Rosa,lemon juice,oz,0.75
+Noah’s example book,La Rosa,pink champagne,oz,1.5
+Noah’s example book,Jersey Julep,mint leaves,each,10
+Noah’s example book,Jersey Julep,maple syrup,oz,0.5
+Noah’s example book,Jersey Julep,apple brandy,oz,2
+Noah’s example book,Southland Sipper,strawberry,each,1
+Noah’s example book,Southland Sipper,simple syrup,oz,0.75
+Noah’s example book,Southland Sipper,rye whiskey,oz,1.5
+Noah’s example book,Southland Sipper,Benedictine,oz,0.25
+Noah’s example book,Southland Sipper,lemon juice,oz,0.75
+Noah’s example book,Southland Sipper,Angostura bitters,dashes,2
+Noah’s example book,Southland Sipper,club soda,oz,2
+Noah’s example book,Moscow Mule,vodka,oz,2
+Noah’s example book,Moscow Mule,ginger syrup,oz,0.75
+Noah’s example book,Moscow Mule,lime juice,oz,0.75
+Noah’s example book,Moscow Mule,club soda,oz,2
+Noah’s example book,Summer Negroni,gin,oz,1
+Noah’s example book,Summer Negroni,aperol,oz,1
+Noah’s example book,Summer Negroni,bianco vermouth,oz,1
+Noah’s example book,Blonde Redhead,aperol,oz,3
+Noah’s example book,Blonde Redhead,grapefruit juice,oz,1
+Noah’s example book,Blonde Redhead,lemon juice,oz,0.25
+Noah’s example book,Blonde Redhead,club soda,oz,3
+Noah’s example book,Daiquiri,white rum,oz,2
+Noah’s example book,Daiquiri,lime juice,oz,0.75
+Noah’s example book,Daiquiri,simple syrup,oz,0.75
+Noah’s example book,Southside Fizz,mint leaves,each,8
+Noah’s example book,Southside Fizz,cucumber wheel,each,2
+Noah’s example book,Southside Fizz,simple syrup,oz,1
+Noah’s example book,Southside Fizz,gin,oz,2
+Noah’s example book,Southside Fizz,lime juice,oz,0.75
+Noah’s example book,Southside Fizz,club soda,oz,2
+Noah’s example book,Tom Collins,gin,oz,2
+Noah’s example book,Tom Collins,lemon juice,oz,0.75
+Noah’s example book,Tom Collins,simple syrup,oz,0.75
+Noah’s example book,Tom Collins,club soda,oz,2
+Noah’s example book,Paloma,tequila blanco,oz,2
+Noah’s example book,Paloma,grapefruit juice,oz,1
+Noah’s example book,Paloma,lime juice,oz,0.75
+Noah’s example book,Paloma,simple syrup,oz,0.75
+Noah’s example book,Paloma,club soda,oz,1.5
+Noah’s example book,Old Fashioned,rye whiskey,oz,2
+Noah’s example book,Old Fashioned,simple syrup,tsp,1
+Noah’s example book,Old Fashioned,Angostura bitters,dashes,2
+Noah’s example book,Old Fashioned,orange peel,garnish,1
+Noah’s example book,Applejack Old Fashioned,applejack,oz,2
+Noah’s example book,Applejack Old Fashioned,maple syrup,tsp,1
+Noah’s example book,Applejack Old Fashioned,Angostura bitters,dashes,2
+Noah’s example book,Scotch Old Fashioned,blended scotch whiskey,oz,2
+Noah’s example book,Scotch Old Fashioned,honey,tsp,1
+Noah’s example book,Scotch Old Fashioned,Angostura bitters,dashes,2
+Noah’s example book,Agave Old Fashioned,tequila reposado,oz,2
+Noah’s example book,Agave Old Fashioned,agave nectar,tsp,1
+Noah’s example book,Agave Old Fashioned,Angostura bitters,dashes,2
+Noah’s example book,Rum Old Fashioned,aged rum,oz,2
+Noah’s example book,Rum Old Fashioned,simple syrup,tsp,1
+Noah’s example book,Rum Old Fashioned,Angostura bitters,dashes,2
+Noah’s example book,Manhattan,rye whiskey,oz,2
+Noah’s example book,Manhattan,sweet vermouth,oz,0.75
+Noah’s example book,Manhattan,Angostura bitters,dashes,2
+Noah’s example book,Manhattan,orange twist,garnish,1
+Noah’s example book,Bourbon Manhattan,bourbon whiskey,oz,2
+Noah’s example book,Bourbon Manhattan,sweet vermouth,oz,1
+Noah’s example book,Bourbon Manhattan,Angostura bitters,dashes,2
+Noah’s example book,Bourbon Manhattan,cherry,garnish,1
+Noah’s example book,Sidecar,cognac,oz,2
+Noah’s example book,Sidecar,Cointreau,oz,1
+Noah’s example book,Sidecar,lemon juice,oz,0.75
+Noah’s example book,Champs Elysees,cognac,oz,2
+Noah’s example book,Champs Elysees,Cointreau,oz,0.75
+Noah’s example book,Champs Elysees,Green Chartreuse,tsp,1
+Noah’s example book,Champs Elysees,lemon juice,oz,0.75
+Noah’s example book,Champs Elysees,simple syrup,oz,0.25
+Noah’s example book,Champs Elysees,Angostura bitters,dashes,2
+Noah’s example book,Martinez,gin,oz,1.5
+Noah’s example book,Martinez,sweet vermouth,oz,1
+Noah’s example book,Martinez,Luxardo Maraschino,tsp,1
+Noah’s example book,Martinez,Angostura bitters,dashes,2
+Noah’s example book,Hot Toddy,rye whiskey,oz,2
+Noah’s example book,Hot Toddy,simple syrup,tsp,1
+Noah’s example book,Hot Toddy,Angostura bitters,dashes,2
+Noah’s example book,Hot Toddy,boiling water,oz,3
+Noah’s example book,Bourbon Toddy,bourbon whiskey,oz,2
+Noah’s example book,Bourbon Toddy,simple syrup,tsp,1
+Noah’s example book,Bourbon Toddy,Angostura bitters,dashes,2
+Noah’s example book,Bourbon Toddy,boiling water,oz,3
+Noah’s example book,Rum Toddy,aged rum,oz,2
+Noah’s example book,Rum Toddy,simple syrup,tsp,1
+Noah’s example book,Rum Toddy,Angostura bitters,dashes,2
+Noah’s example book,Rum Toddy,boiling water,oz,3
+Noah’s example book,Apple Toddy,applejack,oz,2
+Noah’s example book,Apple Toddy,maple syrup,tsp,1
+Noah’s example book,Apple Toddy,Angostura bitters,dashes,2
+Noah’s example book,Apple Toddy,cinnamon tea,oz,3
+Noah’s example book,Scotch Toddy,blended scotch whiskey,oz,2
+Noah’s example book,Scotch Toddy,honey,tbl,1
+Noah’s example book,Scotch Toddy,lemon juice,oz,0.5
+Noah’s example book,Scotch Toddy,boiling water,oz,3
+Noah’s example book,The Bamboo,sherry,oz,1.5
+Noah’s example book,The Bamboo,dry vermouth,oz,1.5
+Noah’s example book,The Bamboo,orange bitters,dashes,2
+Noah’s example book,The Bamboo,Angostura bitters,dashes,1
+Noah’s example book,French 75,gin,oz,1
+Noah’s example book,French 75,lemon juice,oz,0.5
+Noah’s example book,French 75,simple syrup,oz,0.5
+Noah’s example book,French 75,champagne,oz,2.5
+Noah’s example book,Pisco 75,strawberry,each,1
+Noah’s example book,Pisco 75,simple syrup,oz,0.5
+Noah’s example book,Pisco 75,pisco,oz,1
+Noah’s example book,Pisco 75,lemon juice,oz,0.5
+Noah’s example book,Pisco 75,champagne,oz,2.5
+Noah’s example book,Tequila 75,tequila blanco,oz,1
+Noah’s example book,Tequila 75,lemon juice,oz,0.5
+Noah’s example book,Tequila 75,agave nectar,oz,0.5
+Noah’s example book,Tequila 75,champagne,oz,2.5
+Noah’s example book,Rum 75,aged rum,oz,1
+Noah’s example book,Rum 75,lemon juice,oz,0.5
+Noah’s example book,Rum 75,simple syrup,oz,0.5
+Noah’s example book,Rum 75,champagne,oz,2.5
+Noah’s example book,Brandy 75,cognac,oz,1
+Noah’s example book,Brandy 75,lemon juice,oz,0.5
+Noah’s example book,Brandy 75,simple syrup,oz,0.5
+Noah’s example book,Brandy 75,champagne,oz,2.5
+Noah’s example book,Bitter French,gin,oz,1
+Noah’s example book,Bitter French,Campari,oz,0.25
+Noah’s example book,Bitter French,lemon juice,oz,0.5
+Noah’s example book,Bitter French,simple syrup,oz,0.5
+Noah’s example book,Bitter French,champagne,oz,2.5
+Liquid Intelligence,Widow's Kiss,apple brandy,oz,2
+Liquid Intelligence,Widow's Kiss,Benedictine,oz,0.25
+Liquid Intelligence,Widow's Kiss,Yellow Chartreuse,oz,0.25
+Liquid Intelligence,Widow's Kiss,Angostura bitters,dashes,2
+Liquid Intelligence,De La Louisiane,rye whiskey,oz,2
+Liquid Intelligence,De La Louisiane,Benedictine,oz,0.5
+Liquid Intelligence,De La Louisiane,sweet vermouth,oz,0.5
+Liquid Intelligence,De La Louisiane,Peychaud's bitters,dashes,3
+Liquid Intelligence,De La Louisiane,Angostura bitters,dashes,3
+Liquid Intelligence,De La Louisiane,absinthe,dashes,3
+Liquid Intelligence,De La Louisiane,cherry,garnish,1
+Liquid Intelligence,Improved Whiskey Cocktail,rye whiskey,oz,2
+Liquid Intelligence,Improved Whiskey Cocktail,simple syrup,oz,0.25
+Liquid Intelligence,Improved Whiskey Cocktail,Luxardo Maraschino,oz,0.25
+Liquid Intelligence,Improved Whiskey Cocktail,Angostura bitters,dashes,2
+Liquid Intelligence,Improved Whiskey Cocktail,absinthe,rinse,1
+Liquid Intelligence,Improved Whiskey Cocktail,lemon twist,garnish,1
+Liquid Intelligence,Rusty Nail,blended scotch whiskey,oz,2
+Liquid Intelligence,Rusty Nail,Drambuie,oz,0.5
+Liquid Intelligence,Rusty Nail,lemon peel,garnish,1
+Imbibe,Penicillin,blended scotch whiskey,oz,2
+Imbibe,Penicillin,lemon juice,oz,0.75
+Imbibe,Penicillin,honey simple syrup,oz,0.75
+Imbibe,Penicillin,fresh ginger,slices,3
+Imbibe,Penicillin,Islay scotch whiskey,oz,0.25
+Liquid Intelligence,Bijou,gin,oz,1
+Liquid Intelligence,Bijou,sweet vermouth,oz,1
+Liquid Intelligence,Bijou,Green Chartreuse,oz,1
+Liquid Intelligence,Bijou,orange bitters,dash,1
+Liquid Intelligence,Bijou,cherry,garnish,1
+Liquid Intelligence,Bijou,lemon twist,garnish,1
+Liquid Intelligence,Brooklyn,rye whiskey,oz,2
+Liquid Intelligence,Brooklyn,Amer Picon,oz,0.5
+Liquid Intelligence,Brooklyn,dry vermouth,oz,0.5
+Liquid Intelligence,Brooklyn,Luxardo Maraschino,oz,0.25
+Liquid Intelligence,Brooklyn,Angostura bitters,dash,1
+Liquid Intelligence,Brooklyn,cherry,garnish,1
+Liquid Intelligence,Vieux Carre,rye whiskey,oz,1
+Liquid Intelligence,Vieux Carre,cognac,oz,1
+Liquid Intelligence,Vieux Carre,sweet vermouth,oz,0.75
+Liquid Intelligence,Vieux Carre,Benedictine,oz,0.25
+Liquid Intelligence,Vieux Carre,Angostura bitters,dash,1
+Liquid Intelligence,Vieux Carre,Peychaud's bitters,dash,1
+Liquid Intelligence,Negroni,gin,oz,1
+Liquid Intelligence,Negroni,sweet vermouth,oz,1
+Liquid Intelligence,Negroni,Campari,oz,1
+Liquid Intelligence,Negroni,orange twist,garnish,1
+Lampo,Boulevardier,rye whiskey,oz,1.5
+Lampo,Boulevardier,sweet vermouth,oz,1
+Lampo,Boulevardier,Campari,oz,1
+Lampo,Boulevardier,orange twist,garnish,1
+Liquid Intelligence,Old Pal,rye whiskey,oz,2
+Liquid Intelligence,Old Pal,dry vermouth,oz,0.75
+Liquid Intelligence,Old Pal,Campari,oz,0.75
+Liquid Intelligence,Rob Roy,blended scotch whiskey,oz,2.5
+Liquid Intelligence,Rob Roy,sweet vermouth,oz,0.75
+Liquid Intelligence,Rob Roy,Angostura bitters,dashes,2
+Liquid Intelligence,Rob Roy,lemon twist,garnish,1
+Liquid Intelligence,Bobby Burns,blended scotch whiskey,oz,2
+Liquid Intelligence,Bobby Burns,sweet vermouth,oz,0.75
+Liquid Intelligence,Bobby Burns,Benedictine,oz,0.25
+Liquid Intelligence,Bobby Burns,lemon twist,garnish,1
+Liquid Intelligence,Hanky Panky,gin,oz,1.5
+Liquid Intelligence,Hanky Panky,sweet vermouth,oz,1.5
+Liquid Intelligence,Hanky Panky,Fernet Branca,teaspon,1
+Liquid Intelligence,Hanky Panky,orange twist,garnish,1
+Liquid Intelligence,Blackthorn,gin,oz,1.5
+Liquid Intelligence,Blackthorn,sweet vermouth,oz,0.75
+Liquid Intelligence,Blackthorn,sloe gin,oz,0.75
+Liquid Intelligence,Blackthorn,orange bitters,dashes,2
+Liquid Intelligence,Blackthorn,orange twist,garnish,1
+Bitters,Pegu Club,gin,oz,2
+Bitters,Pegu Club,lime juice,oz,0.5
+Bitters,Pegu Club,orange curacao,oz,0.75
+Bitters,Pegu Club,Angostura bitters,dash,1
+Bitters,Pegu Club,orange bitters,dash,1
+Liquid Intelligence,Brandy Crusta,cognac,oz,2
+Liquid Intelligence,Brandy Crusta,lemon juice,oz,0.5
+Liquid Intelligence,Brandy Crusta,orange curacao,oz,0.5
+Liquid Intelligence,Brandy Crusta,Luxardo Maraschino,oz,0.25
+Liquid Intelligence,Brandy Crusta,lemon spiral,garnish,1
+Liquid Intelligence,Brandy Crusta,sugar,rim,1
+Jeffrey Morgenthaler,Margarita,tequila,oz,2
+Jeffrey Morgenthaler,Margarita,triple sec,oz,0.875
+Jeffrey Morgenthaler,Margarita,lime juice,oz,0.875
+Jeffrey Morgenthaler,Margarita,lemon juice,oz,0.875
+Jeffrey Morgenthaler,Margarita,simple syrup,oz,0.67
+Jeffrey Morgenthaler,Margarita,salt,rim,1
+Liquid Intelligence,Last Word,gin,oz,0.75
+Liquid Intelligence,Last Word,Green Chartreuse,oz,0.75
+Liquid Intelligence,Last Word,Luxardo Maraschino,oz,0.75
+Liquid Intelligence,Last Word,lime juice,oz,0.75
+Liquid Intelligence,Last Word,salt,pinch,1
+Liquid Intelligence,Corpse Reviver #2,gin,oz,0.75
+Liquid Intelligence,Corpse Reviver #2,lemon juice,oz,0.75
+Liquid Intelligence,Corpse Reviver #2,Cointreau,oz,0.75
+Liquid Intelligence,Corpse Reviver #2,Lillet Blanc,oz,0.75
+Liquid Intelligence,Corpse Reviver #2,absinthe,dashes,3
+Liquid Intelligence,Corpse Reviver #2,orange twist,garnish,1
+Liquid Intelligence,Gimlet,gin,oz,2
+Liquid Intelligence,Gimlet,lime juice,oz,0.75
+Liquid Intelligence,Gimlet,simple syrup,oz,0.75
+Liquid Intelligence,Gimlet,lime wheel,garnish,1
+Liquid Intelligence,20th Century Cocktail,gin,oz,1.5
+Liquid Intelligence,20th Century Cocktail,lemon juice,oz,0.75
+Liquid Intelligence,20th Century Cocktail,creme de cacao,oz,0.75
+Liquid Intelligence,20th Century Cocktail,Lillet Blanc,oz,0.75
+Liquid Intelligence,Bee's Knees,gin,oz,2
+Liquid Intelligence,Bee's Knees,lemon juice,oz,0.75
+Liquid Intelligence,Bee's Knees,honey simple syrup,oz,0.75
+Liquid Intelligence,Bee's Knees,lemon wheel,garnish,1
+Liquid Intelligence,Southside Cocktail,gin,oz,2
+Liquid Intelligence,Southside Cocktail,mint leaves,each,8
+Liquid Intelligence,Southside Cocktail,lemon juice,oz,0.75
+Liquid Intelligence,Southside Cocktail,simple syrup,oz,0.75
+Liquid Intelligence,Southside Cocktail,club soda,oz,2
+Liquid Intelligence,Gold Rush,bourbon whiskey,oz,2
+Liquid Intelligence,Gold Rush,lemon juice,oz,0.75
+Liquid Intelligence,Gold Rush,honey simple syrup,oz,0.75
+Liquid Intelligence,Cosmopolitan,Absolut Citron vodka,oz,1.5
+Liquid Intelligence,Cosmopolitan,Cointreau,oz,0.75
+Liquid Intelligence,Cosmopolitan,cranberry juice,oz,0.75
+Liquid Intelligence,Cosmopolitan,lime juice,oz,0.5
+Liquid Intelligence,Cosmopolitan,orange twist,garnish,1
+Liquid Intelligence,Original Cosmopolitan,Absolut Citron vodka,oz,2
+Liquid Intelligence,Original Cosmopolitan,Cointreau,oz,1
+Liquid Intelligence,Original Cosmopolitan,cranberry juice,oz,0.25
+Liquid Intelligence,Original Cosmopolitan,lime juice,oz,0.75
+Liquid Intelligence,Original Cosmopolitan,orange twist,garnish,1
+Liquid Intelligence,Brown Derby,bourbon whiskey,oz,2
+Liquid Intelligence,Brown Derby,grapefruit juice,oz,1
+Liquid Intelligence,Brown Derby,honey simple syrup,oz,0.5
+Liquid Intelligence,Brown Derby,grapefruit twist,garnish,1
+Liquid Intelligence,Hemingway Daiquiri,white rum,oz,2
+Liquid Intelligence,Hemingway Daiquiri,lime juice,oz,0.75
+Liquid Intelligence,Hemingway Daiquiri,grapefruit juice,oz,0.5
+Liquid Intelligence,Hemingway Daiquiri,Luxardo Maraschino,oz,0.5
+Liquid Intelligence,Hemingway Daiquiri,salt,pinch,1
+Liquid Intelligence,Hemingway Daiquiri,lime wheel,garnish,1
+Liquid Intelligence,Classic Daiquiri,white rum,oz,2
+Liquid Intelligence,Classic Daiquiri,lime juice,oz,0.875
+Liquid Intelligence,Classic Daiquiri,simple syrup,oz,0.75
+Liquid Intelligence,Honeysuckle,white rum,oz,2
+Liquid Intelligence,Honeysuckle,lime juice,oz,0.75
+Liquid Intelligence,Honeysuckle,honey simple syrup,oz,0.75
+Liquid Intelligence,Honeysuckle,lime wheel,garnish,1
+Liquid Intelligence,Brandy Alexander,cognac,oz,2
+Liquid Intelligence,Brandy Alexander,heavy cream,oz,1
+Liquid Intelligence,Brandy Alexander,simple syrup,oz,0.25
+Liquid Intelligence,Brandy Alexander,grated nutmeg,garnish,1
+Liquid Intelligence,Blood and Sand,blended scotch whiskey,oz,1
+Liquid Intelligence,Blood and Sand,sweet vermouth,oz,0.75
+Liquid Intelligence,Blood and Sand,Cheery Heering,oz,0.75
+Liquid Intelligence,Blood and Sand,orange juice,oz,0.5
+Liquid Intelligence,Blood and Sand,orange twist,garnish,1
+Liquid Intelligence,Whiskey Sour,rye whiskey,oz,2
+Liquid Intelligence,Whiskey Sour,egg white,oz,1
+Liquid Intelligence,Whiskey Sour,simple syrup,oz,0.75
+Liquid Intelligence,Whiskey Sour,lemon juice,oz,0.625
+Liquid Intelligence,Whiskey Sour,salt,pinch,1
+Liquid Intelligence,Pisco Sour,pisco,oz,2
+Liquid Intelligence,Pisco Sour,egg white,oz,1
+Liquid Intelligence,Pisco Sour,simple syrup,oz,0.75
+Liquid Intelligence,Pisco Sour,lime juice,oz,0.75
+Liquid Intelligence,Pisco Sour,Angostura bitters,drops,3
+Bitters,Champagne Cocktail,champagne,oz,5
+Bitters,Champagne Cocktail,sugar,cube,1
+Bitters,Champagne Cocktail,Angostura bitters,dashes,5
+Bitters,Champagne Cocktail,lemon twist,garnish,1
+Bitters,Sazerac,rye whiskey,oz,2
+Bitters,Sazerac,simple syrup,oz,0.25
+Bitters,Sazerac,Peychaud's bitters,dashes,4
+Bitters,Sazerac,absinthe,rinse,1
+Bitters,Sazerac,lemon peel,garnish,1
+Bitters,Abbey Cocktail,gin,oz,1.5
+Bitters,Abbey Cocktail,Lillet Blanc,oz,0.75
+Bitters,Abbey Cocktail,orange juice,oz,0.75
+Bitters,Abbey Cocktail,orange bitters,dashes,2
+Bitters,Abbey Cocktail,cherry,garnish,1
+Bitters,Alaska Cocktail,gin,oz,1.5
+Bitters,Alaska Cocktail,Yellow Chartreuse,oz,0.75
+Bitters,Alaska Cocktail,orange bitters,dash,1
+Bitters,Alaska Cocktail,lemon twist,garnish,1
+Bitters,Angostura Fizz,Angostura bitters,oz,1
+Bitters,Angostura Fizz,lime juice,oz,1
+Bitters,Angostura Fizz,simple syrup,oz,0.25
+Bitters,Angostura Fizz,grenadine,oz,0.25
+Bitters,Angostura Fizz,heavy cream,oz,0.5
+Bitters,Angostura Fizz,egg white,each,1
+Bitters,Angostura Fizz,soda water,top,1
+Bitters,Corn 'n' Oil,blackstrap rum,oz,2
+Bitters,Corn 'n' Oil,falernum,oz,0.5
+Bitters,Corn 'n' Oil,lime juice,oz,0.25
+Bitters,Corn 'n' Oil,Angostura bitters,dashes,3
+Bitters,Corn 'n' Oil,lime wedge,garnish,1
+Bitters,Harvard Cocktail,cognac,oz,1.5
+Bitters,Harvard Cocktail,sweet vermouth,oz,0.75
+Bitters,Harvard Cocktail,lemon juice,oz,0.25
+Bitters,Harvard Cocktail,grenadine,teaspoon,1
+Bitters,Harvard Cocktail,Angostura bitters,dashes,3
+Bitters,Harvard Cocktail,lemon twist,garnish,1
+Bitters,Japanese Cocktail,cognac,oz,2 
+Bitters,Japanese Cocktail,orgeat,oz,0.5
+Bitters,Japanese Cocktail,Angostura bitters,dashes,3
+Bitters,Japanese Cocktail,lemon twist,garnish,1
+Bitters,Old Hickory,sweet vermouth,oz,1.5
+Bitters,Old Hickory,dry vermouth,oz,1.5
+Bitters,Old Hickory,Peychaud's bitters,dash,1
+Bitters,Old Hickory,orange bitters,dash,1
+Bitters,Old Hickory,lemon twist,garnish,1
+Bitters,Pink Gin,gin,oz,2
+Bitters,Pink Gin,Angostura bitters,dashes,5
+Bitters,Scofflaw Cocktail,rye whiskey,oz,1.5
+Bitters,Scofflaw Cocktail,dry vermouth,oz,1
+Bitters,Scofflaw Cocktail,lemon juice,oz,0.75
+Bitters,Scofflaw Cocktail,grenadine,oz,0.75
+Bitters,Scofflaw Cocktail,orange bitter,dash,1
+Bitters,Scofflaw Cocktail,orange twist,garnish,1
+Bitters,Seelbach Cocktail,bourbon whiskey,oz,1
+Bitters,Seelbach Cocktail,Cointreau,oz,0.5
+Bitters,Seelbach Cocktail,Angostura bitters,dashes,7
+Bitters,Seelbach Cocktail,Peychaud's bitters,dashes,7
+Bitters,Seelbach Cocktail,champagne,oz,2
+Bitters,Seelbach Cocktail,orange twist,garnish,1
+Bitters,Toronto,rye whiskey,oz,2
+Bitters,Toronto,Fernet Branca,oz,0.25
+Bitters,Toronto,simple syrup,oz,0.25
+Bitters,Toronto,Angostura bitters,dashes,2
+Bitters,Toronto,orange twist,garnish,1
+Bitters,The Bitter Handshake,Fernet Branca,oz,1
+Bitters,The Bitter Handshake,blood orange juice reduction,oz,1
+Bitters,The Bitter Handshake,rye whiskey simple syrup,oz,1
+Bitters,The Bitter Handshake,orange spiral,garnish,1
+Bitters,Black Feather,cognac,oz,2
+Bitters,Black Feather,dry vermouth,oz,1
+Bitters,Black Feather,Cointreau,oz,0.5
+Bitters,Black Feather,Angostura bitters,dash,1
+Bitters,Cricket Ball,sugar,cube,1
+Bitters,Cricket Ball,Peychaud's bitters,dashes,3
+Bitters,Cricket Ball,Fee Brothers rhubarb bitters,dashes,3
+Bitters,Cricket Ball,Lillet Rouge,oz,1
+Bitters,Cricket Ball,champagne,oz,3
+Bitters,Cricket Ball,lemon twist,garnish,1
+Bitters,Gargoyle and Spire,gin,oz,1
+Bitters,Gargoyle and Spire,Strega,oz,0.75
+Bitters,Gargoyle and Spire,simple syrup,oz,0.25
+Bitters,Gargoyle and Spire,orange bitters,dashes,2
+Bitters,Gargoyle and Spire,champagne,oz,2
+Bitters,Gargoyle and Spire,orange twist,garnish,1
+Bitters,Sawyer,gin,oz,2
+Bitters,Sawyer,lime juice,oz,0.5
+Bitters,Sawyer,simple syrup,oz,0.5
+Bitters,Sawyer,Angostura bitters,dashes,14
+Bitters,Sawyer,Peychaud's bitters,dashes,7
+Bitters,Sawyer,orange bitters,dashes,7
+Bitters,Trident,dry sherry,oz,1
+Bitters,Trident,Cynar,oz,1
+Bitters,Trident,aquavit,oz,1
+Bitters,Trident,Fee Brothers peach bitters,dashes,2
+Bitters,Zim Zala Bim,reposado tequila,oz,2
+Bitters,Zim Zala Bim,orange bitters,teaspoons,2
+Bitters,Zim Zala Bim,St Germain,teaspoons,2
+Bitters,Zim Zala Bim,sugar,teaspoons,1
+Bitters,Zim Zala Bim,lemon twist,garnish,1
+Lampo,Bitter Guiseppe,Cynar,oz,2
+Lampo,Bitter Guiseppe,sweet vermouth,oz,1
+Lampo,Bitter Guiseppe,lemon juice,oz,0.25
+Lampo,Bitter Guiseppe,orange bitter,dashes,6
+Punch,Ramos Gin Fizz,Old Tom gin,oz,1.5
+Punch,Ramos Gin Fizz,egg white,each,1
+Punch,Ramos Gin Fizz,heavy cream,oz,1
+Punch,Ramos Gin Fizz,orange flower water,dashes,3
+Punch,Ramos Gin Fizz,simple syrup,oz,0.5
+Punch,Ramos Gin Fizz,lemon juice,oz,0.5
+Punch,Ramos Gin Fizz,lime juice,oz,0.5
+Punch,Ramos Gin Fizz,soda water,oz,1
+Punch,Ramos Gin Fizz,orange wheel,garnish,1
+Punch,Alabazam,cognac,oz,1.5
+Punch,Alabazam,Cointreau,oz,0.5
+Punch,Alabazam,Angostura bitters,oz,0.25
+Punch,Alabazam,lemon juice,oz,0.25
+Punch,Alabazam,simple syrup,oz,0.25

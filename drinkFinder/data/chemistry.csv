@@ -1,0 +1,71 @@
+ingredient,class,alcohol,sugar,acid
+simple syrup,Sweetener,0.0,0.615,0.0
+tequila blanco,Spirit,0.4,0.0,0.0
+amaro,Liquer,0.3,0.16,0.0
+lemon juice,Juice,0.0,0.016,0.06
+pink champagne,Wine,0.15,,
+sugar,Sweetener,0.0,1.0,0.0
+maple syrup,Sweetener,0.0,0.875,0.0
+apple brandy,Spirit,0.4,,
+rye whiskey,Spirit,0.425,0.0,0.0
+Benedictine,Liquer,0.4,0.245,0.0
+club soda,Other,0.0,0.0,0.0
+vodka,Spirit,0.4,0.0,0.0
+ginger syrup,Sweetener,0.0,0.615,0.0
+lime juice,Juice,0.0,0.016,0.06
+gin,Spirit,0.4,0.0,0.0
+aperol,Liquer,0.11,0.24,0.0
+bianco vermouth,Vermouth,0.16,0.13,0.006
+grapefruit juice,Juice,0.0,0.104,0.024
+white rum,Spirit,0.4,0.0,0.0
+applejack,,,,
+blended scotch whiskey,Spirit,0.4,0.0,0.0
+honey,Sweetener,0.0,0.9,0.0
+tequila reposado,Spirit,0.4,0.0,0.0
+agave nectar,Sweetener,0.0,0.5,0.0
+aged rum,Spirit,0.4,0.0,0.0
+sweet vermouth,Vermouth,0.165,0.16,0.006
+bourbon whiskey,Spirit,0.4,0.0,0.0
+cognac,Spirit,0.4,0.0,0.0
+Cointreau,Liquer,0.4,0.25,0.0
+Green Chartreuse,Liquer,0.55,0.25,0.0
+Luxardo Maraschino,Liquer,0.32,0.35,0.0
+boiling water,Other,0.0,0.0,0.0
+cinnamon tea,,,,
+Fernet Branca,Liquer,0.39,0.08,0.0
+sherry,,,,
+dry vermouth,Vermouth,0.175,0.03,0.006
+champagne,Wine,0.15,0.0,0.0
+pisco,Spirit,0.4,0.0,0.0
+Campari,Liquer,0.24,0.24,0.0
+Yellow Chartreuse,Liquer,0.4,0.312,0.0
+Drambuie,Liquer,0.4,0.3,0.0
+honey simple syrup,Sweetener,0.0,0.615,0.0
+Islay scotch whiskey,Spirit,0.43,0.0,0.0
+Amer Picon,Liquer,0.15,0.2,0.0
+sloe gin,Liquer,0.25,0.2,0.0
+orange curacao,Liquer,0.4,0.18,0.0
+tequila,Spirit,0.4,0.0,0.0
+triple sec,Liquer,0.25,0.39,0.0
+Lillet Blanc,Vermouth,0.17,0.95,0.006
+creme de cacao,Liquer,0.24,0.395,0.0
+Absolut Citron vodka,Spirit,0.4,0.0,0.0
+cranberry juice,Juice,0.0,0.133,0.036
+heavy cream,Other,0.0,0.03,0.007
+Cheery Heering,,,,
+orange juice,Juice,0.0,0.124,0.008
+egg white,Other,0.0,0.0,0.0
+grenadine,Sweetener,0.0,0.46,0.003
+blackstrap rum,Spirit,0.4,0.0,0.0
+falernum,,,,
+orgeat,Sweetener,0.0,0.8,0.0
+blood orange juice reduction,Juice,0.0,0.12,0.012
+rye whiskey simple syrup,Sweetener,0.3,0.6,0.0
+Lillet Rouge,,,,
+Strega,,,,
+dry sherry,,,,
+Cynar,Liquer,0.165,0.1,
+aquavit,,,,
+reposado tequila,Spirit,0.4,0.0,0.0
+St Germain,Liquer,0.2,0.2,
+Old Tom gin,Spirit,0.4,0.05,0.0
