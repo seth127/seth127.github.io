@@ -239,7 +239,13 @@
                             return 0.1
                         }
                     })
-            .style("stroke-width",0.75);/*
+            .attr ("stroke-width", function(d) {
+                        if (d.selected == 1) {
+                            return 0.75
+                        } else {
+                            return 0
+                        }
+                    });/*
             .style("stroke","")
             .style("stroke-width","");*/
         

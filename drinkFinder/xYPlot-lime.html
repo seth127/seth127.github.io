@@ -214,7 +214,7 @@
         
         var circle = d3.select(this)
             .attr("fill-opacity",1)
-            .style("stroke-width",1.5);/*
+            .attr("stroke-width",1.5);/*
             .style("stroke","yellow")
             .style("stroke-width","3");*/
         
@@ -239,7 +239,13 @@
                             return 0.1
                         }
                     })
-            .style("stroke-width",0.75);/*
+            .attr ("stroke-width", function(d) {
+                        if (d.selected == 1) {
+                            return 0.75
+                        } else {
+                            return 0
+                        }
+                    });/*
             .style("stroke","")
             .style("stroke-width","");*/
         
