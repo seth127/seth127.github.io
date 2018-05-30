@@ -26,7 +26,7 @@
 
     var newStatsDF;
     function getNewStatsData(SVGname) {
-        var filename = 'data/selected_gin.csv'
+        var filename = 'data/selected_whiskey.csv'
         d3.csv(filename, function(d) {
             newStatsDF = d;
             drawPlot(SVGname);
@@ -288,11 +288,12 @@
     
 </head>
 <body onload="setTimeout(drawSVGS,500)">
-    <div class='graphLabels'>
-<!--<body onload="getNewStatsData(directories[1],'newStats')">-->
+    <h3 style="position: absolute; padding: 10px;">Whiskey Drinks</h3>
+    <!--<div class='graphLabels'>
+        <body onload="getNewStatsData(directories[1],'newStats')">
     
-<!--        <svg id="newStats" width="900" height="390"></svg>-->
-    </div>
+        <svg id="newStats" width="900" height="390"></svg>
+    </div>-->
     <div id="tooltip" class="tooltip">
         <span id="drinkName" style="font-weight: bold"></span><br />  
         <span id="drinkStyle" style="font-size: 10pt"></span> :
