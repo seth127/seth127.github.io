@@ -24,17 +24,44 @@
     var spreadX = newStatsWidth/12;
     var spreadY = newStatsHeight/3;
 
-    var newStatsDF;
-    function getNewStatsData(SVGname) {
-        var filename = 'data/selected_gin.csv'
-        d3.csv(filename, function(d) {
-            newStatsDF = d;
-            drawPlot(SVGname);
+    var drinksDF;
+    var ingredientsDF;
+    function getData() {
+        //populate drink list
+        d3.csv('data/selected_gin.csv', function(d) {
+            drinksDF = d;
+            drawPlot();
+        });
+        //populate drop down
+        d3.csv("data/chemistry.csv", function(d) {
+            ingredientsDF = d;
+            fillIngredients();
         });
     }
 
-    function drawPlot(SVGname) {
-        newStatsSVG = d3.select('#' + SVGname);
+    // fill the drop down menu
+    function fillIngredients() {
+        var p = d3.select("#ingredientDropDown").selectAll("option")
+                .data(ingredientsDF)
+                .enter()
+                .append("option")
+                .text(function(d) {
+                    return d.ingredient
+                });
+    }    
+    
+    // for filtering
+    var filterIngredient = '|'
+    function getFilter() {
+        var e = document.getElementById("ingredientDropDown");
+        var thePick = e.options[e.selectedIndex].text
+        console.log(thePick);
+        return thePick;   
+    }
+    
+    // draws the plot
+    function drawPlot() {
+        newStatsSVG = d3.select('#theDrinks');
         
         newStatsSVG.append("line")
                     .attr("x1",200)
@@ -72,19 +99,15 @@
                 .attr('transform', 'rotate(270 875 295)');
         
         newStatsSVG.selectAll("circle").remove()
-        //newStatsSVG.selectAll("line").remove()
-        var theOffset = 0;
 
-        /*var hoverText = d3.select("body").append("div")	
-                .attr("class", "tooltip")				
-                .style("opacity", 0);*/
+        var theOffset = 0;
         
         var abvCirc = newStatsSVG.selectAll("#abvCircle")
-                .data(newStatsDF)
+                .data(drinksDF)
                 .enter().append("circle")
                 .attr("id", "abvCircle")
                 .attr ("stroke-width", function(d) {
-                        if (d.selected == 1) {
+                        if (d.ingredients.includes(filterIngredient)) {
                             return 0.75
                         } else {
                             return 0
@@ -95,7 +118,7 @@
                 .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
                 .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
                 .attr ("fill-opacity", function(d) {
-                        if (d.selected == 1) {
+                        if (d.ingredients.includes(filterIngredient)) {
                             return 0.75
                         } else {
                             return 0.1
@@ -117,7 +140,7 @@
                 .on("mouseout", unhighlight);
         
         /*var acidCirc = newStatsSVG.selectAll("#acidCircle")
-                .data(newStatsDF)
+                .data(drinksDF)
                 .enter().append("circle")
                 .attr("id", "acidCircle")
                 .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
@@ -142,24 +165,9 @@
                 .on("mouseout", function(){
                     hoverText.transition().duration(200).style("opacity", 0);
                 });*/
-        
-        /*var texts = newStatsSVG.selectAll("text")
-                .data(newStatsDF)
-                .enter().append("text")
-                .attr ("x",function(d) { return Math.max(30, (d.sugar * 6000));})
-                .attr ("y",function(d) { return Math.max(30, (610 - (d.alcohol * 1800)));})
-                .style ("fill","#444")
-                .attr ("opacity", 0.25)
-                .attr('transform', function(d, i) {
-                    var xName = Math.max(30, (d.sugar * 6000))
-                    var yName = Math.max(30, (610 - (d.alcohol * 1800)))
-                    return 'rotate(315 ' + xName + ' ' + yName + ')';
-                })
-                .text(function(d){ return d.name; });*/
-            
 
         /*var meltCirc = newStatsSVG.selectAll("#meltCircle")
-        .data(newStatsDF)
+        .data(drinksDF)
             .enter().append("circle")
             .attr("id", "meltCircle")
                 .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
@@ -174,44 +182,9 @@
     }        
         
         
-        
-       
-    function drawSVGS() {
-        /*
-        for (i=0; i < directories.length; i++) {
-            //select the directory to plot
-            var thisOne = directories[i];
-            console.log(thisOne);*/
-
-        //create an svg for it
-        d3.select("body").append("svg")
-            .attr("class", "epochPlot")
-            .attr("width", 925)
-            .attr("height", 630)
-            .attr("id",'theDrinks')
-            .attr("background-color",'#ccc');
-        //plot it
-        getNewStatsData('theDrinks');
-            /*
-            //make a line to separate it from the next
-            d3.select("body").append("svg")
-                .attr("class","divider")
-                .attr("width", 925)
-                .attr("height", 20)
-                .append("line")
-                    .attr("x1",20)
-                    .attr("x2",880)
-                    .attr("y1",10)
-                    .attr("y2",10)
-                    .attr("stroke","#888");
-        }*/
-
-    }
-        
     // the tooltip functions
     
     function highlight(d,i) {
-
         
         var circle = d3.select(this)
             .attr("fill-opacity",1)
@@ -232,16 +205,17 @@
     }
 
     function unhighlight(d,i) {
+        
         var circle = d3.select(this)
             .attr("fill-opacity", function(d) {
-                        if (d.selected == 1) {
+                        if (d.ingredients.includes(filterIngredient)) {
                             return 0.75
                         } else {
                             return 0.1
                         }
                     })
             .attr ("stroke-width", function(d) {
-                        if (d.selected == 1) {
+                        if (d.ingredients.includes(filterIngredient)) {
                             return 0.75
                         } else {
                             return 0
@@ -266,7 +240,7 @@
             background-color: rgba(5, 5, 5, 0.2);
         }
         
-        .epochPlot {
+        .bigPlot {
             visibility: visible;
             background-color: rgba(200, 200, 200, 0.2);
         }
@@ -280,14 +254,6 @@
         
         div.tooltip {	
             position: absolute;			
-            /*text-align: center;			
-            width: 60px;					
-            height: 28px;					
-            padding: 2px;				
-            font: 12px sans-serif;		
-            background: lightsteelblue;	
-            border: 0px;		
-            border-radius: 8px;		*/	
             pointer-events: none;			
         }
         
@@ -342,20 +308,27 @@
     
     
 </head>
-<body onload="setTimeout(drawSVGS,500)">
+<body onload="setTimeout(getData,500)">
+    <div class="dropdown">
+        <select id="ingredientDropDown" onchange="filterIngredient = getFilter();drawPlot()">
+          <option value="|" selected="selected">all</option>
+        </select>
+    </div>
     <h3 style="position: absolute; padding: 10px;">Drinks</h3>
-    <!--<div class='graphLabels'>
-        <body onload="getNewStatsData(directories[1],'newStats')">
-    
-        <svg id="newStats" width="900" height="390"></svg>
-    </div>-->
+    <div class='thePlot'>
+        <svg class="bigPlot" id="theDrinks" width="925" height="630"></svg>
+    </div>
     <div id="tooltip" class="tooltip">
         <span id="drinkName" style="font-weight: bold"></span><br />  
         <span id="drinkStyle" style="font-size: 10pt"></span> :
         <span id="drinkIngredients" style="font-size: 8pt"></span>
-        <!--Fuel: <span id="plantFuelType"></span><br />
-        Generation: <span id="plantGeneration"></span> MWh<br />
-        CO2e: <span id="plantCO2e"></span> tons<br />-->
     </div>
 </body>
 </html>
+
+        d3.select("body").append("svg")
+            .attr("class", "epochPlot")
+            .attr("width", 925)
+            .attr("height", 630)
+            .attr("id",'theDrinks')
+            .attr("background-color",'#ccc');
