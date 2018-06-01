@@ -10,25 +10,20 @@
     
     <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <script type="application/javascript">
-        
-    // get list of directories (right now you have to manually run updataSimsList.py whenever you add new sims)
-        /*
-    var directories = ['data/whiskey_drinks.csv'];
-    d3.csv('plotDataLIVE/simsList.csv', function(d) {
-        directories = d.map(d => d.sims)
-    });*/
-        
-    var newStatsWidth = 1000
-    var newStatsHeight = 390
-
-    var spreadX = newStatsWidth/12;
-    var spreadY = newStatsHeight/3;
 
     var drinksDF;
     var ingredientsDF;
+    var theBoolPick = 'ANY';
+        
+    function switchBool() {
+        var e = document.getElementById("boolPicker");
+        theBoolPick = e.options[e.selectedIndex].text;
+        console.log(theBoolPick);
+    }
+        
     function getData() {
         //populate drink list
-        d3.csv('data/selected_gin.csv', function(d) {
+        d3.csv('data/all_drinks.csv', function(d) {
             drinksDF = d;
             drawPlot();
         });
@@ -51,14 +46,62 @@
     }    
     
     // for filtering
-    var filterIngredient = '|'
-    function getFilter() {
+    var thePicks = []
+    var pickCounter = 0
+    
+    function clearPicks() {
+        thePicks = []
+        d3.select("#ingredientDiv").selectAll("span").remove()
+        pickCounter = 0
+    }
+
+    function addToFilter() {
+        pickCounter += 1
         var e = document.getElementById("ingredientDropDown");
         var thePick = e.options[e.selectedIndex].text
-        console.log(thePick);
-        return thePick;   
+        if (thePick == 'CLEAR') {
+            clearPicks();
+        } else {
+            thePicks.push(thePick)
+        }
+        //
+        var pickSpan = d3.select("#ingredientDiv").selectAll("span")
+            .data(thePicks)
+            .enter()
+            .append("span")
+            .text(function(d) {
+                if (pickCounter > 1) {
+                    if (theBoolPick == 'ANY') {
+                        return ' or ' + d
+                    } else {
+                        return ' & ' + d
+                    }
+                    
+                } else {
+                    return d
+                }
+            });
+        //
+        console.log(thePicks);
+    }
+        
+    function checkPicks(ingredients) {
+        // return True False for whether ANY or ALL of thePicks are in ingredients
+        if (theBoolPick == 'ANY') {
+            var boolReturn = thePicks.some(function(v) { return ingredients.indexOf(v) >= 0; })
+        } else {
+            var boolReturn = thePicks.every(function(v) { return ingredients.indexOf(v) >= 0; })
+        }
+        // (reverse the boolean if thePicks is cleared)
+        if (thePicks.length > 0) {
+            return boolReturn
+        } else {
+            return !(boolReturn)
+        }
+        //return boolReturn
     }
     
+        
     // draws the plot
     function drawPlot() {
         newStatsSVG = d3.select('#theDrinks');
@@ -107,10 +150,10 @@
                 .enter().append("circle")
                 .attr("id", "abvCircle")
                 .attr ("stroke-width", function(d) {
-                        if (d.ingredients.includes(filterIngredient)) {
+                        if (checkPicks(d.ingredients)) {
                             return 0.75
                         } else {
-                            return 0
+                            return 0.2
                         }
                     })
                 .attr ("stroke", '#999')
@@ -118,8 +161,8 @@
                 .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
                 .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
                 .attr ("fill-opacity", function(d) {
-                        if (d.ingredients.includes(filterIngredient)) {
-                            return 0.75
+                        if (checkPicks(d.ingredients)) {
+                            return 0.85
                         } else {
                             return 0.1
                         }
@@ -128,12 +171,17 @@
                         if (d.style.includes("stirred")) {
                             return "#a5693d";
                         } else if (d.style.includes("bubbly")) {
-                            return "#f7e571";
+                            return "#fcf5bf";
                         } else if (d.style.includes("shaken")) {
                             return "#100656";
                             //return "#240ccc";
+                        } else if (d.style.includes("fizz")) {
+                            return "#f4e381";
+                        } else if (d.style.includes("built")) {
+                            return "#b5390c";
+                            
                         } else {
-                            return "#aaa";
+                            return "#bbb";
                         }
                     })
                 .on("mouseover", highlight)
@@ -208,17 +256,17 @@
         
         var circle = d3.select(this)
             .attr("fill-opacity", function(d) {
-                        if (d.ingredients.includes(filterIngredient)) {
-                            return 0.75
+                        if (checkPicks(d.ingredients)) {
+                            return 0.85
                         } else {
                             return 0.1
                         }
                     })
             .attr ("stroke-width", function(d) {
-                        if (d.ingredients.includes(filterIngredient)) {
+                        if (checkPicks(d.ingredients)) {
                             return 0.75
                         } else {
-                            return 0
+                            return 0.2
                         }
                     });/*
             .style("stroke","")
@@ -309,11 +357,20 @@
     
 </head>
 <body onload="setTimeout(getData,500)">
-    <div class="dropdown">
-        <select id="ingredientDropDown" onchange="filterIngredient = getFilter();drawPlot()">
-          <option value="|" selected="selected">all</option>
+    <div class="dropdown" id="ingredientDiv">
+        <select id="boolPicker" onchange="switchBool();clearPicks();drawPlot()">
+          <option selected="selected">ANY</option>
+          <option>ALL</option>
+        </select>
+        <select id="ingredientDropDown" onchange="addToFilter();drawPlot()">
+          <option selected="selected">CLEAR</option>
+          <option>whiskey</option>
+          <option>gin</option>
+          <option>tequila</option>
+          <option>rum</option>
         </select>
     </div>
+    
     <h3 style="position: absolute; padding: 10px;">Drinks</h3>
     <div class='thePlot'>
         <svg class="bigPlot" id="theDrinks" width="925" height="630"></svg>
