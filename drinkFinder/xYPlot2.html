@@ -13,7 +13,7 @@
 
     var drinksDF;
     var ingredientsDF;
-    var theBoolPick = 'ANY';
+    var theBoolPick = 'Can include ANY of';
         
     function switchBool() {
         var e = document.getElementById("boolPicker");
@@ -50,20 +50,22 @@
     var pickCounter = 0
     
     function clearPicks() {
-        thePicks = []
-        d3.select("#ingredientDiv").selectAll("span").remove()
-        pickCounter = 0
+        thePicks = [];
+        d3.select("#ingredientDiv").selectAll("span").remove();
+        pickCounter = 0;
+        drawPlot();
     }
 
     function addToFilter() {
         pickCounter += 1
         var e = document.getElementById("ingredientDropDown");
         var thePick = e.options[e.selectedIndex].text
-        if (thePick == 'CLEAR') {
+        /*if (thePick == 'CLEAR') {
             clearPicks();
         } else {
             thePicks.push(thePick)
-        }
+        }*/
+        thePicks.push(thePick)
         //
         var pickSpan = d3.select("#ingredientDiv").selectAll("span")
             .data(thePicks)
@@ -71,7 +73,7 @@
             .append("span")
             .text(function(d) {
                 if (pickCounter > 1) {
-                    if (theBoolPick == 'ANY') {
+                    if (theBoolPick == 'Can include ANY of') {
                         return ' or ' + d
                     } else {
                         return ' & ' + d
@@ -83,11 +85,12 @@
             });
         //
         console.log(thePicks);
+        e.value = 'start'
     }
         
     function checkPicks(ingredients) {
         // return True False for whether ANY or ALL of thePicks are in ingredients
-        if (theBoolPick == 'ANY') {
+        if (theBoolPick == 'Can include ANY of') {
             var boolReturn = thePicks.some(function(v) { return ingredients.indexOf(v) >= 0; })
         } else {
             var boolReturn = thePicks.every(function(v) { return ingredients.indexOf(v) >= 0; })
@@ -131,7 +134,8 @@
                 .attr ("opacity", 0.4);
         
         newStatsSVG.append("text")
-                .text("<- (less)        Alcohol        (more) ->")
+                //.text("<- (less)        Alcohol        (more) ->")
+                .text("<- (less)        Acidity        (more) ->")
                 .attr ("x",875)
                 .attr ("y",310)
                 .attr ("text-anchor", "middle")
@@ -158,7 +162,9 @@
                     })
                 .attr ("stroke", '#999')
                 .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
-                .attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
+                //.attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
+                .attr ("cy",function(d) { return Math.max(50, (550 - (d.acid * 50000)));})
+                //.attr ("cy",function(d) { return Math.max(50, Math.min(570, d.acid * 50000));})
                 .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
                 .attr ("fill-opacity", function(d) {
                         if (checkPicks(d.ingredients)) {
@@ -350,6 +356,14 @@
         .dropdown:hover .dropbtn {
             background-color: #3e8e41;
         }
+                
+        .big-btn {
+            color: #fcf5bf;
+            background-color: #100656;
+            width: 125px;
+            height: 30px;
+            font-size: 22px;
+        }
         
         
     </style>
@@ -358,16 +372,18 @@
 </head>
 <body onload="setTimeout(getData,500)">
     <div class="dropdown" id="ingredientDiv">
-        <select id="boolPicker" onchange="switchBool();clearPicks();drawPlot()">
-          <option selected="selected">ANY</option>
-          <option>ALL</option>
-        </select>
+        <div onclick="clearPicks();" class="button big-btn">Clear picks</div>
         <select id="ingredientDropDown" onchange="addToFilter();drawPlot()">
-          <option selected="selected">CLEAR</option>
+          <!--<option selected="selected">CLEAR</option>-->
+          <option value='start' selected="selected">choose an ingredient</option>
           <option>whiskey</option>
           <option>gin</option>
           <option>tequila</option>
           <option>rum</option>
+        </select>
+        <select id="boolPicker" onchange="switchBool();clearPicks();drawPlot()">
+          <option selected="selected">Can include ANY of</option>
+          <option>Must include ALL of</option>
         </select>
     </div>
     
