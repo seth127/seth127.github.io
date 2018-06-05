@@ -116,12 +116,12 @@
     }
         
     function checkPicks(ingredients) {
-        ingList = ingredients.split('|')
+        //ingredients = ingredients.split('|') //turn this on for exact matching
         // return True False for whether ANY or ALL of thePicks are in ingredients
         if (theBoolPick == 'Can include ANY of') {
-            var boolReturn = thePicks.some(function(v) { return ingList.indexOf(v) >= 0; })
+            var boolReturn = thePicks.some(function(v) { return ingredients.indexOf(v) >= 0; })
         } else {
-            var boolReturn = thePicks.every(function(v) { return ingList.indexOf(v) >= 0; })
+            var boolReturn = thePicks.every(function(v) { return ingredients.indexOf(v) >= 0; })
         }
         // (reverse the boolean if thePicks is cleared)
         if (thePicks.length > 0) {
