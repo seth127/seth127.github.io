@@ -1,4 +1,4 @@
-drink,style,glass,notes
+name,style,glass,notes
 La Rosa,bubbly,,
 Jersey Julep,,,
 Southland Sipper,,,
@@ -6,7 +6,7 @@ Moscow Mule,built,,
 Summer Negroni,,,
 Blonde Redhead,,,
 Daiquiri,,,
-Southside Fizz,fizz,,
+Southside Fizz,bubbly,,
 Tom Collins,shaken,,
 Paloma,stirred,,
 Old Fashioned,built,old-fashioned,
@@ -39,7 +39,7 @@ Rusty Nail,stirred,old-fashioned,
 Penicillin,stirred,coupe,
 Bijou,stirred,coupe,
 Brooklyn,stirred,coupe,
-Vieux Carre,stirred,old-fashioned,Serve over one large ice cube.
+Vieux Carre,stirred,old-fashioned,Combine ingredients in mixing glass and stir with ice until cold, then strain into glass. Serve over one large ice cube.
 Negroni,built,old-fashioned,
 Boulevardier,stirred,coupe,
 Old Pal,stirred,coupe,
@@ -64,7 +64,7 @@ Classic Daiquiri,shaken,coupe,
 Honeysuckle,shaken,coupe,
 Brandy Alexander,shaken,coupe,
 Blood and Sand,shaken,coupe,
-Whiskey Sour,fizz,coupe,Dry shake all ingredients (no ice) for 10 seconds. Then add ice and shake until cold. Strain into glass.
+Whiskey Sour,fizz,coupe,
 Pisco Sour,fizz,coupe,Dry shake all except bitters (no ice) for 10 seconds. Then add ice and shake until cold. Strain into glass and top with bitters.
 Champagne Cocktail,bubbly,flute,Drop sugar cube into the flute and douse with the bitters. Then pour in champagne and enjoy.
 Sazerac,stirred,old-fashioned,Add the absinthe to the glass and roll it around then discard the extra. Stir the other liquid ingredients with ice until cold then strain into glass. Rub the lemon peel around the rim of the glass then rest on it on the rim.
@@ -77,12 +77,12 @@ Japanese Cocktail,stirred,coupe,
 Old Hickory,built,old-fashioned,
 Pink Gin,stirred,coupe,
 Scofflaw Cocktail,shaken,coupe,
-Seelbach Cocktail,bubbly,coupe,Stir all but champagne with ice until cold. Strain and top with champagne.
+Seelbach Cocktail,bubbly,coupe,
 Toronto,stirred,coupe,
 The Bitter Handshake,stirred,old-fashioned,Make syrup by combining rye and sugar 1:1 then heating until combined. Simmer blood orange juice until reduced by a third or so then let cool. Stir all ingredients with ice until cold and then strain into an old-fashioned glass with one large ice cube.
 Black Feather,stirred,coupe,
 Cricket Ball,bubbly,flute,Drop sugar cube in the flute and douse with the bitters. Add the Lillet and then add the champagne and stir lightly.
-Gargoyle and Spire,bubbly,highball,Stir all but champagne with ice until cold and strain into highball glass full of ice. Top with champagne.
+Gargoyle and Spire,bubbly,highball,
 Sawyer,shaken,old-fashioned,
 Trident,stirred,coupe,
 Zim Zala Bim,stirred,coupe,Stir with no ice until sugar dissolves. Then add ice and stir until chilled. Strain into glass. Squeeze the oil from the lemon peel over the glass and discard.

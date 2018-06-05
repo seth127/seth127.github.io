@@ -13,12 +13,31 @@
 
     var drinksDF;
     var ingredientsDF;
+    var recipeDF;
+    var prepDF;
     var theBoolPick = 'Can include ANY of';
+    
+    var theXPick = 'Sugar';
+    var theYPick = 'Alcohol';
+        
+    // for recipe on and off
+    var showRecipeCounter = 0;
         
     function switchBool() {
         var e = document.getElementById("boolPicker");
         theBoolPick = e.options[e.selectedIndex].text;
         console.log(theBoolPick);
+    }
+    
+    function switchX() {
+        var e = document.getElementById("xPicker");
+        theXPick = e.options[e.selectedIndex].text;
+        console.log(theXPick);
+    }
+    function switchY() {
+        var e = document.getElementById("yPicker");
+        theYPick = e.options[e.selectedIndex].text;
+        console.log(theYPick);
     }
         
     function getData() {
@@ -31,6 +50,14 @@
         d3.csv("data/chemistry.csv", function(d) {
             ingredientsDF = d;
             fillIngredients();
+        });
+        //get recipes
+        d3.csv("data/recipe.csv", function(d) {
+            recipeDF = d;
+        });
+        //get prep
+        d3.csv("data/prep.csv", function(d) {
+            prepDF = d;
         });
     }
 
@@ -89,11 +116,12 @@
     }
         
     function checkPicks(ingredients) {
+        ingList = ingredients.split('|')
         // return True False for whether ANY or ALL of thePicks are in ingredients
         if (theBoolPick == 'Can include ANY of') {
-            var boolReturn = thePicks.some(function(v) { return ingredients.indexOf(v) >= 0; })
+            var boolReturn = thePicks.some(function(v) { return ingList.indexOf(v) >= 0; })
         } else {
-            var boolReturn = thePicks.every(function(v) { return ingredients.indexOf(v) >= 0; })
+            var boolReturn = thePicks.every(function(v) { return ingList.indexOf(v) >= 0; })
         }
         // (reverse the boolean if thePicks is cleared)
         if (thePicks.length > 0) {
@@ -107,23 +135,23 @@
         
     // draws the plot
     function drawPlot() {
-        newStatsSVG = d3.select('#theDrinks');
+        drinksSVG = d3.select('#theDrinks');
         
-        newStatsSVG.append("line")
+        drinksSVG.append("line")
                     .attr("x1",200)
                     .attr("x2",725)
                     .attr("y1",300)
                     .attr("y2",300)
                     .attr("stroke","#888");
         
-        newStatsSVG.append("line")
+        drinksSVG.append("line")
                     .attr("x1",462)
                     .attr("x2",462)
                     .attr("y1",45)
                     .attr("y2",560)
                     .attr("stroke","#888");
 
-        newStatsSVG.append("text")
+        drinksSVG.append("text")
                 .text("<- (less)        Sugar        (more) ->")
                 .attr ("x",462)
                 .attr ("y",595)
@@ -133,9 +161,9 @@
                 .style ("font-size","13pt")
                 .attr ("opacity", 0.4);
         
-        newStatsSVG.append("text")
-                //.text("<- (less)        Alcohol        (more) ->")
-                .text("<- (less)        Acidity        (more) ->")
+        drinksSVG.append("text")
+                .text("<- (less)        Alcohol        (more) ->")
+                //.text("<- (less)        Acidity        (more) ->")
                 .attr ("x",875)
                 .attr ("y",310)
                 .attr ("text-anchor", "middle")
@@ -145,11 +173,11 @@
                 .attr ("opacity", 0.4)
                 .attr('transform', 'rotate(270 875 295)');
         
-        newStatsSVG.selectAll("circle").remove()
+        drinksSVG.selectAll("circle").remove()
 
         var theOffset = 0;
         
-        var abvCirc = newStatsSVG.selectAll("#abvCircle")
+        var abvCirc = drinksSVG.selectAll("#abvCircle")
                 .data(drinksDF)
                 .enter().append("circle")
                 .attr("id", "abvCircle")
@@ -161,10 +189,27 @@
                         }
                     })
                 .attr ("stroke", '#999')
-                .attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
+                //.attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
                 //.attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
-                .attr ("cy",function(d) { return Math.max(50, (550 - (d.acid * 50000)));})
-                //.attr ("cy",function(d) { return Math.max(50, Math.min(570, d.acid * 50000));})
+                //.attr ("cy",function(d) { return Math.max(50, (550 - (d.acid * 50000)));})
+                .attr ("cx",function(d) { 
+                    if (theXPick == "Sugar") {
+                        return Math.max(30, (d.sugar * 6500));
+                    } else if (theXPick == "Alcohol") {
+                        return Math.max(30, (d.alcohol * 2500));
+                    } else if (theXPick == "Acidity") {
+                        return Math.min(900, Math.max(50, (d.acid * 80000)));
+                    }
+                })
+                .attr ("cy",function(d) { 
+                    if (theYPick == "Sugar") {
+                        return Math.max(30, (d.sugar * 6000));
+                    } else if (theYPick == "Alcohol") {
+                        return Math.max(30, (630 - (d.alcohol * 1800)));
+                    } else if (theYPick == "Acidity") {
+                        return Math.max(50, (550 - (d.acid * 50000)));
+                    }
+                })
                 .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
                 .attr ("fill-opacity", function(d) {
                         if (checkPicks(d.ingredients)) {
@@ -185,15 +230,15 @@
                             return "#f4e381";
                         } else if (d.style.includes("built")) {
                             return "#b5390c";
-                            
                         } else {
                             return "#bbb";
                         }
                     })
                 .on("mouseover", highlight)
-                .on("mouseout", unhighlight);
+                .on("mouseout", unhighlight)
+                .on("click", fillRecipe);
         
-        /*var acidCirc = newStatsSVG.selectAll("#acidCircle")
+        /*var acidCirc = drinksSVG.selectAll("#acidCircle")
                 .data(drinksDF)
                 .enter().append("circle")
                 .attr("id", "acidCircle")
@@ -220,7 +265,7 @@
                     hoverText.transition().duration(200).style("opacity", 0);
                 });*/
 
-        /*var meltCirc = newStatsSVG.selectAll("#meltCircle")
+        /*var meltCirc = drinksSVG.selectAll("#meltCircle")
         .data(drinksDF)
             .enter().append("circle")
             .attr("id", "meltCircle")
@@ -282,17 +327,70 @@
             .style("visibility","hidden");
     }
         
+    function showRecipe() {
+        showRecipeCounter += 1;
+        if (showRecipeCounter % 2 == 1) {
+            d3.select("#recipeBox")
+                .style("visibility","visible");
+            //circleOpacity = 0.1;
+            //plotNewStats();
+        } else {
+            d3.select("#recipeBox")
+                .style("visibility","hidden");
+            //circleOpacity = 1;
+        }
+    }
+    
+    function fillRecipe(d) {
+        var thisName = d.name
+        d3.select("#recipeTitle").text(thisName).style("font-weight", "bold");
+        
+        d3.select("#recipeBox").selectAll('#recipeIng').remove();
+        d3.select("#recipeBox").selectAll('#recipeBody').remove();
+        
+        var rec = d3.select("#recipeBox").selectAll("#recipeIng")
+                .data(recipeDF.filter(function(d) { return d.name == thisName }))
+                .enter()
+                .append("div")
+                .attr('id', 'recipeIng')
+                .text(function(d) {
+                    return d.amount + ' ' + d.unit + ' ' + d.ingredient;
+                });
+
+        var inst = d3.select("#recipeBox").selectAll("#recipeBody")
+                .data(prepDF.filter(function(d) { return d.name == thisName }))
+                .enter()
+                .append("p")
+                .attr('id', 'recipeBody')
+                .text(function(d) {
+                    var prepDirections = '';
+                    // style
+                    if (d.notes.length > 0) {
+                        prepDirections += d.notes
+                    } else if (d.style.includes("stirred")) {
+                        prepDirections += "Combine ingredients in mixing glass and stir with ice until cold, then strain into glass.";
+                    } else if (d.style.includes("bubbly")) {
+                        prepDirections += "Stir all but bubbly with ice until cold. Strain and top with bubbly.";
+                    } else if (d.style.includes("shaken")) {
+                        prepDirections += "Combine ingredients in shaker and shake with ice until cold, then strain into glass.";
+                    } else if (d.style.includes("fizz")) {
+                        prepDirections += "Dry shake all ingredients (no ice) for 10 seconds. Then add ice and shake until cold. Strain into glass.";
+                    } else if (d.style.includes("built")) {
+                        prepDirections += "Build ingredients in serving glass, over ice. Stir and enjoy.";
+                    } else if (d.style.includes("hot")) {
+                        prepDirections += "Combine all ingredients and serve hot.";
+                    }
+                    //glass
+                    prepDirections += ' Serve in ' + d.glass + ' glass.';
+                    //
+                    return prepDirections;
+                });
+        
+    }
+        
     </script>
     
     <style>
-        
-        #newStats {
-            position: absolute;
-            top: 100px;
-            left: 25px;
-            visibility: visible;
-            background-color: rgba(5, 5, 5, 0.2);
-        }
         
         .bigPlot {
             visibility: visible;
@@ -362,7 +460,23 @@
             background-color: #100656;
             width: 125px;
             height: 30px;
-            font-size: 22px;
+            font-size: 20px;
+            border-radius: 8px;
+            text-indent: 8px;
+            margin: 7px 0px;
+            padding-top: 3px;
+        }
+        
+        #recipeBox {
+            position: absolute;
+            top: 270px;
+            left: 325px;
+            width: 250px;
+            visibility: hidden;
+            padding: 3px 15px 5px 15px;
+            background-color: #ccc;
+            border-style: double;
+            text-align: center;
         }
         
         
@@ -372,8 +486,7 @@
 </head>
 <body onload="setTimeout(getData,500)">
     <div class="dropdown" id="ingredientDiv">
-        <div onclick="clearPicks();" class="button big-btn">Clear picks</div>
-        <select id="ingredientDropDown" onchange="addToFilter();drawPlot()">
+        <select id="ingredientDropDown" style="font-size: 12pt;" onchange="addToFilter();drawPlot()">
           <!--<option selected="selected">CLEAR</option>-->
           <option value='start' selected="selected">choose an ingredient</option>
           <option>whiskey</option>
@@ -381,20 +494,37 @@
           <option>tequila</option>
           <option>rum</option>
         </select>
-        <select id="boolPicker" onchange="switchBool();clearPicks();drawPlot()">
+        <select id="boolPicker" style="font-size: 12pt;" onchange="switchBool();clearPicks();drawPlot()">
           <option selected="selected">Can include ANY of</option>
           <option>Must include ALL of</option>
         </select>
     </div>
-    
+    <!--<div class="axisPickers">
+        <select style="position: relative; top: 643px; left: 430px; font-size: 8pt;" id="xPicker" onchange="switchX();drawPlot()">
+          <option selected="selected">Sugar</option>
+          <option>Alcohol</option>
+          <option>Acidity</option>
+        </select>
+        <select id="yPicker" style="position: relative; top: 370px; left: 765px; font-size: 8pt; transform: rotate(270 415 650);" onchange="switchY();drawPlot()">
+          <option>Sugar</option>
+          <option selected="selected">Alcohol</option>
+          <option>Acidity</option>
+        </select>
+    </div>-->
+    <div onclick="clearPicks();" class="button big-btn">Clear picks</div>    
     <h3 style="position: absolute; padding: 10px;">Drinks</h3>
-    <div class='thePlot'>
+    <div class='thePlot' onclick="showRecipe();">
         <svg class="bigPlot" id="theDrinks" width="925" height="630"></svg>
     </div>
     <div id="tooltip" class="tooltip">
         <span id="drinkName" style="font-weight: bold"></span><br />  
         <span id="drinkStyle" style="font-size: 10pt"></span> :
         <span id="drinkIngredients" style="font-size: 8pt"></span>
+    </div>
+    <div id="recipeBox">
+        <p id="recipeTitle">Click on a drink to see the recipe</p>
+        <p id="recipeIng"></p>
+        <p id="recipeBody"></p>
     </div>
 </body>
 </html>
