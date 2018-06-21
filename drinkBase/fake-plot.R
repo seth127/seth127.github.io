@@ -40,7 +40,7 @@ df <- group_by(df, name) %>% summarise(alcohol = sum(alcohol),
                                        oz = sum(oz))
 
 # join in prep to get style
-df <- merge(df, prep[,1:3], all.x=T, by.x="name", by.y='drink')
+df <- merge(df, prep[,1:3], all.x=T, by.x="name", by.y='name')
 # prettify
 df$style <- as.factor(df$style)
 
@@ -96,20 +96,19 @@ for (i in 1:nrow(df)) {
   df$ingredients[i] <- paste(recipe[recipe$name==df$name[i], "ingredient"], collapse = "|")
 }
 
-df$selected <- rep(0, nrow(df))
-df$selected[df$name %in% unique(recipe[grep("whiskey", recipe$ingredient), 'name'])] <- 1
-write.csv(df, "data/selected_whiskey.csv", row.names = F, quote = F)
+#df$selected <- rep(0, nrow(df))
+#df$selected[df$name %in% unique(recipe[grep("whiskey", recipe$ingredient), 'name'])] <- 1
+#write.csv(df, "data/selected_whiskey.csv", row.names = F, quote = F)
+#
+#df$selected <- rep(0, nrow(df))
+#df$selected[df$name %in% unique(recipe[grep("gin", recipe$ingredient), 'name'])] <- 1
+#write.csv(df, "data/selected_gin.csv", row.names = F, quote = F)
+#
+#df$selected <- rep(0, nrow(df))
+#df$selected[df$name %in% unique(recipe[grep("lime", recipe$ingredient), 'name'])] <- 1
+#write.csv(df, "data/selected_lime.csv", row.names = F, quote = F)
 
-df$selected <- rep(0, nrow(df))
-df$selected[df$name %in% unique(recipe[grep("gin", recipe$ingredient), 'name'])] <- 1
-write.csv(df, "data/selected_gin.csv", row.names = F, quote = F)
-
-df$selected <- rep(0, nrow(df))
-df$selected[df$name %in% unique(recipe[grep("lime", recipe$ingredient), 'name'])] <- 1
-write.csv(df, "data/selected_lime.csv", row.names = F, quote = F)
-
+# write.csv(df[, 1:9], "data/all_drinks.csv", row.names = F, quote = F)
+# write.csv(df[df$style != '', 1:9], "data/style_drinks.csv", row.names = F, quote = F)
 write.csv(df, "data/all_drinks.csv", row.names = F, quote = F)
-write.csv(df, "data/selected_lime.csv", row.names = F, quote = F)
-
-write.csv(df[, 1:9], "data/all_drinks.csv", row.names = F, quote = F)
-write.csv(df[df$style != '', 1:9], "data/style_drinks.csv", row.names = F, quote = F)
+write.csv(df[df$style != '', ], "data/style_drinks.csv", row.names = F, quote = F)

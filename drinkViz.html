@@ -42,21 +42,21 @@
         
     function getData() {
         //populate drink list
-        d3.csv('data/all_drinks.csv', function(d) {
+        d3.csv('drinkBase/data/all_drinks.csv', function(d) {
             drinksDF = d;
             drawPlot();
         });
         //populate drop down
-        d3.csv("data/chemistry.csv", function(d) {
+        d3.csv("drinkBase/data/chemistry.csv", function(d) {
             ingredientsDF = d;
             fillIngredients();
         });
         //get recipes
-        d3.csv("data/recipe.csv", function(d) {
+        d3.csv("drinkBase/data/recipe.csv", function(d) {
             recipeDF = d;
         });
         //get prep
-        d3.csv("data/prep.csv", function(d) {
+        d3.csv("drinkBase/data/prep.csv", function(d) {
             prepDF = d;
         });
     }
@@ -196,7 +196,8 @@
                     if (theXPick == "Sugar") {
                         return Math.max(30, (d.sugar * 6500));
                     } else if (theXPick == "Alcohol") {
-                        return Math.max(30, (d.alcohol * 2500));
+                        return Math.max(30, (d.alcohol * 2500)); // ABV
+                        //return Math.max(30, (d.alcohol * d.oz * 500)); // content
                     } else if (theXPick == "Acidity") {
                         return Math.min(900, Math.max(50, (d.acid * 80000)));
                     }
@@ -205,7 +206,8 @@
                     if (theYPick == "Sugar") {
                         return Math.max(30, (d.sugar * 6000));
                     } else if (theYPick == "Alcohol") {
-                        return Math.max(30, (630 - (d.alcohol * 1800)));
+                        return Math.max(30, (630 - (d.alcohol * 1800))); // ABV
+                        //return Math.max(30, (630 - (d.alcohol * d.oz * 400))); //content
                     } else if (theYPick == "Acidity") {
                         return Math.max(50, (550 - (d.acid * 50000)));
                     }
@@ -494,7 +496,7 @@
           <option>tequila</option>
           <option>rum</option>
         </select>
-        <select id="boolPicker" style="font-size: 12pt;" onchange="switchBool();clearPicks();drawPlot()">
+        <select id="boolPicker" style="font-size: 12pt;" onchange="switchBool();drawPlot()">
           <option selected="selected">Can include ANY of</option>
           <option>Must include ALL of</option>
         </select>
