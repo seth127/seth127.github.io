@@ -1,6 +1,8 @@
 name,alcohol,sugar,acid,oz,style,glass,melt,ingredients
-Angostura Fizz,0.012531328320802,0.075125313283208,0.0148444330451562,3.99,fizz,coupe,0.33,Angostura bitters|lime juice|simple syrup|grenadine|heavy cream|egg white|soda water
-Trident,0.0423076923076923,0.0256410256410256,0,3.9,stirred,coupe,0.3,dry sherry|Cynar|aquavit|Fee Brothers peach bitters
+Angostura Fizz,0.012531328320802,0.075125313283208,0.0160536526501439,3.99,fizz,coupe,0.33,Angostura bitters|lime juice|simple syrup|grenadine|heavy cream|egg white|soda water
+Chartreuse Swizzle,0.0476190476190476,0.168571428571429,0.0126190476190476,2.1,swizzle,collins,0.4,green Chartreuse|pineapple juice|fresh lime juice|falernum|nutmeg|mint sprig
+Ode To Viceroy,0.0493827160493827,0.279259259259259,0.0160493827160494,2.025,shaken,old-fashioned,0.35,scotch whiskey|falernum|lime juice|ginger syrup|lime wheel
+Trident,0.091025641025641,0.0333333333333333,0,3.9,stirred,coupe,0.3,dry sherry|Cynar|aquavit|Fee Brothers peach bitters
 Cricket Ball,0.0991735537190083,0.0275482093663912,0,4.5375,bubbly,flute,0.1,sugar|Peychaud's bitters|Fee Brothers rhubarb bitters|Lillet Rouge|champagne|lemon twist
 Paloma,0.102564102564103,0.0740064102564103,0.00884615384615385,7.8,stirred,,0.3,tequila blanco|grapefruit juice|lime juice|simple syrup|club soda
 Scotch Toddy,0.104166666666667,0.0596354166666667,0.00390625,7.68,hot,mug,0.28,blended scotch whiskey|honey|lemon juice|boiling water
@@ -56,7 +58,6 @@ Seelbach Cocktail,0.233766233766234,0.0324675324675325,0,3.85,bubbly,coupe,0.1,b
 Last Word,0.235185185185185,0.114074074074074,0.0111111111111111,4.05,shaken,coupe,0.35,gin|Green Chartreuse|Luxardo Maraschino|lime juice|salt
 Martinez,0.236057693569711,0.062980795012016,0.0017307690144231,3.4666671,stirred,coupe,0.3,gin|sweet vermouth|Luxardo Maraschino|Angostura bitters
 Sidecar,0.237037037037037,0.0517530864197531,0.00888888888888889,5.0625,shaken,coupe,0.35,cognac|Cointreau|lemon juice
-Corn 'n' Oil,0.242424242424242,0.00121212121212121,0.00454545454545455,3.3,built,old-fashioned,0.2,blackstrap rum|falernum|lime juice|Angostura bitters|lime wedge
 Brandy Crusta,0.246153846153846,0.0422792022792023,0.00683760683760684,4.3875,shaken,coupe,0.35,cognac|lemon juice|orange curacao|Luxardo Maraschino|lemon spiral|sugar
 Japanese Cocktail,0.246153846153846,0.123076923076923,0,3.25,stirred,coupe,0.3,cognac|orgeat|Angostura bitters|lemon twist
 Bourbon Manhattan,0.247435897435897,0.041025641025641,0.00153846153846154,3.9,stirred,coupe,0.3,bourbon whiskey|sweet vermouth|Angostura bitters|cherry
@@ -69,6 +70,7 @@ Rob Roy,0.265976331360947,0.0284023668639053,0.00106508875739645,4.225,stirred,c
 Zim Zala Bim,0.266666601025667,0.0717949866666207,0,3.2500013,stirred,coupe,0.3,reposado tequila|orange bitters|St Germain|sugar|lemon twist
 Vieux Carre,0.268910256410256,0.046474358974359,0.00115384615384615,3.9,stirred,old-fashioned,0.3,rye whiskey|cognac|sweet vermouth|Benedictine|Angostura bitters|Peychaud's bitters
 Manhattan,0.272377622377622,0.0335664335664336,0.00125874125874126,3.575,stirred,coupe,0.3,rye whiskey|sweet vermouth|Angostura bitters|orange twist
+Corn 'n' Oil,0.272727272727273,0.076969696969697,0.0053030303030303,3.3,built,old-fashioned,0.2,blackstrap rum|falernum|lime juice|Angostura bitters|lime wedge
 Bijou,0.285897435897436,0.105128205128205,0.00153846153846154,3.9,stirred,coupe,0.3,gin|sweet vermouth|Green Chartreuse|orange bitters|cherry|lemon twist
 Improved Whiskey Cocktail,0.286153846153846,0.0742307692307692,0,3.25,stirred,old-fashioned,0.3,rye whiskey|simple syrup|Luxardo Maraschino|Angostura bitters|absinthe|lemon twist
 De La Louisiane,0.290384615384615,0.0519230769230769,0.000769230769230769,3.9,stirred,coupe,0.3,rye whiskey|Benedictine|sweet vermouth|Peychaud's bitters|Angostura bitters|absinthe|cherry
@@ -83,3 +85,4 @@ Rusty Nail,0.307692307692308,0.0461538461538461,0,3.25,stirred,old-fashioned,0.3
 Widow's Kiss,0.307692307692308,0.0428461538461538,0,3.25,stirred,coupe,0.3,apple brandy|Benedictine|Yellow Chartreuse|Angostura bitters
 Alaska Cocktail,0.307692307692308,0.08,0,2.925,stirred,coupe,0.3,gin|Yellow Chartreuse|orange bitters|lemon twist
 Old Fashioned,0.326923026627227,0.0394231497041308,0,2.6000004,built,old-fashioned,0.2,rye whiskey|simple syrup|Angostura bitters|orange peel
+Montegomatica,0.383101841001159,0.0222222194444448,0,3.60000045,shaken,hurricane,0.35,overproof rum|Fernet Branca|velvet falernum|fresh lime juice|mint sprig|blackstrap rum

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>drinkBase</title>
+    
+    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	
+    
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="application/javascript">
+
+    var ingredientsDF;
+        
+    function getData() {
+        //populate drop down
+        d3.csv("drinkBase/data/chemistry.csv", function(d) {
+            ingredientsDF = d;
+            //fillIngredients('rye');
+        });
+
+    }
+
+    // fill the drop down menu
+    function oldFill() {
+        var inputText = document.getElementById('searchText').value
+        
+        var p = d3.select("#ingredientDropDown").selectAll("option")
+                .data(ingredientsDF.filter(function(d) {
+                        return d.ingredient.toLowerCase().match(RegExp(inputText.toLowerCase()))
+                    }))
+                /*.data(ingredientsDF.filter(function(d) { 
+                        return RegExp(inputText).test(d.ingredient);
+                        //return d.ingredient.toLowerCase().indexOf(inputText.toLowerCase()) >= 0;
+                        //return d.ingredient.contains(inputText);
+                        
+                        //return d.class == 'Spirit';
+                    }))*/
+                .enter()
+                .append("option")
+                .text(function(d) {
+                    return d.ingredient
+                });
+    }
+        
+
+    function fillIngredients() {
+        var inputText = document.getElementById('searchText').value
+        
+        var pickSpan = d3.select("#ingredientDiv").selectAll("span")
+            .data(ingredientsDF.filter(function(d) {
+                return d.ingredient.toLowerCase().match(RegExp(inputText.toLowerCase()))
+            }))
+            .enter()
+            .append("span")
+            .text(function(d) {
+                return d.ingredient + ' :: '
+            });
+        //
+
+    }
+        
+        
+    </script>
+
+</head>
+<body onload="setTimeout(getData,500)">
+    <div id="ingredientDiv" class="dropdown" >
+        <input type=text id=searchText onchange="fillIngredients();oldFill();">
+        
+        <select id="ingredientDropDown" style="font-size: 12pt;">
+
+        </select>
+    </div>
+    
+</body>
+</html>

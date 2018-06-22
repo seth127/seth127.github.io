@@ -1,4 +1,4 @@
-setwd("~/Documents/seth127.github.io/drinkFinder")
+setwd("~/Documents/seth127.github.io/drinkBase")
 library(dplyr)
 library(ggplot2)
 library(tidyr)
@@ -74,41 +74,16 @@ df$name <- reorder(df$name, df$alcohol)
 
 df <- df[order(df$alcohol, decreasing = F), ]
 
-## #### then plot
-## #temp_df <- df
-## #temp_df <- df[order(df$acid, decreasing = T)[1:20], ] # the 20 most acidic
-## temp_df <- df[df$name %in% unique(recipe[grep("whiskey", recipe$ingredient), 'name']), ]
-## #temp_df <- df[df$name %in% unique(recipe[grep("gin", recipe$ingredient), 'name']), ]
-## #temp_df <- df[df$name %in% unique(recipe[grep("tequila", recipe$ingredient), 'name']), ]
-## ggplot(temp_df, aes(x = name, y = alcohol)) + 
-##   geom_point(aes(size=oz, colour = style)) + 
-##   geom_point(aes(size=oz*0.25, alpha=acid), shape=8) + 
-##   geom_point(aes(size=sugar*100), shape=1, alpha=0.5) +
-##   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-##   scale_size(range=c(3,18)) + xlab("") + ylab("ABV") + scale_y_continuous(labels = scales::percent) +
-##   ggtitle("Whiskey drinks")
-## 
-## write.csv(temp_df[order(temp_df$alcohol, decreasing = F), ], "data/whiskey_drinks.csv", row.names = F, quote = F)
-
-##### extra pieces
-df$ingredients <- NA
-for (i in 1:nrow(df)) {
-  df$ingredients[i] <- paste(recipe[recipe$name==df$name[i], "ingredient"], collapse = "|")
-}
-
-#df$selected <- rep(0, nrow(df))
-#df$selected[df$name %in% unique(recipe[grep("whiskey", recipe$ingredient), 'name'])] <- 1
-#write.csv(df, "data/selected_whiskey.csv", row.names = F, quote = F)
-#
-#df$selected <- rep(0, nrow(df))
-#df$selected[df$name %in% unique(recipe[grep("gin", recipe$ingredient), 'name'])] <- 1
-#write.csv(df, "data/selected_gin.csv", row.names = F, quote = F)
-#
-#df$selected <- rep(0, nrow(df))
-#df$selected[df$name %in% unique(recipe[grep("lime", recipe$ingredient), 'name'])] <- 1
-#write.csv(df, "data/selected_lime.csv", row.names = F, quote = F)
-
-# write.csv(df[, 1:9], "data/all_drinks.csv", row.names = F, quote = F)
-# write.csv(df[df$style != '', 1:9], "data/style_drinks.csv", row.names = F, quote = F)
-write.csv(df, "data/all_drinks.csv", row.names = F, quote = F)
-write.csv(df[df$style != '', ], "data/style_drinks.csv", row.names = F, quote = F)
+#### then plot
+#temp_df <- df
+#temp_df <- df[order(df$acid, decreasing = T)[1:20], ] # the 20 most acidic
+temp_df <- df[df$name %in% unique(recipe[grep("whiskey", recipe$ingredient), 'name']), ]
+#temp_df <- df[df$name %in% unique(recipe[grep("gin", recipe$ingredient), 'name']), ]
+#temp_df <- df[df$name %in% unique(recipe[grep("tequila", recipe$ingredient), 'name']), ]
+ggplot(temp_df, aes(x = name, y = alcohol)) + 
+  geom_point(aes(size=oz, colour = style)) + 
+  geom_point(aes(size=oz*0.25, alpha=acid), shape=8) + 
+  geom_point(aes(size=sugar*100), shape=1, alpha=0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  scale_size(range=c(3,18)) + xlab("") + ylab("ABV") + scale_y_continuous(labels = scales::percent) +
+  ggtitle("Whiskey drinks")
