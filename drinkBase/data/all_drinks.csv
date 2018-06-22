@@ -1,10 +1,10 @@
 name,alcohol,sugar,acid,oz,style,glass,melt,ingredients
-Angostura Fizz,0.012531328320802,0.075125313283208,0.0160536526501439,3.99,fizz,coupe,0.33,Angostura bitters|lime juice|simple syrup|grenadine|heavy cream|egg white|soda water
+Angostura Fizz,0.012531328320802,0.075125313283208,0.0160531189083821,3.99,fizz,coupe,0.33,Angostura bitters|lime juice|simple syrup|grenadine|heavy cream|egg white|soda water
 Blonde Redhead,0.0355603448275862,0.0892241379310345,0.00420258620689655,9.28,,,0.28,aperol|grapefruit juice|lemon juice|club soda
-Chartreuse Swizzle,0.0476190476190476,0.168571428571429,0.0126190476190476,2.1,swizzle,collins,0.4,green Chartreuse|pineapple juice|fresh lime juice|falernum|nutmeg|mint sprig
 Ode To Viceroy,0.0493827160493827,0.279259259259259,0.0160493827160494,2.025,shaken,old-fashioned,0.35,scotch whiskey|falernum|lime juice|ginger syrup|lime wheel
 Trident,0.091025641025641,0.0333333333333333,0,3.9,stirred,coupe,0.3,dry sherry|Cynar|aquavit|Fee Brothers peach bitters
 Cricket Ball,0.0991735537190083,0.0275482093663912,0,4.5375,bubbly,flute,0.1,sugar|Peychaud's bitters|Fee Brothers rhubarb bitters|Lillet Rouge|champagne|lemon twist
+Landing Gear Fizz,0.101424501424501,0.155441595441595,0.0127635327635328,4.3875,shaken,Collins,0.35,falernum|Punt e Mes vermouth|lime juice|sherry|lime wheel|mint sprig
 Paloma,0.102564102564103,0.0740064102564103,0.00884615384615385,7.8,stirred,,0.3,tequila blanco|grapefruit juice|lime juice|simple syrup|club soda
 Scotch Toddy,0.104166666666667,0.0596354166666667,0.00390625,7.68,hot,mug,0.28,blended scotch whiskey|honey|lemon juice|boiling water
 Southside Cocktail,0.107744107744108,0.0637373737373737,0.00606060606060606,7.425,shaken,coupe,0.35,gin|mint leaves|lemon juice|simple syrup|club soda
@@ -53,6 +53,7 @@ Sawyer,0.197530864197531,0.0779012345679012,0.00740740740740741,4.05,shaken,old-
 Harvard Cocktail,0.201041641536462,0.0557407763657363,0.00555555513888894,3.60000045,shaken,coupe,0.35,cognac|sweet vermouth|lemon juice|grenadine|Angostura bitters|lemon twist
 La Rosa,0.209486166007905,0.0758102766798419,0.00711462450592885,6.325,bubbly,,0.1,strawberry|simple syrup|tequila blanco|amaro|lemon juice|pink champagne
 Alabazam,0.218855218855219,0.0761616161616162,0.00404040404040404,3.7125,shaken,coupe,0.35,cognac|Cointreau|Angostura bitters|lemon juice|simple syrup
+Chartreuse Swizzle,0.220238095238095,0.173571428571429,0.00630952380952381,4.2,swizzle,collins,0.4,Green Chartreuse|pineapple juice|fresh lime juice|falernum|nutmeg|mint sprig
 Hanky Panky,0.221659927274664,0.0615384615384615,0.00218623458768381,4.1166671,stirred,coupe,0.3,gin|sweet vermouth|Fernet Branca|orange twist
 Original Cosmopolitan,0.222222222222222,0.0546759259259259,0.01,5.4,shaken,coupe,0.35,Absolut Citron vodka|Cointreau|cranberry juice|lime juice|orange twist
 Negroni,0.223611111111111,0.111111111111111,0.00166666666666667,3.6,built,old-fashioned,0.2,gin|sweet vermouth|Campari|orange twist
