@@ -420,13 +420,13 @@ Imbibe,Ode To Viceroy,ginger syrup,oz,0.5
 Imbibe,Ode To Viceroy,lime wheel,garnish,1
 Imbibe,Montegomatica,overproof rum,oz,1.5
 Imbibe,Montegomatica,Fernet Branca,oz,1
-Imbibe,Montegomatica,velvet falernum,oz,1
-Imbibe,Montegomatica,fresh lime juice,oz,1
+Imbibe,Montegomatica,falernum,oz,1
+Imbibe,Montegomatica,lime juice,oz,1
 Imbibe,Montegomatica,mint sprig,garnish,1
 Imbibe,Montegomatica,blackstrap rum,teaspoon,1
 Imbibe,Chartreuse Swizzle,Green Chartreuse,oz,1.5
 Imbibe,Chartreuse Swizzle,pineapple juice,oz,1
-Imbibe,Chartreuse Swizzle,fresh lime juice,oz,0.75
+Imbibe,Chartreuse Swizzle,lime juice,oz,0.75
 Imbibe,Chartreuse Swizzle,falernum,oz,0.5
 Imbibe,Chartreuse Swizzle,nutmeg,garnish,1
 Imbibe,Chartreuse Swizzle,mint sprig,garnish,1
@@ -436,3 +436,23 @@ Imbibe,Landing Gear Fizz,lime juice,oz,0.75
 Imbibe,Landing Gear Fizz,sherry,oz,0.5
 Imbibe,Landing Gear Fizz,lime wheel,garnish,1
 Imbibe,Landing Gear Fizz,mint sprig,garnish,1
+Imbibe,Jungle Bird,blackstrap rum,oz,1.5
+Imbibe,Jungle Bird,pineapple juice,oz,1.5
+Imbibe,Jungle Bird,Campari,oz,0.75
+Imbibe,Jungle Bird,lime juice,oz,0.5
+Imbibe,Jungle Bird,simple syrup,oz,0.5
+Imbibe,Jungle Bird,pineapple wedge,garnish,1
+Goslings,Goslings Swizzle,aged rum,oz,1
+Goslings,Goslings Swizzle,dark rum,oz,1
+Goslings,Goslings Swizzle,orange juice,oz,1
+Goslings,Goslings Swizzle,pineapple juice,oz,1
+Goslings,Goslings Swizzle,falernum,oz,0.5
+Goslings,Goslings Swizzle,Angostura bitters,dashes,3
+Goslings,Goslings Swizzle,mint sprig,garnish,1
+Goslings,Goslings Swizzle,orange peel,garnish,1
+Dale DeGroff,Mojito,white rum,oz,1.5
+Dale DeGroff,Mojito,mint leaves,each,10
+Dale DeGroff,Mojito,simple syrup,oz,0.75
+Dale DeGroff,Mojito,lime juice,oz,0.75
+Dale DeGroff,Mojito,club soda,oz,1.5
+Dale DeGroff,Mojito,mint sprig,garnish,1
