@@ -153,7 +153,7 @@ Liquid Intelligence,Rusty Nail,Drambuie,oz,0.5
 Liquid Intelligence,Rusty Nail,lemon peel,garnish,1
 Imbibe,Penicillin,blended scotch whiskey,oz,2
 Imbibe,Penicillin,lemon juice,oz,0.75
-Imbibe,Penicillin,honey simple syrup,oz,0.75
+Imbibe,Penicillin,honey syrup,oz,0.75
 Imbibe,Penicillin,fresh ginger,slices,3
 Imbibe,Penicillin,Islay scotch whiskey,oz,0.25
 Liquid Intelligence,Bijou,gin,oz,1
@@ -240,7 +240,7 @@ Liquid Intelligence,20th Century Cocktail,creme de cacao,oz,0.75
 Liquid Intelligence,20th Century Cocktail,Lillet Blanc,oz,0.75
 Liquid Intelligence,Bee's Knees,gin,oz,2
 Liquid Intelligence,Bee's Knees,lemon juice,oz,0.75
-Liquid Intelligence,Bee's Knees,honey simple syrup,oz,0.75
+Liquid Intelligence,Bee's Knees,honey syrup,oz,0.75
 Liquid Intelligence,Bee's Knees,lemon wheel,garnish,1
 Liquid Intelligence,Southside Cocktail,gin,oz,2
 Liquid Intelligence,Southside Cocktail,mint leaves,each,8
@@ -249,7 +249,7 @@ Liquid Intelligence,Southside Cocktail,simple syrup,oz,0.75
 Liquid Intelligence,Southside Cocktail,club soda,oz,2
 Liquid Intelligence,Gold Rush,bourbon whiskey,oz,2
 Liquid Intelligence,Gold Rush,lemon juice,oz,0.75
-Liquid Intelligence,Gold Rush,honey simple syrup,oz,0.75
+Liquid Intelligence,Gold Rush,honey syrup,oz,0.75
 Liquid Intelligence,Cosmopolitan,Absolut Citron vodka,oz,1.5
 Liquid Intelligence,Cosmopolitan,Cointreau,oz,0.75
 Liquid Intelligence,Cosmopolitan,cranberry juice,oz,0.75
@@ -262,7 +262,7 @@ Liquid Intelligence,Original Cosmopolitan,lime juice,oz,0.75
 Liquid Intelligence,Original Cosmopolitan,orange twist,garnish,1
 Liquid Intelligence,Brown Derby,bourbon whiskey,oz,2
 Liquid Intelligence,Brown Derby,grapefruit juice,oz,1
-Liquid Intelligence,Brown Derby,honey simple syrup,oz,0.5
+Liquid Intelligence,Brown Derby,honey syrup,oz,0.5
 Liquid Intelligence,Brown Derby,grapefruit twist,garnish,1
 Liquid Intelligence,Hemingway Daiquiri,white rum,oz,2
 Liquid Intelligence,Hemingway Daiquiri,lime juice,oz,0.75
@@ -275,7 +275,7 @@ Liquid Intelligence,Classic Daiquiri,lime juice,oz,0.875
 Liquid Intelligence,Classic Daiquiri,simple syrup,oz,0.75
 Liquid Intelligence,Honeysuckle,white rum,oz,2
 Liquid Intelligence,Honeysuckle,lime juice,oz,0.75
-Liquid Intelligence,Honeysuckle,honey simple syrup,oz,0.75
+Liquid Intelligence,Honeysuckle,honey syrup,oz,0.75
 Liquid Intelligence,Honeysuckle,lime wheel,garnish,1
 Liquid Intelligence,Brandy Alexander,cognac,oz,2
 Liquid Intelligence,Brandy Alexander,heavy cream,oz,1
@@ -413,7 +413,7 @@ Punch,Alabazam,Cointreau,oz,0.5
 Punch,Alabazam,Angostura bitters,oz,0.25
 Punch,Alabazam,lemon juice,oz,0.25
 Punch,Alabazam,simple syrup,oz,0.25
-Imbibe,Ode To Viceroy,scotch whiskey,oz,1.5
+Imbibe,Ode To Viceroy,blended scotch whiskey,oz,1.5
 Imbibe,Ode To Viceroy,falernum,oz,0.5
 Imbibe,Ode To Viceroy,lime juice,oz,0.5
 Imbibe,Ode To Viceroy,ginger syrup,oz,0.5
@@ -430,8 +430,8 @@ Imbibe,Chartreuse Swizzle,lime juice,oz,0.75
 Imbibe,Chartreuse Swizzle,falernum,oz,0.5
 Imbibe,Chartreuse Swizzle,nutmeg,garnish,1
 Imbibe,Chartreuse Swizzle,mint sprig,garnish,1
-Imbibe,Landing Gear Fizz,falernum,oz,1
 Imbibe,Landing Gear Fizz,Punt e Mes vermouth,oz,1
+Imbibe,Landing Gear Fizz,falernum,oz,1
 Imbibe,Landing Gear Fizz,lime juice,oz,0.75
 Imbibe,Landing Gear Fizz,sherry,oz,0.5
 Imbibe,Landing Gear Fizz,lime wheel,garnish,1
@@ -456,3 +456,44 @@ Dale DeGroff,Mojito,simple syrup,oz,0.75
 Dale DeGroff,Mojito,lime juice,oz,0.75
 Dale DeGroff,Mojito,club soda,oz,1.5
 Dale DeGroff,Mojito,mint sprig,garnish,1
+Imbibe,Baker Street Swizzle,absinthe,oz,1.5
+Imbibe,Baker Street Swizzle,falernum,oz,0.75
+Imbibe,Baker Street Swizzle,Angostura bitters,oz,0.5
+Imbibe,Baker Street Swizzle,lemon juice,oz,0.5
+Imbibe,Baker Street Swizzle,mint leaves,each,7
+Imbibe,Baker Street Swizzle,mint sprig,garnish,1
+Imbibe,Esplanade Swizzle,mezcal,oz,1
+Imbibe,Esplanade Swizzle,sherry,oz,1
+Imbibe,Esplanade Swizzle,lime juice,oz,0.75
+Imbibe,Esplanade Swizzle,falernum,oz,0.5
+Imbibe,Esplanade Swizzle,ginger syrup,oz,0.5
+Imbibe,Esplanade Swizzle,mint sprig,garnish,1
+Punch,Planter's Punch,dark rum,oz,1.5
+Punch,Planter's Punch,pineapple juice,oz,1
+Punch,Planter's Punch,lime juice,oz,0.5
+Punch,Planter's Punch,orange juice,oz,0.5
+Punch,Planter's Punch,simple syrup,oz,0.25
+Punch,Planter's Punch,pineapple wedge,garnish,1
+Punch,Planter's Punch,orange wheel,garnish,1
+Punch,Planter's Punch,mint sprig,garnish,1
+Saveur,Cuba Kola,lime juice,oz,2
+Saveur,Cuba Kola,overproof rum,oz,1.5
+Saveur,Cuba Kola,orange juice,oz,1
+Saveur,Cuba Kola,dark rum,oz,1
+Saveur,Cuba Kola,honey syrup,oz,0.75
+Saveur,Cuba Kola,Angostura bitters,dash,1
+Saveur,Cuba Kola,absinthe,dashes,6
+Saveur,Cuba Kola,pineapple wedge,garnish,1
+Saveur,Cuba Kola,cherry,garnish,1
+Brooklyn Bartender,100 Year-Old Cigar,aged rum,oz,1.75
+Brooklyn Bartender,100 Year-Old Cigar,Cynar,oz,0.5
+Brooklyn Bartender,100 Year-Old Cigar,Benedictine,oz,0.5
+Brooklyn Bartender,100 Year-Old Cigar,Islay scotch whiskey,oz,0.25
+Brooklyn Bartender,100 Year-Old Cigar,Angostura bitters,dash,1
+Brooklyn Bartender,100 Year-Old Cigar,absinthe,rinse,1
+Saveur,Mai Tai,dark rum,oz,1
+Saveur,Mai Tai,aged rum,oz,1
+Saveur,Mai Tai,lime juice,oz,1
+Saveur,Mai Tai,orange curacao,oz,0.5
+Saveur,Mai Tai,orgeat,oz,0.5
+Saveur,Mai Tai,mint spring,garnish,1

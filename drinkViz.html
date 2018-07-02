@@ -216,7 +216,7 @@
                 //.attr ("cy",function(d) { return Math.max(50, (550 - (d.acid * 50000)));})
                 .attr ("cx",function(d) { 
                     if (theXPick == "Sugar") {
-                        return Math.min(Math.max(30, (d.sugar * 6500)), 825);
+                        return Math.min(Math.max(30, (d.sugar * 6500) - 25), 825);
                     } else if (theXPick == "Alcohol") {
                         return Math.max(30, (d.alcohol * 2500)); // ABV
                         //return Math.max(30, (d.alcohol * d.oz * 500)); // content

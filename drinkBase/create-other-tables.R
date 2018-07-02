@@ -1,17 +1,21 @@
 setwd("~/Documents/seth127.github.io/drinkBase")
-library(dplyr)
-library(ggplot2)
-library(tidyr)
+suppressMessages(library(dplyr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(tidyr))
 
 # load data
+print("loading data/recipe.csv")
 recipe <- read.csv("data/recipe.csv", stringsAsFactors = F)
 recipe$unit[grep("teas", recipe$unit)] <- 'tsp'
 
+print("loading data/prep.csv")
 prep <- read.csv("data/prep.csv", stringsAsFactors = F)
+print("loading data/chemistry.csv")
 chem <- read.csv("data/chemistry.csv", stringsAsFactors = F)
 chem[is.na(chem)] <- 0
 
 # create stats df
+print("creating stats")
 stats <- merge(recipe[grep("oz|tsp|tbl|cube", recipe$unit), 2:5], chem[, c(1,3:5)])
 
 # convert all to oz
@@ -85,5 +89,9 @@ for (i in 1:nrow(df)) {
 }
 
 # write out csv's
+print("writing data/all_drinks.csv")
 write.csv(df, "data/all_drinks.csv", row.names = F, quote = F)
+print("writing data/style_drinks.csv")
 write.csv(df[df$style != '', ], "data/style_drinks.csv", row.names = F, quote = F)
+
+print("All done.")

@@ -21,6 +21,7 @@ pineapple juice,Juice,0.0,0.104,0.024
 white rum,Spirit,0.4,0.0,0.0
 applejack,Liquer,0.4,0.07,0.0
 blended scotch whiskey,Spirit,0.4,0.0,0.0
+mezcal,Spirit,0.4,0.0,0.0
 honey,Sweetener,0.0,0.9,0.0
 tequila reposado,Spirit,0.4,0.0,0.0
 agave nectar,Sweetener,0.0,0.5,0.0
@@ -43,14 +44,14 @@ pisco,Spirit,0.4,0.0,0.0
 Campari,Liquer,0.24,0.24,0.0
 Yellow Chartreuse,Liquer,0.4,0.312,0.0
 Drambuie,Liquer,0.4,0.3,0.0
-honey simple syrup,Sweetener,0.0,0.615,0.0
+honey syrup,Sweetener,0.0,0.615,0.0
 Islay scotch whiskey,Spirit,0.43,0.0,0.0
 Amer Picon,Liquer,0.15,0.2,0.0
 sloe gin,Liquer,0.25,0.2,0.0
 orange curacao,Liquer,0.4,0.18,0.0
 tequila,Spirit,0.4,0.0,0.0
 triple sec,Liquer,0.25,0.39,0.0
-Lillet Blanc,Vermouth,0.17,0.95,0.006
+Lillet Blanc,Vermouth,0.17,0.095,0.006
 creme de cacao,Liquer,0.24,0.395,0.0
 Absolut Citron vodka,Spirit,0.4,0.0,0.0
 cranberry juice,Juice,0.0,0.133,0.036
@@ -62,6 +63,7 @@ grenadine,Sweetener,0.0,0.46,0.003
 blackstrap rum,Spirit,0.4,0.0,0.0
 overproof rum,Spirit,0.615,0.0,0.0
 falernum,Liquer,0.2,0.5,0.005
+absinthe,Liquer,0.6,0.0,0.0
 orgeat,Sweetener,0.0,0.8,0.0
 blood orange juice reduction,Juice,0.0,0.12,0.012
 rye whiskey simple syrup,Sweetener,0.3,0.6,0.0
