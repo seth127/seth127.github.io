@@ -90,8 +90,8 @@ for (i in 1:nrow(df)) {
 
 # write out csv's
 print("writing data/all_drinks.csv")
-write.csv(df, "data/all_drinks.csv", row.names = F, quote = F)
+#write.csv(df, "data/all_drinks.csv", row.names = F, quote = F)
 print("writing data/style_drinks.csv")
-write.csv(df[df$style != '', ], "data/style_drinks.csv", row.names = F, quote = F)
+#write.csv(df[df$style != '', ], "data/style_drinks.csv", row.names = F, quote = F)
 
 print("All done.")

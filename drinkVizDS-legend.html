@@ -17,8 +17,11 @@
     var prepDF;
     var theBoolPick = 'Can include ANY of';
     
-    var theXPick = 'Sugar';
-    var theYPick = 'Alcohol';
+    //var theXPick = 'Acidity';
+    //var theYPick = 'Sugar';
+    var theXPick = 'pca';
+    var theYPick = theXPick;
+    var featurePick = 'prep';
         
     // for recipe on and off
     var showRecipeCounter = 0;
@@ -42,7 +45,8 @@
         
     function getData() {
         //populate drink list
-        d3.csv('drinkBase/data/all_drinks.csv', function(d) {
+        //d3.csv('drinkBase/data/style_drinks.csv', function(d) {
+        d3.csv('drinkBase/data/clustering/legend.csv', function(d) {
             drinksDF = d;
             drawPlot();
         });
@@ -159,21 +163,69 @@
     function drawPlot() {
         drinksSVG = d3.select('#theDrinks');
         
+        // horizontal - bottom
         drinksSVG.append("line")
-                    .attr("x1",200)
-                    .attr("x2",725)
-                    .attr("y1",300)
-                    .attr("y2",300)
+                    .attr("x1",398)
+                    .attr("x2",501)
+                    .attr("y1",315)
+                    .attr("y2",315)
                     .attr("stroke","#888");
         
         drinksSVG.append("line")
-                    .attr("x1",462)
-                    .attr("x2",462)
-                    .attr("y1",45)
-                    .attr("y2",560)
+                    .attr("x1",393)
+                    .attr("x2",506)
+                    .attr("y1",320)
+                    .attr("y2",320)
+                    .attr("stroke","#888")
+                    .attr ("stroke-width", 1.75);
+        
+        // horizontal - top
+        drinksSVG.append("line")
+                    .attr("x1",398)
+                    .attr("x2",501)
+                    .attr("y1",158)
+                    .attr("y2",158)
+                    .attr("stroke","#888");
+        
+        drinksSVG.append("line")
+                    .attr("x1",393)
+                    .attr("x2",506)
+                    .attr("y1",153)
+                    .attr("y2",153)
+                    .attr("stroke","#888");
+        
+        // vertical - left
+        drinksSVG.append("line")
+                    .attr("x1",398)
+                    .attr("x2",398)
+                    .attr("y1",315)
+                    .attr("y2",158)
+                    .attr("stroke","#888");
+        
+        drinksSVG.append("line")
+                    .attr("x1",393)
+                    .attr("x2",393)
+                    .attr("y1",320)
+                    .attr("y2",153)
+                    .attr("stroke","#888")
+                    .attr ("stroke-width", 1.75);
+        
+        // vertical - right
+        drinksSVG.append("line")
+                    .attr("x1",501)
+                    .attr("x2",501)
+                    .attr("y1",315)
+                    .attr("y2",158)
+                    .attr("stroke","#888");
+        
+        drinksSVG.append("line")
+                    .attr("x1",506)
+                    .attr("x2",506)
+                    .attr("y1",320)
+                    .attr("y2",153)
                     .attr("stroke","#888");
 
-        drinksSVG.append("text")
+        /*drinksSVG.append("text")
                 .text("<- (less)        Sugar        (more) ->")
                 .attr ("x",462)
                 .attr ("y",615)
@@ -193,7 +245,7 @@
                 .style ("fill","#444")
                 .style ("font-size","13pt")
                 .attr ("opacity", 0.4)
-                .attr('transform', 'rotate(270 875 295)');
+                .attr('transform', 'rotate(270 875 295)');*/
         
         drinksSVG.selectAll("circle").remove()
 
@@ -203,45 +255,17 @@
                 .data(drinksDF)
                 .enter().append("circle")
                 .attr("id", "abvCircle")
-                .attr ("stroke-width", function(d) {
-                        if (checkPicks(d.ingredients)) {
-                            return 0.75
-                        } else {
-                            return 0.2
-                        }
-                    })
+                .attr ("stroke-width", 0.75)
                 .attr ("stroke", '#999')
                 //.attr ("cx",function(d) { return Math.max(30, (d.sugar * 6000));})
                 //.attr ("cy",function(d) { return Math.max(30, (630 - (d.alcohol * 1800)));})
                 //.attr ("cy",function(d) { return Math.max(50, (550 - (d.acid * 50000)));})
                 .attr ("cx",function(d) { 
-                    if (theXPick == "Sugar") {
-                        return Math.min(Math.max(30, (d.sugar * 6500) - 25), 825);
-                    } else if (theXPick == "Alcohol") {
-                        return Math.max(30, (d.alcohol * 2500)); // ABV
-                        //return Math.max(30, (d.alcohol * d.oz * 500)); // content
-                    } else if (theXPick == "Acidity") {
-                        return Math.min(900, Math.max(50, (d.acid * 80000)));
-                    }
-                })
+                    return Math.min(Math.max(30, (d.x * 200) + 462), 825);})
                 .attr ("cy",function(d) { 
-                    if (theYPick == "Sugar") {
-                        return Math.max(30, (d.sugar * 6000));
-                    } else if (theYPick == "Alcohol") {
-                        return Math.min(Math.max(30, (630 - (d.alcohol * 1800))), 570); // ABV
-                        //return Math.max(30, (630 - (d.alcohol * d.oz * 400))); //content
-                    } else if (theYPick == "Acidity") {
-                        return Math.max(50, (550 - (d.acid * 50000)));
-                    }
-                })
-                .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
-                .attr ("fill-opacity", function(d) {
-                        if (checkPicks(d.ingredients)) {
-                            return 0.85
-                        } else {
-                            return 0.1
-                        }
-                    })
+                    return Math.min(Math.max(30, 300 - (d.y * 200)), 570);})
+                .attr ("r", 10.5)
+                .attr ("fill-opacity", 0.85)
                 .attr("fill",function(d) { 
                         if (d.style.includes("stirred")) {
                             return "#a5693d";
@@ -263,6 +287,16 @@
                 .on("mouseover", highlight)
                 .on("mouseout", unhighlight)
                 .on("click", fillRecipe);
+        
+        var styleText = drinksSVG.selectAll("#styleText")
+                .data(drinksDF)
+                .enter().append("text")
+        .attr("id", "styleText")
+                .attr ("dx",function(d) { 
+                    return Math.min(Math.max(30, (d.x * 200) + 478), 825);})
+                .attr ("dy",function(d) { 
+                    return Math.min(Math.max(30, 305 - (d.y * 200)), 570);})
+        .text(function(d){return d.style})
         
         /*var acidCirc = drinksSVG.selectAll("#acidCircle")
                 .data(drinksDF)

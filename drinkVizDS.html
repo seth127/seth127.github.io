@@ -17,8 +17,11 @@
     var prepDF;
     var theBoolPick = 'Can include ANY of';
     
-    var theXPick = 'Sugar';
-    var theYPick = 'Alcohol';
+    //var theXPick = 'Acidity';
+    //var theYPick = 'Sugar';
+    var theXPick = 'pca';
+    var theYPick = theXPick;
+    var featurePick = 'prep';
         
     // for recipe on and off
     var showRecipeCounter = 0;
@@ -42,7 +45,8 @@
         
     function getData() {
         //populate drink list
-        d3.csv('drinkBase/data/all_drinks.csv', function(d) {
+        //d3.csv('drinkBase/data/style_drinks.csv', function(d) {
+        d3.csv('drinkBase/data/clustering/all_drinks-'+theXPick+'-'+featurePick+'.csv', function(d) {
             drinksDF = d;
             drawPlot();
         });
@@ -173,7 +177,7 @@
                     .attr("y2",560)
                     .attr("stroke","#888");
 
-        drinksSVG.append("text")
+        /*drinksSVG.append("text")
                 .text("<- (less)        Sugar        (more) ->")
                 .attr ("x",462)
                 .attr ("y",615)
@@ -193,7 +197,7 @@
                 .style ("fill","#444")
                 .style ("font-size","13pt")
                 .attr ("opacity", 0.4)
-                .attr('transform', 'rotate(270 875 295)');
+                .attr('transform', 'rotate(270 875 295)');*/
         
         drinksSVG.selectAll("circle").remove()
 
@@ -222,6 +226,12 @@
                         //return Math.max(30, (d.alcohol * d.oz * 500)); // content
                     } else if (theXPick == "Acidity") {
                         return Math.min(900, Math.max(50, (d.acid * 80000)));
+                    } else if (theXPick == "pca") {
+                        return Math.min(Math.max(30, (d.x * 200) + 462), 825);
+                    } else if (theXPick == "mds") {
+                        return Math.min(Math.max(30, (d.x * 300) + 462), 825);
+                    } else if (theXPick == "tsne") {
+                        return Math.min(Math.max(30, (d.x * 3) + 462), 825);
                     }
                 })
                 .attr ("cy",function(d) { 
@@ -232,6 +242,12 @@
                         //return Math.max(30, (630 - (d.alcohol * d.oz * 400))); //content
                     } else if (theYPick == "Acidity") {
                         return Math.max(50, (550 - (d.acid * 50000)));
+                    } else if (theYPick == "pca") {
+                        return Math.min(Math.max(30, 300 - (d.y * 200)), 570);
+                    } else if (theYPick == "mds") {
+                        return Math.min(Math.max(30, 300 - (d.y * 300)), 570);
+                    } else if (theYPick == "tsne") {
+                        return Math.min(Math.max(30, 300 - (d.y * 3)), 570);
                     }
                 })
                 .attr ("r",function(d) { return (d.oz * Math.min(d.oz, 3)) + 3; })
