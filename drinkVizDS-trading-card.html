@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>drinkBase</title>
+    
+    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	
+    
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script type="application/javascript">
+    
+    // SELECT MODE
+    // either select a drink with tcPick or set it to false to use drop down menu
+    
+    var tcPick = false;
+    //var tcPick = 'Chartreuse Swizzle';
+    var boxWidth = 330;
+    
+    var defaultStartingPick = 29; // the index of the starting drink in the drop down
+        
+    var base = 25;
+        
+    var origDF;
+        var recipeDF;
+        var prepDF;
+        
+    function getData() {
+        //get recipes
+        d3.csv("drinkBase/data/recipe.csv", function(d) {
+            recipeDF = d;
+        });
+        //get prep
+        d3.csv("drinkBase/data/prep.csv", function(d) {
+            prepDF = d;
+        });
+        
+        // select drink from file
+        d3.csv('drinkBase/data/style_drinks.csv', function(d) {
+            origDF = d;
+            fillDrinks();
+            drawPlot();
+        });
+    }
+
+    // fill the drop down menu
+    function fillDrinks() {
+        
+        if (tcPick) {
+            console.log("naw")
+        } else {
+            d3.select("#drinkDropDown").selectAll("option").remove();
+
+            var p = d3.select("#drinkDropDown").selectAll("option")
+                    //.data(ingredientsDF)
+                    .data(origDF)
+                    .enter()
+                    .append("option")
+                    .text(function(d) {
+                        return d.name
+                    });
+
+            document.getElementById("drinkDropDown").selectedIndex = defaultStartingPick;
+        }
+    }
+        
+    // draws the plot
+    function drawPlot() {
+        
+        d3.select('#theDrinks').selectAll("*").remove();
+        
+        if (tcPick) {
+            thePick = tcPick;
+        } else {
+        var e = document.getElementById("drinkDropDown");
+        var thePick = e.options[e.selectedIndex].text;   
+        }
+        
+        fillRecipe(thePick);
+        
+        var drinksDF = origDF.filter(function(d) {
+                        return d.name.toLowerCase() == thePick.toLowerCase()
+                    });
+        drinksSVG = d3.select('#theDrinks');
+        
+        // bounding box
+        drinksSVG.append("rect")
+                .attr ("x", 22 )
+                .attr ("y", 5 )
+                .attr("height", 170).attr("width", boxWidth)
+                .attr("fill", "none").attr ("stroke", '#999')
+        
+        drinksSVG.append("rect")
+                .attr ("x", 25 )
+                .attr ("y", 8 )
+                .attr("height", 164).attr("width", boxWidth-6)
+                .attr("fill", "none").attr ("stroke", '#999')
+                
+
+        // NAME
+        var nameText = drinksSVG.selectAll("#nameText")
+                .data(drinksDF)
+                .enter().append("text")
+                .attr("id", "nameText")
+                .attr ("dx", base + 15 )
+                .attr ("dy", base + 15 )
+                .attr ("font-size", 24)
+        .text(function(d){return d.name});
+        //.on("mouseover", fillRecipe)
+        //.on("mouseout", clearRecipe);
+        
+        // STYLE
+        var styleText = drinksSVG.selectAll("#styleText")
+                .data(drinksDF)
+                .enter().append("text")
+        .attr("id", "styleText")
+                .attr ("dx", base + 40 )
+                .attr ("dy", base + 35 )
+        .text(function(d){return d.style })
+        
+        // GLASS
+        var glassText = drinksSVG.selectAll("#glassText")
+                .data(drinksDF)
+                .enter().append("text")
+        .attr("id", "glassText")
+                .attr ("dx", base + 15 )
+                .attr ("dy", base + 55 )
+        .text(function(d){return "served in " + d.glass + " glass"})
+        
+        drinksSVG.selectAll("circle").remove()
+
+        var barWidth = 130;
+        var barHeight = 20;
+        var barOffset = 75;
+
+        // ALCOHOL
+        var alcMult = 375;
+        
+        drinksSVG.append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 63 )
+                .attr("height", barHeight).attr("width", barWidth)
+                .attr("fill", "none").attr ("stroke", '#999')
+        
+        var alcRect = drinksSVG.selectAll("#alcRect").data(drinksDF).enter()
+            .append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 63 )
+                .attr("height", barHeight)
+                .attr("width", function(d) {
+                    return Math.min(barWidth, Math.max(0, (d.alcohol * alcMult)));
+                })
+                .attr("fill", "#ec4527")
+                .attr ("stroke", 'none')
+        
+        drinksSVG.append("text")
+                .attr ("dx", base + 15 )
+                .attr ("dy", base + 79 )
+                .text("alcohol")
+        
+        var alcText = drinksSVG.selectAll("#alcText").data(drinksDF).enter()
+                .append("text")
+                .attr("id", "alcText")
+                .attr ("dx", base + barOffset + 4 )
+                .attr ("dy", base + 79 )
+        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.alcohol * alcMult * 10))) / (barWidth/10)) / 10 })
+        
+        
+        // SUGAR
+        var sugarMult = 900;
+        
+        drinksSVG.append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 85.5 )
+                .attr("height", barHeight).attr("width", barWidth)
+                .attr("fill", "none").attr ("stroke", '#999')
+        
+        var sugarRect = drinksSVG.selectAll("#sugarRect")
+                .data(drinksDF)
+                .enter().append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 85.5 )
+                .attr("height", barHeight)
+                .attr("width", function(d) {
+                    return Math.min(barWidth, Math.max(0, (d.sugar * sugarMult)));
+                })
+                .attr("fill", "#dcd5ff")
+                .attr ("stroke", '#999')
+        
+        drinksSVG.append("text")
+                .attr ("dx", base + 15 )
+                .attr ("dy", base + 101.5 )
+                .text("sugar")
+        
+        var sugarText = drinksSVG.selectAll("#sugarText")
+                .data(drinksDF)
+                .enter().append("text")
+                .attr("id", "sugarText")
+                .attr ("dx", base + barOffset + 4 )
+                .attr ("dy", base + 101.5 )
+        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.sugar * sugarMult * 10))) / (barWidth/10)) / 10 })
+        
+        
+        // ACID
+        var acidMult = 10000;
+        
+        drinksSVG.append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 108 )
+                .attr("height", barHeight).attr("width", barWidth)
+                .attr("fill", "none").attr ("stroke", '#999')
+        
+        var acidRect = drinksSVG.selectAll("#acidRect")
+                .data(drinksDF)
+                .enter().append("rect")
+                .attr ("x", base + barOffset )
+                .attr ("y", base + 108 )
+                .attr("height", barHeight)
+                .attr("width", function(d) {
+                    return Math.min(barWidth, Math.max(0, (d.acid * acidMult)));
+                })
+                .attr("fill", "#f4e381")
+                .attr ("stroke", '#999')
+                
+        drinksSVG.append("text")
+                .attr ("dx", base + 15 )
+                .attr ("dy", base + 124 )
+                .text("acid")
+        
+        var acidText = drinksSVG.selectAll("#acidText").data(drinksDF).enter()
+                .append("text")
+                .attr("id", "acidText")
+                .attr ("dx", base + barOffset + 4 )
+                .attr ("dy", base + 124 )
+        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.acid * acidMult * 10))) / (barWidth/10)) / 10 })
+                
+        var styleCirc = drinksSVG.selectAll("#styleCirc")
+                .data(drinksDF)
+                .enter().append("circle")
+                .attr("id", "styleCirc")
+                .attr ("stroke-width", 0.75)
+                .attr ("stroke", '#999')
+                .attr ("cx", base + 25 )
+                .attr ("cy", base + 30 )
+                .attr ("r", 9)
+                .attr ("fill-opacity", 0.85)
+                .attr("fill",function(d) { 
+                        if (d.style.includes("stirred")) {
+                            return "#a5693d";
+                        } else if (d.style.includes("bubbly")) {
+                            return "#fcf5bf";
+                        } else if (d.style.includes("shaken")) {
+                            return "#100656";
+                            //return "#240ccc";
+                        } else if (d.style.includes("fizz")) {
+                            return "#f4e381";
+                        } else if (d.style.includes("swizzle")) {
+                            return "#f27552";
+                        }    else if (d.style.includes("built")) {
+                            return "#b5390c";
+                        } else {
+                            return "#bbb";
+                        }
+                    });
+        
+    }        
+        
+    function fillRecipe(thisName) {
+        
+        d3.select("#recipeTitle").text(thisName).style("font-weight", "bold");
+        
+        d3.select("#recipeBox").selectAll('#recipeIng').remove();
+        d3.select("#recipeBox").selectAll('#recipeBody').remove();
+        
+        var rec = d3.select("#recipeBox").selectAll("#recipeIng")
+                .data(recipeDF.filter(function(d) { return d.name == thisName }))
+                .enter()
+                .append("div")
+                .attr('id', 'recipeIng')
+                .text(function(d) {
+                    return d.amount + ' ' + d.unit + ' ' + d.ingredient;
+                });
+
+        var inst = d3.select("#recipeBox").selectAll("#recipeBody")
+                .data(prepDF.filter(function(d) { return d.name == thisName }))
+                .enter()
+                .append("p")
+                .attr('id', 'recipeBody')
+                .text(function(d) {
+                    var prepDirections = '';
+                    // style
+                    if (d.notes.length > 0) {
+                        prepDirections += d.notes
+                    } else if (d.style.includes("stirred")) {
+                        prepDirections += "Combine ingredients in mixing glass and stir with ice until cold, then strain into glass.";
+                    } else if (d.style.includes("bubbly")) {
+                        prepDirections += "Stir all but bubbly with ice until cold. Strain and top with bubbly.";
+                    } else if (d.style.includes("shaken")) {
+                        prepDirections += "Combine ingredients in shaker and shake with ice until cold, then strain into glass.";
+                    } else if (d.style.includes("fizz")) {
+                        prepDirections += "Dry shake all ingredients (no ice) for 10 seconds. Then add ice and shake until cold. Strain into glass.";
+                    } else if (d.style.includes("built")) {
+                        prepDirections += "Build ingredients in serving glass, over ice. Stir and enjoy.";
+                    } else if (d.style.includes("hot")) {
+                        prepDirections += "Combine all ingredients and serve hot.";
+                    }
+                    //glass
+                    prepDirections += ' Serve in ' + d.glass + ' glass.';
+                    //
+                    return prepDirections;
+                });
+        
+    }
+        
+    function clearRecipe() {
+        d3.select("#recipeTitle").text("Mouse over drink name to see the recipe")
+        d3.select("#recipeBox").selectAll('#recipeIng').remove();
+        d3.select("#recipeBox").selectAll('#recipeBody').remove();
+    }
+        
+    </script>
+    
+    <style>
+        
+        .bigPlot {
+            visibility: visible;
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+        
+        *{font-family:"Trebuchet MS";}
+        
+        
+    </style>
+    
+    
+</head>
+<body onload="setTimeout(getData,500)">
+    <div>
+        <select id="drinkDropDown" style="font-size: 12pt;" onchange="drawPlot()">
+        </select>
+    </div>
+    <div class='thePlot'>
+        <svg class="bigPlot" id="theDrinks" width="400" height="200"></svg>
+    </div>
+    <div id="recipeBox">
+        <p id="recipeTitle"></p>
+        <p id="recipeIng"></p>
+        <p id="recipeBody"></p>
+    </div>
+</body>
+</html>
