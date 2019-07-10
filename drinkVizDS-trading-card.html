@@ -117,7 +117,7 @@
         .attr("id", "styleText")
                 .attr ("dx", base + 40 )
                 .attr ("dy", base + 35 )
-        .text(function(d){return d.style })
+        .text(function(d){return d.style + ", " + Math.round(d.oz * 10) / 10 + " oz." })
         
         // GLASS
         var glassText = drinksSVG.selectAll("#glassText")
@@ -157,14 +157,14 @@
         drinksSVG.append("text")
                 .attr ("dx", base + 15 )
                 .attr ("dy", base + 79 )
-                .text("alcohol")
+                .text("ABV")
         
         var alcText = drinksSVG.selectAll("#alcText").data(drinksDF).enter()
                 .append("text")
                 .attr("id", "alcText")
                 .attr ("dx", base + barOffset + 4 )
                 .attr ("dy", base + 79 )
-        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.alcohol * alcMult * 10))) / (barWidth/10)) / 10 })
+        .text(function(d){return Math.round(d.alcohol * 100) + "%" })
         
         
         // SUGAR
@@ -199,8 +199,8 @@
                 .attr("id", "sugarText")
                 .attr ("dx", base + barOffset + 4 )
                 .attr ("dy", base + 101.5 )
-        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.sugar * sugarMult * 10))) / (barWidth/10)) / 10 })
-        
+        //.text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.sugar * sugarMult * 10))) / (barWidth/10)) / 10 })
+        .text(function(d){return Math.round(d.sugar * d.oz * 28.35) + "g"})        
         
         // ACID
         var acidMult = 10000;
@@ -233,7 +233,8 @@
                 .attr("id", "acidText")
                 .attr ("dx", base + barOffset + 4 )
                 .attr ("dy", base + 124 )
-        .text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.acid * acidMult * 10))) / (barWidth/10)) / 10 })
+        //.text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.acid * acidMult * 10))) / (barWidth/10)) / 10 })
+        .text(function(d){return Math.round(d.acid * 10000) / 100 + "%" })
                 
         var styleCirc = drinksSVG.selectAll("#styleCirc")
                 .data(drinksDF)
