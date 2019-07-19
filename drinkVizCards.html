@@ -18,9 +18,10 @@
     //var tcPick = 'Chartreuse Swizzle';
     var boxWidth = 330;
     
-    var defaultStartingPick = 29; // the index of the starting drink in the drop down
+    var defaultStartingPick = 37; // the index of the starting drink in the drop down
         
-    var base = 25;
+    var Xbase = 25;
+    var Ybase = 345;
         
     var origDF;
         var recipeDF;
@@ -53,8 +54,9 @@
             d3.select("#drinkDropDown").selectAll("option").remove();
 
             var p = d3.select("#drinkDropDown").selectAll("option")
-                    //.data(ingredientsDF)
-                    .data(origDF.sort(function (a,b) {return d3.ascending(a.name, b.name);}))
+                    .data(origDF.sort(function (a,b) {
+                        return d3.ascending(a.name, b.name);
+                    }))
                     .enter()
                     .append("option")
                     .text(function(d) {
@@ -84,49 +86,88 @@
                     });
         drinksSVG = d3.select('#theDrinks');
         
-        // bounding box
+        // upper bounding boxes
         drinksSVG.append("rect")
-                .attr ("x", 22 )
+                .attr ("x", 5 )
                 .attr ("y", 5 )
+                .attr("height", Ybase-25).attr("width", boxWidth)
+                .attr("fill", "none").attr ("stroke", '#999')
+        
+        drinksSVG.append("rect")
+                .attr ("x", 8 )
+                .attr ("y", 8 )
+                .attr("height", Ybase-31).attr("width", boxWidth-6)
+                .attr("fill", "none").attr ("stroke", '#999')
+        //345 x 330
+        //312H x 322W
+        
+        // lower bounding boxes
+        drinksSVG.append("rect")
+                .attr ("x", Xbase-20 )
+                .attr ("y", Ybase-20 )
                 .attr("height", 170).attr("width", boxWidth)
                 .attr("fill", "none").attr ("stroke", '#999')
         
         drinksSVG.append("rect")
-                .attr ("x", 25 )
-                .attr ("y", 8 )
+                .attr ("x", Xbase-17 )
+                .attr ("y", Ybase-17 )
                 .attr("height", 164).attr("width", boxWidth-6)
                 .attr("fill", "none").attr ("stroke", '#999')
                 
-
+        // IMAGE //////////
+        drinksSVG.append("svg:image")
+            .attr('x', 6)
+            .attr('y', 6)
+            .attr('width', 328)
+            .attr('height', 318)
+        .attr("xlink:href", "drinkBase/pics/french75.jpg")
+            //.attr("xlink:href", "drinkBase/pics/oldfashioned.jpg")
+        
+        
+        ///////////////////
+        
         // NAME
         var nameText = drinksSVG.selectAll("#nameText")
                 .data(drinksDF)
                 .enter().append("text")
                 .attr("id", "nameText")
-                .attr ("dx", base + 15 )
-                .attr ("dy", base + 15 )
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 15 )
                 .attr ("font-size", 24)
         .text(function(d){return d.name});
         //.on("mouseover", fillRecipe)
         //.on("mouseout", clearRecipe);
+        
+        // INGREDIENTS
+        var ingredText = drinksSVG.selectAll("#ingredText")
+                .data(drinksDF)
+                .enter().append("text")
+        .attr("id", "ingredText")
+                .attr ("font-size", 12)
+                .attr ("font-style", "italic")
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 55 )
+        .text(function(d){return d.ingredients})
         
         // STYLE
         var styleText = drinksSVG.selectAll("#styleText")
                 .data(drinksDF)
                 .enter().append("text")
         .attr("id", "styleText")
-                .attr ("dx", base + 40 )
-                .attr ("dy", base + 35 )
+                .attr ("dx", Xbase + 40 )
+                .attr ("dy", Ybase + 35 )
         .text(function(d){return d.style + ", " + Math.round(d.oz * 10) / 10 + " oz." })
         
         // GLASS
+        /*
         var glassText = drinksSVG.selectAll("#glassText")
                 .data(drinksDF)
                 .enter().append("text")
         .attr("id", "glassText")
-                .attr ("dx", base + 15 )
-                .attr ("dy", base + 55 )
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 55 )
         .text(function(d){return "served in " + d.glass + " glass"})
+        */
         
         drinksSVG.selectAll("circle").remove()
 
@@ -138,15 +179,15 @@
         var alcMult = 375;
         
         drinksSVG.append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 63 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 63 )
                 .attr("height", barHeight).attr("width", barWidth)
                 .attr("fill", "none").attr ("stroke", '#999')
         
         var alcRect = drinksSVG.selectAll("#alcRect").data(drinksDF).enter()
             .append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 63 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 63 )
                 .attr("height", barHeight)
                 .attr("width", function(d) {
                     return Math.min(barWidth, Math.max(0, (d.alcohol * alcMult)));
@@ -155,15 +196,15 @@
                 .attr ("stroke", 'none')
         
         drinksSVG.append("text")
-                .attr ("dx", base + 15 )
-                .attr ("dy", base + 79 )
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 79 )
                 .text("ABV")
         
         var alcText = drinksSVG.selectAll("#alcText").data(drinksDF).enter()
                 .append("text")
                 .attr("id", "alcText")
-                .attr ("dx", base + barOffset + 4 )
-                .attr ("dy", base + 79 )
+                .attr ("dx", Xbase + barOffset + 4 )
+                .attr ("dy", Ybase + 79 )
         .text(function(d){return Math.round(d.alcohol * 100) + "%" })
         
         
@@ -171,16 +212,16 @@
         var sugarMult = 900;
         
         drinksSVG.append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 85.5 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 85.5 )
                 .attr("height", barHeight).attr("width", barWidth)
                 .attr("fill", "none").attr ("stroke", '#999')
         
         var sugarRect = drinksSVG.selectAll("#sugarRect")
                 .data(drinksDF)
                 .enter().append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 85.5 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 85.5 )
                 .attr("height", barHeight)
                 .attr("width", function(d) {
                     return Math.min(barWidth, Math.max(0, (d.sugar * sugarMult)));
@@ -189,16 +230,16 @@
                 .attr ("stroke", '#999')
         
         drinksSVG.append("text")
-                .attr ("dx", base + 15 )
-                .attr ("dy", base + 101.5 )
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 101.5 )
                 .text("sugar")
         
         var sugarText = drinksSVG.selectAll("#sugarText")
                 .data(drinksDF)
                 .enter().append("text")
                 .attr("id", "sugarText")
-                .attr ("dx", base + barOffset + 4 )
-                .attr ("dy", base + 101.5 )
+                .attr ("dx", Xbase + barOffset + 4 )
+                .attr ("dy", Ybase + 101.5 )
         //.text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.sugar * sugarMult * 10))) / (barWidth/10)) / 10 })
         .text(function(d){return Math.round(d.sugar * d.oz * 28.35) + "g"})        
         
@@ -206,16 +247,16 @@
         var acidMult = 10000;
         
         drinksSVG.append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 108 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 108 )
                 .attr("height", barHeight).attr("width", barWidth)
                 .attr("fill", "none").attr ("stroke", '#999')
         
         var acidRect = drinksSVG.selectAll("#acidRect")
                 .data(drinksDF)
                 .enter().append("rect")
-                .attr ("x", base + barOffset )
-                .attr ("y", base + 108 )
+                .attr ("x", Xbase + barOffset )
+                .attr ("y", Ybase + 108 )
                 .attr("height", barHeight)
                 .attr("width", function(d) {
                     return Math.min(barWidth, Math.max(0, (d.acid * acidMult)));
@@ -224,15 +265,15 @@
                 .attr ("stroke", '#999')
                 
         drinksSVG.append("text")
-                .attr ("dx", base + 15 )
-                .attr ("dy", base + 124 )
+                .attr ("dx", Xbase + 15 )
+                .attr ("dy", Ybase + 124 )
                 .text("acid")
         
         var acidText = drinksSVG.selectAll("#acidText").data(drinksDF).enter()
                 .append("text")
                 .attr("id", "acidText")
-                .attr ("dx", base + barOffset + 4 )
-                .attr ("dy", base + 124 )
+                .attr ("dx", Xbase + barOffset + 4 )
+                .attr ("dy", Ybase + 124 )
         //.text(function(d){return Math.round(Math.min(barWidth*10, Math.max(0, (d.acid * acidMult * 10))) / (barWidth/10)) / 10 })
         .text(function(d){return Math.round(d.acid * 10000) / 100 + "%" })
                 
@@ -242,8 +283,8 @@
                 .attr("id", "styleCirc")
                 .attr ("stroke-width", 0.75)
                 .attr ("stroke", '#999')
-                .attr ("cx", base + 25 )
-                .attr ("cy", base + 30 )
+                .attr ("cx", Xbase + 25 )
+                .attr ("cy", Ybase + 30 )
                 .attr ("r", 9)
                 .attr ("fill-opacity", 0.85)
                 .attr("fill",function(d) { 
@@ -342,7 +383,7 @@
         </select>
     </div>
     <div class='thePlot'>
-        <svg class="bigPlot" id="theDrinks" width="400" height="200"></svg>
+        <svg class="bigPlot" id="theDrinks" width="340" height="500"></svg>
     </div>
     <div id="recipeBox">
         <p id="recipeTitle"></p>
