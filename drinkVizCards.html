@@ -54,7 +54,7 @@
 
             var p = d3.select("#drinkDropDown").selectAll("option")
                     //.data(ingredientsDF)
-                    .data(origDF)
+                    .data(origDF.sort(function (a,b) {return d3.ascending(a.name, b.name);}))
                     .enter()
                     .append("option")
                     .text(function(d) {
