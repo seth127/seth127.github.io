@@ -20,12 +20,21 @@
     
     var defaultStartingPick = 37; // the index of the starting drink in the drop down
         
-    var Xbase = 25;
+    var Xbase = 10;
     var Ybase = 345;
         
     var origDF;
         var recipeDF;
         var prepDF;
+        
+    String.prototype.trunc =
+     function( n, useWordBoundary ){
+         if (this.length <= n) { return this; }
+         var subString = this.substr(0, n-1);
+         return (useWordBoundary 
+            ? subString.substr(0, subString.lastIndexOf('|')) 
+            : subString) + "...";
+      };
         
     function getData() {
         //get recipes
@@ -86,6 +95,59 @@
                     });
         drinksSVG = d3.select('#theDrinks');
         
+        // IMAGE //////////
+        /*
+        drinksSVG.append("svg:image")
+            .attr('x', 6)
+            .attr('y', 6)
+            .attr('width', 328)
+            .attr('height', 318)
+            .attr("xlink:href", "drinkBase/pics/french75.jpg")
+            //.attr("xlink:href", "drinkBase/pics/oldfashioned.jpg")
+            */
+        
+        var picsDir = "drinkBase/pics/"
+        var drinkPic = drinksSVG.selectAll("#drinkPic")
+                .data(drinksDF)
+                .enter().append("svg:image")
+            .attr('x', 6)
+            .attr('y', 6)
+            .attr('width', 328)
+            .attr('height', 318)
+        .attr("xlink:href", function(d) {
+            if (d.glass == 'coupe') {
+                if (d.ingredients.includes('Chartreuse')) {
+                    return picsDir + "lastword.png";
+                } else if (
+                    (d.ingredients.includes('gin')) | 
+                    (d.ingredients.includes('lime'))
+                   ) {
+                    return picsDir + "gimlet.jpg";
+                } else {
+                    return picsDir + "bijou.png";    
+                }
+            } else if (d.name == 'Jungle Bird') {
+                return picsDir + "junglebird.jpg";
+            } else if (d.style == 'hot') {
+                return picsDir + "hottoddy.jpg";
+            } else if (d.style == 'swizzle') {
+                return picsDir + "swizzle.jpg";
+            } else if (d.glass == 'collins') {
+                return picsDir + "tomcollins.jpg";
+            } else if (d.style == 'built') {
+                return picsDir + "oldfashioned.jpg";
+            } else if (d.glass == 'old-fashioned') {
+                return picsDir + "bitterhandshake.png";
+            } else if (d.style == 'bubbly') {
+                return picsDir + "french75.jpg";
+            } else {
+                return picsDir + "oldfashioned.jpg";
+            }
+         
+        })
+        
+        ///////////////////
+        
         // upper bounding boxes
         drinksSVG.append("rect")
                 .attr ("x", 5 )
@@ -98,33 +160,19 @@
                 .attr ("y", 8 )
                 .attr("height", Ybase-31).attr("width", boxWidth-6)
                 .attr("fill", "none").attr ("stroke", '#999')
-        //345 x 330
-        //312H x 322W
         
         // lower bounding boxes
         drinksSVG.append("rect")
-                .attr ("x", Xbase-20 )
+                .attr ("x", 5 )
                 .attr ("y", Ybase-20 )
                 .attr("height", 170).attr("width", boxWidth)
                 .attr("fill", "none").attr ("stroke", '#999')
         
         drinksSVG.append("rect")
-                .attr ("x", Xbase-17 )
+                .attr ("x", 8 )
                 .attr ("y", Ybase-17 )
                 .attr("height", 164).attr("width", boxWidth-6)
                 .attr("fill", "none").attr ("stroke", '#999')
-                
-        // IMAGE //////////
-        drinksSVG.append("svg:image")
-            .attr('x', 6)
-            .attr('y', 6)
-            .attr('width', 328)
-            .attr('height', 318)
-        .attr("xlink:href", "drinkBase/pics/french75.jpg")
-            //.attr("xlink:href", "drinkBase/pics/oldfashioned.jpg")
-        
-        
-        ///////////////////
         
         // NAME
         var nameText = drinksSVG.selectAll("#nameText")
@@ -147,7 +195,7 @@
                 .attr ("font-style", "italic")
                 .attr ("dx", Xbase + 15 )
                 .attr ("dy", Ybase + 55 )
-        .text(function(d){return d.ingredients})
+        .text(function(d){return d.ingredients.trunc(50, true)})
         
         // STYLE
         var styleText = drinksSVG.selectAll("#styleText")
